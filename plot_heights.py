@@ -301,7 +301,7 @@ def plot_data(readings, critical_points=[], known_slides=[]):
     }
 
     fig = {'data': data, 'layout': my_layout}
-    filename = f"ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.html"
+    filename = f"current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.html"
     offline.plot(fig, filename=filename)
     print("\nPlotted data.")
 
@@ -355,6 +355,11 @@ def get_reading_rate(readings):
 
 
 if __name__ == '__main__':
+    """This file can be run directly with a data file to generate a plot
+    for a short period of data. The data files listed here are not included
+    in the online repository, but are left here as a sample of how you might
+    run this file directly.
+    """
     # Load data.
     data_file = '../ir_data/irva_akdt_092019.txt'
     data_file = '../ir_data/irva_akdt_100619.txt'
@@ -373,7 +378,7 @@ if __name__ == '__main__':
     # plot_data_critical(readings, critical_points)
 
     # Get known slides.
-    slides_file = 'known_slides.json'
+    slides_file = 'known_slides/known_slides.json'
     known_slides = SlideEvent.load_slides(slides_file)
 
     # Plot data, critical points, and slide event.

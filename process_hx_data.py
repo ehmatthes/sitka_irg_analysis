@@ -81,15 +81,21 @@ def get_slides_in_range(known_slides, readings):
 
 
 if __name__ == '__main__':
+    """Run this file directly to generate a new set of plots for the entire
+    historical period for the data included in ir_data_clean/.
+    """
+
     # Make sure to call the correct parsing function for the data file format.
     # Data analysis is data cleaning. :/
+    # DEV: Should probably walk the ir_data_clean directory, instead of making
+    #      this list manually.
     data_files = [
-        'ir_data_final/irva_utc_072014-022016_hx_format.txt',
-        'ir_data_final/irva_akdt_022016-102019_arch_format.txt',
+        'ir_data_clean/irva_utc_072014-022016_hx_format.txt',
+        'ir_data_clean/irva_akdt_022016-102019_arch_format.txt',
     ]
 
     # Get known slides.
-    slides_file = 'known_slides.json'
+    slides_file = 'known_slides/known_slides.json'
     known_slides = SlideEvent.load_slides(slides_file)
 
     # Track overall stats.
