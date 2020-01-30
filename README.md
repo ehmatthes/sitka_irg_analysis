@@ -29,6 +29,24 @@ sitka_irg_analysis$ source irg_env/bin/activate
 
 ### Running the code using existing data
 
-- You can run the code using the current list of known slides, and the current data set.
+- You can run the code using the current list of known slides, and the current data set. To do this, run the file process_hx_data.py:
 
 ```
+(irg_env) sitka_irg_analysis$ python process_hx_data.py
+```
+
+- You should see output about individual plots as they're being generated. A series of new plots should appear in your browser. If your browser doesn't open these plots automatically, look in the current_ir_plots folder, and you should find them there.
+- When all of the plots have been generated, you should see a summary of the critical events during the historical period analyzed.
+
+### Adding or modifying slide data
+
+- If you want to add or modify slide data, open the file slide_event.py. There's a section defining all the known data for each slide. Make a new section for a new slide, or modify the section for an existing slide.
+- When you're finished, run slide_event.py:
+
+```
+(irg_env) sitka_irg_analysis$ python slide_event.py 
+```
+
+- You can see the new html summary, docx summary, and JSON summary files in the known_slides folder.
+- When you run process_hx_data.py again, it will use the recently updated information in known_slides.json.
+  - If you want to run the analysis again against this new slide data, see the section above "Running the code using existing data".
