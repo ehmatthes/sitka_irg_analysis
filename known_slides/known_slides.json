@@ -1,0 +1,83 @@
+[
+  {
+    "dt_slide": "2011-11-12 19:00:00+00:00",
+    "desc_location": "Beaver Lake, Bear Mountain shoreline",
+    "name": "Beaver Lake Slide 11/2011 (wind and snowmelt?)",
+    "power_outage": null,
+    "fatalities": 0,
+    "gps_location": null,
+    "urls": [
+      "https://www.kcaw.org/2011/12/19/mass-wasting-event-destroys-popular-sitka-trail/"
+    ]
+  },
+  {
+    "dt_slide": "2013-05-13 19:00:00+00:00",
+    "desc_location": "Redoubt Lake, near Redoubt Lake Cabin",
+    "name": "Redoubt Slide 5/2013 (not on Sitka road system)",
+    "power_outage": null,
+    "fatalities": 0,
+    "gps_location": null,
+    "urls": [
+      "https://www.kcaw.org/2013/05/13/couple-escapes-as-landslide-destroys-cabin/"
+    ]
+  },
+  {
+    "dt_slide": "2014-09-18 20:00:00+00:00",
+    "desc_location": "Starrigavan Valley",
+    "name": "Starrigavan Slide 9/2014 (time of slide unknown)",
+    "power_outage": null,
+    "fatalities": 0,
+    "gps_location": null,
+    "urls": [
+      "https://www.kcaw.org/2014/09/24/landslide-destroys-starrigavan-restoration-projects/",
+      "http://www.sitkanature.org/wordpress/2014/09/26/starrigavan-landslide/"
+    ]
+  },
+  {
+    "dt_slide": "2015-08-18 17:41:00+00:00",
+    "desc_location": "South end of Kramer Ave",
+    "name": "South Kramer Slide 8/2015",
+    "power_outage": null,
+    "fatalities": 3,
+    "gps_location": null,
+    "urls": [
+      "https://www.adn.com/alaska-news/article/3-missing-after-heavy-rain-prompts-landslides-sinkhole-sitka/2015/08/18/",
+      "https://www.kcaw.org/2015/08/18/three-landslides-prompt-sitka-to-declare-state-of-emergency/",
+      "https://www.cityofsitka.com/documents/Sitka_SKramerLandslideReport.pdf"
+    ]
+  },
+  {
+    "dt_slide": "2016-09-16 10:20:00+00:00",
+    "desc_location": "HPR, near Davidoff Street",
+    "name": "HPR Slide 9/2016 (minor slide)",
+    "power_outage": null,
+    "fatalities": 0,
+    "gps_location": null,
+    "urls": [
+      "https://www.kcaw.org/2016/09/16/small-mudslide-generates-big-response-in-sitka/"
+    ]
+  },
+  {
+    "dt_slide": "2017-09-04 20:00:00+00:00",
+    "desc_location": "HPR, near Valhalla Drive",
+    "name": "HPR Slide 9/2017",
+    "power_outage": null,
+    "fatalities": 0,
+    "gps_location": null,
+    "urls": [
+      "https://www.kcaw.org/2017/09/04/landslide-closes-halibut-point-road-sitka/",
+      "https://www.kcaw.org/2017/09/04/no-injuries-sitkas-pretty-impressive-labor-day-landslide/"
+    ]
+  },
+  {
+    "dt_slide": "2019-09-20 20:50:00+00:00",
+    "desc_location": "Medvejie Hatchery",
+    "name": "Medvejie Slide 9/2019",
+    "power_outage": true,
+    "fatalities": 0,
+    "gps_location": null,
+    "urls": [
+      "https://www.kcaw.org/2019/09/20/slide-cuts-off-green-lake-road-hatchery-access/"
+    ]
+  }
+]

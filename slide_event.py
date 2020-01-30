@@ -92,7 +92,7 @@ class SlideEvent:
 
 
     @staticmethod
-    def generate_word_doc(known_slides):
+    def generate_word_doc(known_slides, filename):
         """Given a list of known slide instances, generate a word doc
         summarizing all slides."""
         document = Document()
@@ -124,7 +124,7 @@ class SlideEvent:
                 add_hyperlink(p, url, url, font_name='Garamond',
                     underline_hyperlink=False, indent=0.5, color=False)
 
-        document.save('known_slides.docx')
+        document.save(filename)
 
 
 if __name__ == '__main__':
@@ -149,13 +149,11 @@ if __name__ == '__main__':
     URL: http://www.cityofsitka.com/government/departments/planning/documents/CompPlanNovember06.pdf
     
     Cascade Creek Road slide that moved part of house
-
-    Jackie and Dennis have slide inventory.
     """
 
     # Beaver Lake Slide 11/2011 (wind and snowmelt?)
-    # Matt or Bob Hunter could probably provide a time for this event.
-    #  Also could look at snowmelt and wind factors for this slide.
+    #  Eyewitnesses may be able to provide a time for this slide.
+    #  May want to look at snowmelt and wind factors for this slide.
     new_slide = SlideEvent()
     # 11/12/2011 10:00:00 AKST; should be 19:00:00 UTC
     new_slide.dt_slide = datetime.datetime(2011, 11, 12, 19, 0, 0, tzinfo=pytz.utc)
@@ -245,14 +243,15 @@ if __name__ == '__main__':
     # Can't directly store class objects, so build a list of __dict__ from
     # known_slides.
     slides_dicts = [slide.__dict__ for slide in known_slides]
-    filename = 'known_slides.json'
+    filename = 'known_slides/known_slides.json'
     with open(filename, 'w') as f:
         json.dump(slides_dicts, f, default=str, indent=2)
 
+    # Generate an html page listing all information about known slides.
     slides_page = SlideEvent.get_web_page(known_slides)
-    filename = 'known_slides.html'
+    filename = 'known_slides/known_slides.html'
     with open(filename, 'w') as f:
         f.writelines(slides_page)
 
-    # Update word doc of known slides.
-    SlideEvent.generate_word_doc(known_slides)
+    # Generate a word doc listing information about known slides.
+    SlideEvent.generate_word_doc(known_slides, 'known_slides/known_slides.docx')

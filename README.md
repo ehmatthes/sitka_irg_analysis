@@ -8,7 +8,7 @@ Running this code
 
 If you want to explore this data on your own, you can set up your own Python environment and run the code yourself.
 
-# Setting up a project environment
+### Setting up a project environment
 
 - Make sure you have Git and Python 3.6 or later installed on your system.
 - Choose a location on your system where you want to build this project.
@@ -20,7 +20,15 @@ If you want to explore this data on your own, you can set up your own Python env
 
 - Open a terminal in the project directory, create a Python virtual environment, activate it, and install the required packages:
 
-    
-    
+```
+~$ cd sitka_irg_analysis/
+sitka_irg_analysis$ python3 -m venv irg_env
+sitka_irg_analysis$ source irg_env/bin/activate
+(irg_env) sitka_irg_analysis$ pip install -r requirements.txt 
+```
 
-- 
+### Running the code using existing data
+
+- You can run the code using the current list of known slides, and the current data set.
+
+```
