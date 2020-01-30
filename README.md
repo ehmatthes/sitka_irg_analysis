@@ -51,3 +51,11 @@ sitka_irg_analysis$ source irg_env/bin/activate
 - You can see the new html summary, docx summary, and JSON summary files in the *known_slides* folder.
 - When you run *process_hx_data.py* again, it will use the recently updated information in *known_slides.json*.
   - If you want to run the analysis again against this new slide data, see the section above, "Running the code using existing data".
+
+Questions/ Feedback
+---
+
+If you have any questions or feedback, feel free to get in touch:
+
+- email: ehmatthes at gmail
+- twitter: [@ehmatthes](https://twitter.com/ehmatthes)
