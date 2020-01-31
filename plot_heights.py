@@ -342,8 +342,9 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
         else:
             # Build slide label here.
             slide_time = relevant_slide.dt_slide.astimezone(aktz)
-            slide_label = f"  {relevant_slide.name} - {str(slide_time)}"
-            slide_label += f"\n  Notification time: {notification_time} minutes"
+            slide_time_str = slide_time.strftime('%m/%d/%Y %H:%M:%S')
+            slide_label = f"    {relevant_slide.name} - {slide_time_str}"
+            slide_label += f"\n    Notification time: {notification_time} minutes"
 
     # DEV notes for building visualization:
     #   Needs title that includes date; needs more times labeled on x axis;
@@ -354,16 +355,26 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     #   Could let it write all static images, and look at one with a known
     #   relevant slide.
 
-    # Start by plotting heights.
+    # Build static plot image.
     plt.style.use('seaborn')
     fig, ax = plt.subplots()
+
+    # Add river heights for 48-hr period.
     ax.plot(datetimes, heights, c='blue', alpha=1)
-    ax.plot(critical_datetimes, critical_heights, c='red', alpha=1)
-    ax.scatter(critical_datetimes, critical_heights, c='red', alpha=1)
 
-    # Add vertical line for slide.
+    # Add critical points if relevant.
+    if critical_points:
+        ax.plot(critical_datetimes, critical_heights, c='red', alpha=1)
+        ax.scatter(critical_datetimes, critical_heights, c='red', alpha=1)
+        # cp_label = critical_points[0].dt_reading.astimezone(aktz).strftime(
+                # '%m/%d/%Y %H:%M:%S')
+        label_time = critical_points[0].dt_reading.astimezone(aktz)
+        cp_label = label_time.strftime('%m/%d/%Y %H:%M:%S') + '    '
+        ax.text(label_time, critical_heights[0], cp_label,
+                horizontalalignment='right')
+
+    # Add vertical line for slide if applicable.
     if relevant_slide:
-
         ax.axvline(x=slide_time, ymin=0.05, ymax=0.98, c='green')
         # Label slide.
         ax.text(slide_time, y_min+1, slide_label)
@@ -371,7 +382,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     # Set chart and axes titles, and other formatting.
     ax.set_title("Indian River stream gauge readings", loc='left')
     ax.set_xlabel('', fontsize=16)
-    ax.set_ylabel("Height in feet")
+    ax.set_ylabel("River height (ft)")
     fig.autofmt_xdate()
     ax.tick_params(axis='both', which='major', labelsize=16)
 
