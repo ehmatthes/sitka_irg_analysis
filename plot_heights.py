@@ -396,16 +396,19 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     ax.xaxis.set_major_formatter(xaxis_maj_fmt)
     # Label day every 12 hours; 0.5 corresponds to half a day
     ax.xaxis.set_major_locator(ticker.MultipleLocator(0.5))
+
+    # Format minor x ticks.
+    xaxis_min_fmt = mdates.DateFormatter('%H:%M')
+    ax.xaxis.set_minor_formatter(xaxis_min_fmt)
+    # Label every 6 hours:
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.25))
+
     # Format dates that appear in status bar when hovering.
     ax.fmt_xdata = xaxis_maj_fmt
 
+    # Make major and minor x ticks small.
+    ax.tick_params(axis='x', which='both', labelsize=8)
 
-    # xaxis_fmt = mdates.DateFormatter('%m/%d/%Y %H:%M:%S')
-    xaxis_min_fmt = mdates.DateFormatter('%H:%Mblah')
-    ax.xaxis.set_minor_formatter(xaxis_min_fmt)
-
-
-    # ax.tick_params(axis='both', which='major', labelsize=12)
 
     if relevant_slide:
         plt.show()
