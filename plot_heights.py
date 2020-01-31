@@ -391,28 +391,47 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     ax.set_xlabel('', fontsize=16)
     ax.set_ylabel("River height (ft)")
 
-    # Format major x ticks.
-    xaxis_maj_fmt = mdates.DateFormatter('%H:%M\n%b %d, %Y')
-    ax.xaxis.set_major_formatter(xaxis_maj_fmt)
-    # Label day every 12 hours; 0.5 corresponds to half a day
-    ax.xaxis.set_major_locator(ticker.MultipleLocator(0.5))
 
-    # Format minor x ticks.
-    xaxis_min_fmt = mdates.DateFormatter('%H:%M')
-    ax.xaxis.set_minor_formatter(xaxis_min_fmt)
-    # Label every 6 hours:
-    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.25))
 
-    # Format dates that appear in status bar when hovering.
-    ax.fmt_xdata = xaxis_maj_fmt
+    # # Format major x ticks.
+    # xaxis_maj_fmt = mdates.DateFormatter('%H:%M\n%b %d, %Y')
+    # ax.xaxis.set_major_formatter(xaxis_maj_fmt)
+    # # Label day every 12 hours; 0.5 corresponds to half a day
+    # ax.xaxis.set_major_locator(ticker.MultipleLocator(0.5))
+
+    # # Format minor x ticks.
+    # xaxis_min_fmt = mdates.DateFormatter('%H:%M')
+    # ax.xaxis.set_minor_formatter(xaxis_min_fmt)
+    # # Label every 6 hours:
+    # ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.25))
+
+    # # Format dates that appear in status bar when hovering.
+    hover_fmt = mdates.DateFormatter('%H:%M  %b %d, %Y')
+    ax.fmt_xdata = hover_fmt
+
+
+    # Try building my own tick labels.
+    my_maj_ticklabels = []
+    for dt in datetimes:
+        dt_label = dt.strftime('%H:%M\n%b %d, %Y')
+        if '00:00' in dt_label or '12:00' in dt_label:
+            my_maj_ticklabels.append(dt_label)
+        else:
+            my_maj_ticklabels.append(f"no!{dt_label}")
+            print("Didn't use:", dt_label)
+
+    # Use these tick labels.
+    ax.set_xticklabels(my_maj_ticklabels, minor=True)
+
+
+
+
 
     # Make major and minor x ticks small.
     ax.tick_params(axis='x', which='both', labelsize=8)
 
-
     if relevant_slide:
         plt.show()
-    
 
 
 def get_critical_points(readings):
