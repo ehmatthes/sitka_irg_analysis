@@ -166,8 +166,8 @@ if __name__ == '__main__':
                     known_slides=known_slides)
             plots_generated += 1
 
-        # DEV: Exiting now, while testing static image generation.
-        sys.exit()
+        # # DEV: Exiting now, while testing static image generation.
+        # sys.exit()
 
         # Any slides left in slides_in_range are unassociated.
         #   We can grab a 48-hr data set around this slide.

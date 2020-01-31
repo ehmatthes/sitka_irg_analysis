@@ -406,32 +406,31 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     # ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.25))
 
     # # Format dates that appear in status bar when hovering.
-    hover_fmt = mdates.DateFormatter('%H:%M  %b %d, %Y')
-    ax.fmt_xdata = hover_fmt
+    # hover_fmt = mdates.DateFormatter('%H:%M  %b %d, %Y')
+    # ax.fmt_xdata = hover_fmt
 
 
-    # Try building my own tick labels.
-    my_maj_ticklabels = []
-    for dt in datetimes:
-        dt_label = dt.strftime('%H:%M\n%b %d, %Y')
-        if '00:00' in dt_label or '12:00' in dt_label:
-            my_maj_ticklabels.append(dt_label)
-        else:
-            my_maj_ticklabels.append(f"no!{dt_label}")
-            print("Didn't use:", dt_label)
+    # # Try building my own tick labels.
+    # my_ticklabels = []
+    # for dt in datetimes:
+    #     dt_label = dt.strftime('%H:%M\n%b %d, %Y')
 
-    # Use these tick labels.
-    ax.set_xticklabels(my_maj_ticklabels, minor=True)
+    #     times_to_label = ['00:00', '06:00', '12:00', '18:00']
+    #     use_label = any(time in dt_label for time in times_to_label)
 
+    #     if use_label:
+    #         my_ticklabels.append(dt_label)
+    #     else:
+    #         my_ticklabels.append('')
 
-
+    # # Use these tick labels.
+    # ax.set_xticklabels(my_ticklabels, minor=False)
 
 
     # Make major and minor x ticks small.
     ax.tick_params(axis='x', which='both', labelsize=8)
 
-    if relevant_slide:
-        plt.show()
+    plt.show()
 
 
 def get_critical_points(readings):
