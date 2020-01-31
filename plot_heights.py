@@ -8,6 +8,7 @@ from plotly.graph_objs import Scatter, Layout
 from plotly import offline
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 from ir_reading import IRReading
 from slide_event import SlideEvent
@@ -355,7 +356,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
         title_date_str = dt_title.strftime('%m/%d/%Y')
 
     # DEV notes for building visualization:
-    #   Needs title that includes date; needs more times labeled on x axis;
+    #   needs more times labeled on x axis;
     #   needs better format for datetimes on x axis;
     #   Thinner lines, alpha adjustment.
 
@@ -388,8 +389,16 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     ax.set_title(title, loc='left')
     ax.set_xlabel('', fontsize=16)
     ax.set_ylabel("River height (ft)")
+
+    # Format dates.
     fig.autofmt_xdate()
-    ax.tick_params(axis='both', which='major', labelsize=16)
+    # Format dates on x axis.
+    xaxis_fmt = mdates.DateFormatter('%m/%d/%Y %H:%M:%S')
+    ax.xaxis.set_major_formatter(xaxis_fmt)
+    # Format dates that appear in status bar when hovering.
+    ax.fmt_xdata = xaxis_fmt
+
+    ax.tick_params(axis='both', which='major', labelsize=12)
 
     if relevant_slide:
         plt.show()
