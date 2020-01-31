@@ -36,7 +36,7 @@ sitka_irg_analysis$ source irg_env/bin/activate
 (irg_env) sitka_irg_analysis$ python process_hx_data.py
 ```
 
-- You should see output about individual plots as they're being generated. A series of new plots should appear in your browser. If your browser doesn't open these plots automatically, look in the *current_ir_plots folder*, and you should find them there.
+- You should see individual plots appear in your browser as they're being generated. If your browser doesn't open these plots automatically, look in the *current_ir_plots folder*, and you should find a set of html files there. You will also find a set of png files in *current_ir_plots_folder*.
 - When all of the plots have been generated, you should see a summary of the critical events during the historical period analyzed.
 
 ### Adding or modifying slide data
