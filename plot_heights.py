@@ -319,12 +319,12 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     #       takes an arg about what kind of plot to make, and then calls
     #       plot_data_interactive() or plot_data_static(), or both.
 
-    # How does mpl handle timezones? Send it strings, and it will
-    #  plot the dates as they read.
-    datetimes = [str(reading.dt_reading.astimezone(aktz)) for reading in readings]
+    # Matplotlib accepts datetimes as x values, so it should be handling
+    #   timezones appropriately.
+    datetimes = [reading.dt_reading.astimezone(aktz) for reading in readings]
     heights = [reading.height for reading in readings]
 
-    critical_datetimes = [str(reading.dt_reading.astimezone(aktz)) for reading in critical_points]
+    critical_datetimes = [reading.dt_reading.astimezone(aktz) for reading in critical_points]
     critical_heights = [reading.height for reading in critical_points]
 
     min_height = min([reading.height for reading in readings])
@@ -343,7 +343,17 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     # Start by plotting heights.
     plt.style.use('seaborn')
     fig, ax = plt.subplots()
-    ax.scatter(datetimes, heights, c='blue')
+    ax.plot(datetimes, heights, c='blue', alpha=0.5)
+    ax.plot(critical_datetimes, critical_heights, c='red', alpha=0.5)
+    ax.scatter(critical_datetimes, critical_heights, c='red', alpha=0.5)
+
+    # Set chart and axes titles, and other formatting.
+    ax.set_title("Indian River stream gauge readings")
+    ax.set_xlabel('', fontsize=16)
+    ax.set_ylabel("Height in feet")
+    fig.autofmt_xdate()
+    ax.tick_params(axis='both', which='major', labelsize=16)
+
     plt.show()
     sys.exit()
 
