@@ -9,6 +9,7 @@ from plotly import offline
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.ticker as ticker
 
 from ir_reading import IRReading
 from slide_event import SlideEvent
@@ -390,15 +391,21 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     ax.set_xlabel('', fontsize=16)
     ax.set_ylabel("River height (ft)")
 
-    # Format dates.
-    fig.autofmt_xdate()
-    # Format dates on x axis.
-    xaxis_fmt = mdates.DateFormatter('%m/%d/%Y %H:%M:%S')
-    ax.xaxis.set_major_formatter(xaxis_fmt)
+    # Format major x ticks.
+    xaxis_maj_fmt = mdates.DateFormatter('%H:%M\n%b %d, %Y')
+    ax.xaxis.set_major_formatter(xaxis_maj_fmt)
+    # Label day every 12 hours; 0.5 corresponds to half a day
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(0.5))
     # Format dates that appear in status bar when hovering.
-    ax.fmt_xdata = xaxis_fmt
+    ax.fmt_xdata = xaxis_maj_fmt
 
-    ax.tick_params(axis='both', which='major', labelsize=12)
+
+    # xaxis_fmt = mdates.DateFormatter('%m/%d/%Y %H:%M:%S')
+    xaxis_min_fmt = mdates.DateFormatter('%H:%Mblah')
+    ax.xaxis.set_minor_formatter(xaxis_min_fmt)
+
+
+    # ax.tick_params(axis='both', which='major', labelsize=12)
 
     if relevant_slide:
         plt.show()
