@@ -1,10 +1,13 @@
 """Recreate the IR depth gauge graph."""
 import datetime, math, csv
+import sys
 
 import pytz
 
 from plotly.graph_objs import Scatter, Layout
 from plotly import offline
+
+import matplotlib.pyplot as plt
 
 from ir_reading import IRReading
 from slide_event import SlideEvent
@@ -304,6 +307,45 @@ def plot_data(readings, critical_points=[], known_slides=[]):
     filename = f"current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.html"
     offline.plot(fig, filename=filename)
     print("\nPlotted data.")
+
+
+def plot_data_static(readings, critical_points=[], known_slides=[]):
+    """Plot IR gauge data, with critical points in red. Known slide
+    events are indicated by a vertical line at the time of the event.
+    """
+    # DEV: This fn should receive any relevant slides, it shouldn't do any
+    #       data processing.
+    #      Also, ther should be one high-level plot_data() function that
+    #       takes an arg about what kind of plot to make, and then calls
+    #       plot_data_interactive() or plot_data_static(), or both.
+
+    # How does mpl handle timezones? Send it strings, and it will
+    #  plot the dates as they read.
+    datetimes = [str(reading.dt_reading.astimezone(aktz)) for reading in readings]
+    heights = [reading.height for reading in readings]
+
+    critical_datetimes = [str(reading.dt_reading.astimezone(aktz)) for reading in critical_points]
+    critical_heights = [reading.height for reading in critical_points]
+
+    min_height = min([reading.height for reading in readings])
+    max_height = max([reading.height for reading in readings])
+
+    y_min, y_max = min_height - 0.5, max_height + 0.5
+
+    # Is there a slide in this date range?
+    relevant_slide = get_relevant_slide(readings, known_slides)
+    if relevant_slide:
+        try:
+            notification_time = get_notification_time(critical_points, relevant_slide)
+        except IndexError:
+            notification_time = 0
+
+    # Start by plotting heights.
+    plt.style.use('seaborn')
+    fig, ax = plt.subplots()
+    ax.scatter(datetimes, heights, c='blue')
+    plt.show()
+    sys.exit()
 
 
 def get_critical_points(readings):

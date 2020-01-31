@@ -160,7 +160,9 @@ if __name__ == '__main__':
                 unassociated_notifications += 1
 
             # Plot data, critical points, and slide event.
-            ph.plot_data(reading_set, critical_points, known_slides)
+            # ph.plot_data(reading_set, critical_points, known_slides)
+            ph.plot_data_static(reading_set, critical_points,
+                    known_slides=known_slides)
             plots_generated += 1
 
         # Any slides left in slides_in_range are unassociated.
