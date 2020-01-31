@@ -340,12 +340,25 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
         except IndexError:
             notification_time = 0
 
+    # DEV notes for building visualization:
+    #   Needs title that includes date; needs more times labeled on x axis;
+    #   needs vertical line for slides; needs label on slide, and label
+    #   on first critical point.
+    # Need to test this on data that includes a relevant slide.
+    #   Could let it write all static images, and look at one with a known
+    #   relevant slide.
+
     # Start by plotting heights.
     plt.style.use('seaborn')
     fig, ax = plt.subplots()
     ax.plot(datetimes, heights, c='blue', alpha=0.5)
     ax.plot(critical_datetimes, critical_heights, c='red', alpha=0.5)
     ax.scatter(critical_datetimes, critical_heights, c='red', alpha=0.5)
+
+    # Add vertical line for slide.
+    if relevant_slide:
+        slide_time = relevant_slide.dt_slide.astimezone(aktz)
+        ax.axvline(x=slide_time, ymin=0.1, ymax=0.9, c='green')
 
     # Set chart and axes titles, and other formatting.
     ax.set_title("Indian River stream gauge readings")
@@ -354,8 +367,9 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     fig.autofmt_xdate()
     ax.tick_params(axis='both', which='major', labelsize=16)
 
-    plt.show()
-    sys.exit()
+    if relevant_slide:
+        plt.show()
+    
 
 
 def get_critical_points(readings):

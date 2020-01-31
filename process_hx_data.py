@@ -8,6 +8,7 @@ Was there anything special about those slides?
 What did the river data look like for those slides?
 """
 import math
+import sys
 
 import plot_heights as ph
 from plot_heights import RISE_CRITICAL, M_CRITICAL
@@ -164,6 +165,9 @@ if __name__ == '__main__':
             ph.plot_data_static(reading_set, critical_points,
                     known_slides=known_slides)
             plots_generated += 1
+
+        # DEV: Exiting now, while testing static image generation.
+        sys.exit()
 
         # Any slides left in slides_in_range are unassociated.
         #   We can grab a 48-hr data set around this slide.
