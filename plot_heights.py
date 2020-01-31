@@ -339,6 +339,11 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
             notification_time = get_notification_time(critical_points, relevant_slide)
         except IndexError:
             notification_time = 0
+        else:
+            # Build slide label here.
+            slide_time = relevant_slide.dt_slide.astimezone(aktz)
+            slide_label = f"  {relevant_slide.name} - {str(slide_time)}"
+            slide_label += f"\n  Notification time: {notification_time} minutes"
 
     # DEV notes for building visualization:
     #   Needs title that includes date; needs more times labeled on x axis;
@@ -358,11 +363,9 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
 
     # Add vertical line for slide.
     if relevant_slide:
-        slide_time = relevant_slide.dt_slide.astimezone(aktz)
+
         ax.axvline(x=slide_time, ymin=0.05, ymax=0.98, c='green')
         # Label slide.
-        slide_label = f"  {relevant_slide.name} - {str(slide_time)}"
-        slide_label += f"\n  Notification time: {notification_time} minutes"
         ax.text(slide_time, y_min+1, slide_label)
 
     # Set chart and axes titles, and other formatting.
