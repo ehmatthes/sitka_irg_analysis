@@ -342,8 +342,9 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
 
     # DEV notes for building visualization:
     #   Needs title that includes date; needs more times labeled on x axis;
-    #   needs vertical line for slides; needs label on slide, and label
-    #   on first critical point.
+    #   needs better format for datetimes on x axis; needs label on slide,
+    #   and label on first critical point.
+    #   Thinner lines, alpha adjustment.
     # Need to test this on data that includes a relevant slide.
     #   Could let it write all static images, and look at one with a known
     #   relevant slide.
@@ -351,14 +352,14 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     # Start by plotting heights.
     plt.style.use('seaborn')
     fig, ax = plt.subplots()
-    ax.plot(datetimes, heights, c='blue', alpha=0.5)
-    ax.plot(critical_datetimes, critical_heights, c='red', alpha=0.5)
-    ax.scatter(critical_datetimes, critical_heights, c='red', alpha=0.5)
+    ax.plot(datetimes, heights, c='blue', alpha=1)
+    ax.plot(critical_datetimes, critical_heights, c='red', alpha=1)
+    ax.scatter(critical_datetimes, critical_heights, c='red', alpha=1)
 
     # Add vertical line for slide.
     if relevant_slide:
         slide_time = relevant_slide.dt_slide.astimezone(aktz)
-        ax.axvline(x=slide_time, ymin=0.1, ymax=0.9, c='green')
+        ax.axvline(x=slide_time, ymin=0.05, ymax=0.98, c='green')
 
     # Set chart and axes titles, and other formatting.
     ax.set_title("Indian River stream gauge readings")
