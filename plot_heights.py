@@ -350,10 +350,20 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
 
 
     # Use relevant slide or first critical point to set date for title.
-    if relevant_slide:
+    if relevant_slide and critical_points:
         title_date_str = slide_time.strftime('%m/%d/%Y')
-    else:
+    elif relevant_slide:
+        slide_time = relevant_slide.dt_slide.astimezone(aktz)
+        title_date_str = slide_time.strftime('%m/%d/%Y')
+        # Also build slide label here, for slides with no critical points.
+        slide_time_str = slide_time.strftime('%m/%d/%Y %H:%M:%S')
+        slide_label = f"    {relevant_slide.name} - {slide_time_str}"
+        slide_label += f"\n    Notification time: {notification_time} minutes"
+    elif critical_points:
         dt_title = critical_points[0].dt_reading.astimezone(aktz)
+        title_date_str = dt_title.strftime('%m/%d/%Y')
+    else:
+        dt_title = datetimes[0].dt_reading.astimezone(aktz)
         title_date_str = dt_title.strftime('%m/%d/%Y')
 
     # DEV notes for building visualization:
@@ -363,15 +373,17 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
 
     # Build static plot image.
     plt.style.use('seaborn')
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 6), dpi=128)
 
     # Add river heights for 48-hr period.
-    ax.plot(datetimes, heights, c='blue', alpha=1)
+    ax.plot(datetimes, heights, c='blue', alpha=0.8, linewidth=1)
 
     # Add critical points if relevant.
     if critical_points:
-        ax.plot(critical_datetimes, critical_heights, c='red', alpha=1)
-        ax.scatter(critical_datetimes, critical_heights, c='red', alpha=1)
+        ax.plot(critical_datetimes, critical_heights, c='red', alpha=0.6,
+                linewidth=1)
+        ax.scatter(critical_datetimes, critical_heights, c='red', alpha=0.8,
+                s=15)
         # cp_label = critical_points[0].dt_reading.astimezone(aktz).strftime(
                 # '%m/%d/%Y %H:%M:%S')
         label_time = critical_points[0].dt_reading.astimezone(aktz)
@@ -381,7 +393,8 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
 
     # Add vertical line for slide if applicable.
     if relevant_slide:
-        ax.axvline(x=slide_time, ymin=0.05, ymax=0.98, c='green')
+        ax.axvline(x=slide_time, ymin=0.05, ymax=0.98, c='green', alpha=0.8,
+                linewidth=1)
         # Label slide.
         ax.text(slide_time, y_min+1, slide_label)
 
@@ -430,7 +443,14 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     # Make major and minor x ticks small.
     ax.tick_params(axis='x', which='both', labelsize=8)
 
-    plt.show()
+    # DEV: Uncomment this to see interactive plots during dev work,
+    #   rather than opening file images.
+    # plt.show()
+
+    # Save to file.
+    filename = f"current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.png"
+    plt.savefig(filename)
+
 
 
 def get_critical_points(readings):

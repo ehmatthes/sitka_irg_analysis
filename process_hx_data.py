@@ -161,13 +161,10 @@ if __name__ == '__main__':
                 unassociated_notifications += 1
 
             # Plot data, critical points, and slide event.
-            # ph.plot_data(reading_set, critical_points, known_slides)
+            ph.plot_data(reading_set, critical_points, known_slides)
             ph.plot_data_static(reading_set, critical_points,
                     known_slides=known_slides)
             plots_generated += 1
-
-        # # DEV: Exiting now, while testing static image generation.
-        # sys.exit()
 
         # Any slides left in slides_in_range are unassociated.
         #   We can grab a 48-hr data set around this slide.
@@ -180,6 +177,7 @@ if __name__ == '__main__':
 
             print(f"\nPlotting data for unassociated slide: {slide.name}")
             ph.plot_data(slide_readings, known_slides=known_slides)
+            ph.plot_data_static(slide_readings, known_slides=known_slides)
 
             unassociated_slides.append(slide)
 
