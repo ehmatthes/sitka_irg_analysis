@@ -342,7 +342,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
 
     # DEV notes for building visualization:
     #   Needs title that includes date; needs more times labeled on x axis;
-    #   needs better format for datetimes on x axis; needs label on slide,
+    #   needs better format for datetimes on x axis; 
     #   and label on first critical point.
     #   Thinner lines, alpha adjustment.
     # Need to test this on data that includes a relevant slide.
@@ -360,9 +360,13 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     if relevant_slide:
         slide_time = relevant_slide.dt_slide.astimezone(aktz)
         ax.axvline(x=slide_time, ymin=0.05, ymax=0.98, c='green')
+        # Label slide.
+        slide_label = f"  {relevant_slide.name} - {str(slide_time)}"
+        slide_label += f"\n  Notification time: {notification_time} minutes"
+        ax.text(slide_time, y_min+1, slide_label)
 
     # Set chart and axes titles, and other formatting.
-    ax.set_title("Indian River stream gauge readings")
+    ax.set_title("Indian River stream gauge readings", loc='left')
     ax.set_xlabel('', fontsize=16)
     ax.set_ylabel("Height in feet")
     fig.autofmt_xdate()
