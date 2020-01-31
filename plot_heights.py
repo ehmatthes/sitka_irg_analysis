@@ -346,14 +346,18 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
             slide_label = f"    {relevant_slide.name} - {slide_time_str}"
             slide_label += f"\n    Notification time: {notification_time} minutes"
 
+
+    # Use relevant slide or first critical point to set date for title.
+    if relevant_slide:
+        title_date_str = slide_time.strftime('%m/%d/%Y')
+    else:
+        dt_title = critical_points[0].dt_reading.astimezone(aktz)
+        title_date_str = dt_title.strftime('%m/%d/%Y')
+
     # DEV notes for building visualization:
     #   Needs title that includes date; needs more times labeled on x axis;
-    #   needs better format for datetimes on x axis; 
-    #   and label on first critical point.
+    #   needs better format for datetimes on x axis;
     #   Thinner lines, alpha adjustment.
-    # Need to test this on data that includes a relevant slide.
-    #   Could let it write all static images, and look at one with a known
-    #   relevant slide.
 
     # Build static plot image.
     plt.style.use('seaborn')
@@ -380,7 +384,8 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
         ax.text(slide_time, y_min+1, slide_label)
 
     # Set chart and axes titles, and other formatting.
-    ax.set_title("Indian River stream gauge readings", loc='left')
+    title = f"Indian River gauge readings, {title_date_str}"
+    ax.set_title(title, loc='left')
     ax.set_xlabel('', fontsize=16)
     ax.set_ylabel("River height (ft)")
     fig.autofmt_xdate()
