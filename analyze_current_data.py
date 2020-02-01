@@ -22,8 +22,9 @@ def fetch_current_data(fresh=True, filename='ir_data_other/current_data.txt'):
 
     Returns the current data as text.
     """
+    print("  Fetching data...")
     if fresh:
-        print("  Fetching fresh gauge data...")
+        print("    Fetching fresh gauge data...")
 
         gauge_url = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=irva2&output=tabular"
         gauge_url_xml = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=irva2&output=xml"
@@ -47,7 +48,7 @@ def fetch_current_data(fresh=True, filename='ir_data_other/current_data.txt'):
             print("    Couldn't read from file, fetching fresh data...")
             return fetch_current_data(fresh=True)
         else:
-            print("  Read gauge data from file.")
+            print("    Read gauge data from file.")
             return current_data
 
 
@@ -55,12 +56,11 @@ def process_xml_data(data):
     """Processes xml data from text file.
     Returns? Sets?
     """
+    print("  Processing raw data...")
+    # Parse xml tree from file.
     root = ET.fromstring(current_data)
     tree = ET.ElementTree(root)
 
-    # Build gauge data I can work with.
-    for child in root:
-        print(child.tag)
     # 6th element is the set of observed readings.
     # 1st and 2nd elements of each reading are datetime, height.
     for reading in root[5][:3]:
