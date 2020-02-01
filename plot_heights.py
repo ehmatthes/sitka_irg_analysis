@@ -226,6 +226,25 @@ def plot_data(readings, critical_points=[], known_slides=[]):
             notification_time = get_notification_time(critical_points, relevant_slide)
         except IndexError:
             notification_time = 0
+
+    # Use relevant slide or first critical point to set date for title.
+    if relevant_slide and critical_points:
+        slide_time = relevant_slide.dt_slide.astimezone(aktz)
+        title_date_str = slide_time.strftime('%m/%d/%Y')
+    elif relevant_slide:
+        slide_time = relevant_slide.dt_slide.astimezone(aktz)
+        title_date_str = slide_time.strftime('%m/%d/%Y')
+        # Also build slide label here, for slides with no critical points.
+        slide_time_str = slide_time.strftime('%m/%d/%Y %H:%M:%S')
+        slide_label = f"    {relevant_slide.name} - {slide_time_str}"
+        slide_label += f"\n    Notification time: {notification_time} minutes"
+    elif critical_points:
+        dt_title = critical_points[0].dt_reading.astimezone(aktz)
+        title_date_str = dt_title.strftime('%m/%d/%Y')
+    else:
+        dt_title = datetimes[0].dt_reading.astimezone(aktz)
+        title_date_str = dt_title.strftime('%m/%d/%Y')
+
     data = [
         {
             # Non-critical gauge height data.
@@ -295,7 +314,7 @@ def plot_data(readings, critical_points=[], known_slides=[]):
         )
 
     my_layout = {
-        'title': 'Indian River Gauge readings',
+        'title': f"Indian River Gauge Readings, {title_date_str}",
         'xaxis': {
                 'title': 'Date/ Time',
             },
@@ -399,7 +418,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
         ax.text(slide_time, y_min+1, slide_label)
 
     # Set chart and axes titles, and other formatting.
-    title = f"Indian River gauge readings, {title_date_str}"
+    title = f"Indian River Gauge Readings, {title_date_str}"
     ax.set_title(title, loc='left')
     ax.set_xlabel('', fontsize=16)
     ax.set_ylabel("River height (ft)")
