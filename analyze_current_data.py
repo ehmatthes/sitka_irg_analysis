@@ -50,12 +50,23 @@ def fetch_current_data(fresh=True, filename='ir_data_other/current_data.txt'):
             print("  Read gauge data from file.")
             return current_data
 
+
 def process_xml_data(data):
     """Processes xml data from text file.
+    Returns? Sets?
     """
     root = ET.fromstring(current_data)
     tree = ET.ElementTree(root)
 
+    # Build gauge data I can work with.
+    for child in root:
+        print(child.tag)
+    # 6th element is the set of observed readings.
+    # 1st and 2nd elements of each reading are datetime, height.
+    for reading in root[5][:3]:
+        dt_reading_str = reading[0].text
+        height = float(reading[1].text)
+        print(f"The river was at {height} at {dt_reading_str}.")
 
 
 
