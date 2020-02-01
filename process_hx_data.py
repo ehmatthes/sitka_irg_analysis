@@ -203,14 +203,14 @@ if __name__ == '__main__':
     print(f"  {plots_generated} plots generated")
 
     print(f"\nNotifications Issued: {notifications_issued}")
-    print(f"\nAssociated notifications: {associated_notifications}")
+    print(f"\nTrue Positives: {associated_notifications}")
     for slide in relevant_slides:
         print(f"  {slide.name} - Notification time: {notification_times[slide]} minutes")
-    print(f"\nUnassociated notifications: {unassociated_notifications}")
+    print(f"\nFalse Positives: {unassociated_notifications}")
     for notification_point in unassociated_notification_points:
         print(f"  {notification_point.dt_reading.strftime('%m/%d/%Y %H:%M:%S')}")
 
-    print(f"\nUnassociated slides: {len(unassociated_slides)}")
+    print(f"\nFalse Negatives: {len(unassociated_slides)}")
     for slide in unassociated_slides:
         print(f"  {slide.name}")
     print(f"\nSlides outside range: {len(slides_outside_range)}")
