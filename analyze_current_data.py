@@ -53,7 +53,8 @@ def fetch_current_data(fresh=True, filename='ir_data_other/current_data.txt'):
 def process_xml_data(data):
     """Processes xml data from text file.
     """
-    pass
+    root = ET.fromstring(current_data)
+    tree = ET.ElementTree(root)
 
 
 
@@ -62,23 +63,7 @@ def process_xml_data(data):
 
 
 if __name__ == '__main__':
-    # print("Analyzing current river data.")
-    # current_data = fetch_current_data(fresh=True)
-    # tree = ElementTree(ElementTree.fromstring(current_data))
-    # print(tree)
-
-    # root = tree.getroot()
-    # print(root.tag)
-    # for child in root:
-    #     print(child.tag, child.attrib)
-
-    # current_data = fetch_current_data(fresh=True)
-    # process_xml_data(current_data)
-
-    # r = fetch_current_data(fresh=True)
-    # root = ET.fromstring(r.text)
-    # tree = ET.ElementTree(root)
-    # sys.exit()
-
+    print("Analyzing current river data.")
     current_data = fetch_current_data(fresh=False)
-    root = ET.fromstring(current_data)
+
+    process_xml_data(current_data)
