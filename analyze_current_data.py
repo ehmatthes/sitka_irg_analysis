@@ -1,0 +1,77 @@
+"""This program fetches the most recent publicly-available data
+for the Indian River stream gauge. It plots the most recent 72 hours worth of 
+data. It shows this data in the context of key historical slide events.
+
+The goal of this visualization is to help put the current conditions into 
+the context of what kinds of conditions have led to slides in the past.
+"""
+
+from xml.etree import ElementTree
+
+import requests
+
+
+def fetch_current_data(fresh=True, filename='ir_data_other/current_data.xml'):
+    """Fetches current data from the river gauge.
+
+    If fresh is False, looks for cached data.
+      Cached data is really just for development purposes, to avoid hitting
+      the server unnecessarily.
+
+    Returns the current data as an xml file.
+    """
+    if fresh:
+        print("  Fetching fresh gauge data...")
+
+        gauge_url = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=irva2&output=tabular"
+        gauge_url_xml = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=irva2&output=xml"
+        r = requests.get(gauge_url_xml)
+        print(f"    Response status: {r.status_code}")
+        return r
+
+        with open(filename, 'w') as f:
+            f.write(r.text)
+        print(f"    Wrote data to {filename}.")
+
+        return r.text
+
+    else:
+        # Try to use cached data.
+        try:
+            with open(filename) as f:
+                current_data = f.read()
+        except:
+            # Can't read from file, so fetch fresh data.
+            print("    Couldn't read from file, fetching fresh data...")
+            fetch_current_data(fresh=True)
+        else:
+            print("  Read gauge data from file.")
+            return current_data
+
+
+
+
+
+
+if __name__ == '__main__':
+    # print("Analyzing current river data.")
+    # current_data = fetch_current_data(fresh=True)
+    # tree = ElementTree(ElementTree.fromstring(current_data))
+    # print(tree)
+
+    # root = tree.getroot()
+    # print(root.tag)
+    # for child in root:
+    #     print(child.tag, child.attrib)
+
+    import sys
+
+    r = fetch_current_data(fresh=True)
+    root = ElementTree.fromstring(r.text)
+    tree = ElementTree.ElementTree(root)
+    sys.exit()
+
+    print(type(r), r.encoding)
+    sys.exit()
+    tree = ElementTree.parse(r.content)
+    root = tree.getroot()
