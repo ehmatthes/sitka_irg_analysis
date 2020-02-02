@@ -17,7 +17,7 @@ def get_critical_points(readings):
     more critical points for the next 6 hours.
     """
 
-    # print("\nLooking for critical points...")
+    print("  Looking for critical points...")
 
     # What's the longest it could take to reach critical?
     #   RISE_CRITICAL / M_CRITICAL
@@ -40,7 +40,8 @@ def get_critical_points(readings):
                 # print(f"Critical point: {reading.get_formatted_reading()}")
                 critical_points.append(reading)
                 break
-                
+
+    print(f"    Found {len(critical_points)} critical points.")
     return critical_points
 
 

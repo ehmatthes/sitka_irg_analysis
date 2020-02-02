@@ -12,6 +12,7 @@ from xml.etree import ElementTree as ET
 
 import requests, pytz
 
+import utils.analysis_utils as a_utils
 from utils.ir_reading import IRReading
 
 
@@ -94,4 +95,4 @@ if __name__ == '__main__':
 
     current_data = fetch_current_data(fresh=False)
     readings = process_xml_data(current_data)
-    critical_points = 
+    critical_points = a_utils.get_critical_points(readings)
