@@ -6,11 +6,13 @@ The goal of this visualization is to help put the current conditions into
 the context of what kinds of conditions have led to slides in the past.
 """
 
-import sys
+import sys, datetime
 
 from xml.etree import ElementTree as ET
 
-import requests
+import requests, pytz
+
+from utils.ir_reading import IRReading
 
 
 def fetch_current_data(fresh=True, filename='ir_data_other/current_data.txt'):
@@ -54,7 +56,7 @@ def fetch_current_data(fresh=True, filename='ir_data_other/current_data.txt'):
 
 def process_xml_data(data):
     """Processes xml data from text file.
-    Returns? Sets?
+    Returns a list of readings.
     """
     print("  Processing raw data...")
     # Parse xml tree from file.
@@ -63,10 +65,24 @@ def process_xml_data(data):
 
     # 6th element is the set of observed readings.
     # 1st and 2nd elements of each reading are datetime, height.
-    for reading in root[5][:3]:
+    readings = []
+    for reading in root[5]:
         dt_reading_str = reading[0].text
+        dt_reading = datetime.datetime.strptime(dt_reading_str,
+                 "%Y-%m-%dT%H:%M:%S-00:00")
+        dt_reading_utc = dt_reading.replace(tzinfo=pytz.utc)
         height = float(reading[1].text)
-        print(f"The river was at {height} at {dt_reading_str}.")
+
+        reading = IRReading(dt_reading_utc, height)
+        readings.append(reading)
+
+    # Readings need to be in chronological order.
+    # DEV: This should be an absolute ordering, not just relying on 
+    #      input file format.
+    readings.reverse()
+
+    print(f"    Found {len(readings)} readings.")
+    return readings
 
 
 
