@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
 
-from ir_reading import IRReading
+from utils.ir_reading import IRReading
 from slide_event import SlideEvent
 
 
