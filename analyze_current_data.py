@@ -14,6 +14,7 @@ import requests, pytz
 
 import utils.analysis_utils as a_utils
 from utils.ir_reading import IRReading
+from utils import plot_utils
 
 
 def fetch_current_data(fresh=True, filename='ir_data_other/current_data.txt'):
@@ -96,3 +97,4 @@ if __name__ == '__main__':
     current_data = fetch_current_data(fresh=False)
     readings = process_xml_data(current_data)
     critical_points = a_utils.get_critical_points(readings)
+    plot_utils.plot_current_data_html(readings)

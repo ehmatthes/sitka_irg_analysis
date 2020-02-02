@@ -198,6 +198,7 @@ def plot_data(readings, critical_points=[], known_slides=[]):
     """Plot IR gauge data, with critical points in red. Known slide
     events are indicated by a vertical line at the time of the event.
     """
+    # DEV: Move this to utils.plot_utils.py when possible.
     # DEV: This fn should receive any relevant slides, it shouldn't do any
     #   data processing.
     print("\nPlotting data")
