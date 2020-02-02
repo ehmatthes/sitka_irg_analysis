@@ -121,5 +121,7 @@ if __name__ == '__main__':
     current_data = fetch_current_data(fresh=False)
     readings = process_xml_data(current_data)
     critical_points = a_utils.get_critical_points(readings)
-    # plot_utils.plot_current_data_html(readings)
-    recent_readings = get_recent_readings(readings, 72)
+    plot_utils.plot_current_data_html(readings)
+    recent_readings = get_recent_readings(readings, 48)
+    plot_utils.plot_current_data_html(recent_readings,
+        filename=f"ir_plot_{readings[-1].dt_reading.__str__()[:10]}_48hr.html")
