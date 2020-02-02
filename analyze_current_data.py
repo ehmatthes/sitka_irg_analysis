@@ -91,6 +91,7 @@ def process_xml_data(data):
 
 if __name__ == '__main__':
     print("Analyzing current river data.")
-    current_data = fetch_current_data(fresh=False)
 
-    process_xml_data(current_data)
+    current_data = fetch_current_data(fresh=False)
+    readings = process_xml_data(current_data)
+    critical_points = 

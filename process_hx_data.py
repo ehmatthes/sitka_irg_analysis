@@ -11,8 +11,9 @@ import math
 import sys
 
 import plot_heights as ph
-from plot_heights import RISE_CRITICAL, M_CRITICAL
 from slide_event import SlideEvent
+import utils.analysis_utils as a_utils
+from utils.analysis_utils import RISE_CRITICAL, M_CRITICAL
 
 
 def get_first_critical_points(readings):
@@ -63,7 +64,7 @@ def get_first_critical_points(readings):
 def get_48hr_readings(first_critical_point):
     """Return 24 hrs of readings before, and 24 hrs of readings after the
     first critical point."""
-    readings_per_hr = ph.get_reading_rate(all_readings)
+    readings_per_hr = a_utils.get_reading_rate(all_readings)
     # Pull from all_readings, with indices going back 24 hrs and forward
     #  24 hrs.
     fcp_index = all_readings.index(first_critical_point)
@@ -144,7 +145,7 @@ if __name__ == '__main__':
         reading_sets = [get_48hr_readings(fcp) for fcp in first_critical_points]
 
         for reading_set in reading_sets:
-            critical_points = ph.get_critical_points(reading_set)
+            critical_points = a_utils.get_critical_points(reading_set)
             relevant_slide = ph.get_relevant_slide(reading_set, known_slides)
             if relevant_slide:
                 relevant_slides.append(relevant_slide)
@@ -198,8 +199,8 @@ if __name__ == '__main__':
     end_str = latest_reading.dt_reading.strftime('%m/%d/%Y')
     print("\n\n --- Final Results ---\n")
     print(f"Data analyzed from: {start_str} to {end_str}")
-    print(f"  Critical rise used: {ph.RISE_CRITICAL} feet")
-    print(f"  Critical rise rate used: {ph.M_CRITICAL} ft/hr")
+    print(f"  Critical rise used: {RISE_CRITICAL} feet")
+    print(f"  Critical rise rate used: {M_CRITICAL} ft/hr")
     print(f"  {plots_generated} plots generated")
 
     print(f"\nNotifications Issued: {notifications_issued}")
