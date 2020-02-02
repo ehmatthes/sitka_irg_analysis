@@ -17,7 +17,7 @@ def plot_current_data_html(readings, critical_points=[], known_slides=[],
     """
     # DEV: This fn should receive any relevant slides, it shouldn't do any
     #   data processing.
-    print("\n  Plotting current data")
+    print("  Plotting current data...")
     if critical_points:
         print(f"First critical point: {critical_points[0].get_formatted_reading()}")
 
@@ -88,4 +88,4 @@ def plot_current_data_html(readings, critical_points=[], known_slides=[],
 
     fig = {'data': data, 'layout': my_layout}
     offline.plot(fig, filename=filename)
-    print("\n    Plotted data.")
+    print("    Plotted data.")
