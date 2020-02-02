@@ -87,6 +87,30 @@ def process_xml_data(data):
     return readings
 
 
+def get_recent_readings(readings, hours_lookback):
+    """From a set of readings, return only the most recent x hours
+    of readings.
+    """
+    pass
+    # Get datetime of most recent reading in set.
+    # Get datetime to start with.
+    # Build new list of readings that are between these values.
+    # Return this list.
+    print(f"  Getting most recent {hours_lookback} hours of readings...")
+    last_reading = readings[-1]
+    print(last_reading.dt_reading)
+
+    td_lookback = datetime.timedelta(hours=hours_lookback)
+    dt_first_reading = last_reading.dt_reading - td_lookback
+    print(dt_first_reading)
+    recent_readings = [r for r in readings
+                            if r.dt_reading >= dt_first_reading]
+    print(f"    Found {len(recent_readings)} recent readings.")
+    print(recent_readings[0].dt_reading, recent_readings[-1].dt_reading)
+    return recent_readings
+
+
+
 
 
 
@@ -97,4 +121,5 @@ if __name__ == '__main__':
     current_data = fetch_current_data(fresh=False)
     readings = process_xml_data(current_data)
     critical_points = a_utils.get_critical_points(readings)
-    plot_utils.plot_current_data_html(readings)
+    # plot_utils.plot_current_data_html(readings)
+    recent_readings = get_recent_readings(readings, 72)
