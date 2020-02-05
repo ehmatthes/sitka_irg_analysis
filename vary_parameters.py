@@ -12,6 +12,10 @@ This file will take a while to run, especially with the current naive
 processing approach. So, developing visualizations of this data will be much
 easier if they can be done separately from the work of varying the critical 
 parameters.
+
+IMPORTANT: Can't trust this fully until further validation of known slides.
+For example, Starrigavan slide should be evaluated, and known slides should
+be confirmed against an existing list.
 """
 
 # Intervals over which to iterate 

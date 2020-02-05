@@ -191,3 +191,17 @@ def get_first_critical_points(readings):
                     break
 
     return first_critical_points
+
+
+def get_48hr_readings(first_critical_point, all_readings):
+    """Return 24 hrs of readings before, and 24 hrs of readings after the
+    first critical point."""
+    readings_per_hr = get_reading_rate(all_readings)
+    # Pull from all_readings, with indices going back 24 hrs and forward
+    #  24 hrs.
+    fcp_index = all_readings.index(first_critical_point)
+    start_index = fcp_index - 24 * readings_per_hr
+    end_index = fcp_index + 24 * readings_per_hr
+    # print(readings_per_hr, start_index, end_index)
+
+    return all_readings[start_index:end_index]

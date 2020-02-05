@@ -16,19 +16,6 @@ import utils.analysis_utils as a_utils
 from utils.analysis_utils import RISE_CRITICAL, M_CRITICAL
 
 
-def get_48hr_readings(first_critical_point):
-    """Return 24 hrs of readings before, and 24 hrs of readings after the
-    first critical point."""
-    readings_per_hr = a_utils.get_reading_rate(all_readings)
-    # Pull from all_readings, with indices going back 24 hrs and forward
-    #  24 hrs.
-    fcp_index = all_readings.index(first_critical_point)
-    start_index = fcp_index - 24 * readings_per_hr
-    end_index = fcp_index + 24 * readings_per_hr
-    # print(readings_per_hr, start_index, end_index)
-
-    return all_readings[start_index:end_index]
-
 def get_slides_in_range(known_slides, readings):
     """Return a list of the slides that occurred during this set of readings.
     """
@@ -97,7 +84,8 @@ if __name__ == '__main__':
 
         # reading_sets is a list of lists. Each list is a set of readings to plot,
         #   based around a first critical point.
-        reading_sets = [get_48hr_readings(fcp) for fcp in first_critical_points]
+        reading_sets = [a_utils.get_48hr_readings(fcp, all_readings)
+                                        for fcp in first_critical_points]
 
         for reading_set in reading_sets:
             critical_points = a_utils.get_critical_points(reading_set)
@@ -128,7 +116,8 @@ if __name__ == '__main__':
             # Get first reading after this slide, and base 48 hrs around that.
             for reading in all_readings:
                 if reading.dt_reading > slide.dt_slide:
-                    slide_readings = get_48hr_readings(reading)
+                    slide_readings = a_utils.get_48hr_readings(
+                            reading, all_readings)
                     break
 
             print(f"\nPlotting data for unassociated slide: {slide.name}")
