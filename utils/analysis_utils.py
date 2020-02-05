@@ -146,3 +146,48 @@ def get_recent_readings(readings, hours_lookback):
 
     print(f"    Found {len(recent_readings)} recent readings.")
     return recent_readings
+
+
+def get_first_critical_points(readings):
+    """From a long set of data, find the first critical reading in
+    each potentially critical event.
+    Return this set of readings.
+    """
+    print("\nLooking for first critical points...")
+
+    # What's the longest it could take to reach critical?
+    #   RISE_CRITICAL / M_CRITICAL
+    #  If it rises faster than that, we want to know.
+    #    Multiplied by 4, because there are 4 readings/hr.
+    # Determine readings/hr from successive readings.
+    #  reading_interval is in minutes
+    # Assumes all readings in this set of readings are at a consistent interval.
+    reading_interval = (readings[1].dt_reading - readings[0].dt_reading).total_seconds() // 60
+    lookback_factor = int(60 / reading_interval)
+    # print('lf', lookback_factor)
+    max_lookback = math.ceil(RISE_CRITICAL / M_CRITICAL) * lookback_factor
+
+    first_critical_points = []
+    # Start with 10th reading, so can look back.
+    for reading_index, reading in enumerate(readings[max_lookback:]):
+        # print(f"  Examining reading: {reading.get_formatted_reading()}")
+        # Get prev max_lookback readings.
+        prev_readings = [reading for reading in readings[reading_index-max_lookback:reading_index]]
+        for prev_reading in prev_readings:
+            rise = reading.get_rise(prev_reading)
+            m = reading.get_slope(prev_reading)
+            # print(f"    Rise: {rise} Slope: {m}")
+            if rise >= RISE_CRITICAL and m > M_CRITICAL:
+                # print(f"Critical point: {reading.get_formatted_reading()}")
+                # Ignore points 12 hours after an existing critical point.
+                if not first_critical_points:
+                    first_critical_points.append(reading)
+                    break
+                elif (reading.dt_reading - first_critical_points[-1].dt_reading).total_seconds() // 3600 > 12:
+                    first_critical_points.append(reading)
+                    break
+                else:
+                    # This is shortly after an already-identified point.
+                    break
+
+    return first_critical_points
