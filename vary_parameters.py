@@ -30,10 +30,8 @@ mc_interval = 0.25
 
 def analyze_all_data(rise_critical, m_critical):
     # DEV: This is an abuse of Python norms. All caps should be constants. :(
-    RISE_CRITICAL = rise_critical
-    M_CRITICAL = m_critical
-
-
+    a_utils.RISE_CRITICAL = rise_critical
+    a_utils.M_CRITICAL = m_critical
 
     # Make sure to call the correct parsing function for the data file format.
     # Data analysis is data cleaning. :/
@@ -152,8 +150,8 @@ def analyze_all_data(rise_critical, m_critical):
     end_str = latest_reading.dt_reading.strftime('%m/%d/%Y')
     print("\n\n --- Final Results ---\n")
     print(f"Data analyzed from: {start_str} to {end_str}")
-    print(f"  Critical rise used: {RISE_CRITICAL} feet")
-    print(f"  Critical rise rate used: {M_CRITICAL} ft/hr")
+    print(f"  Critical rise used: {a_utils.RISE_CRITICAL} feet")
+    print(f"  Critical rise rate used: {a_utils.M_CRITICAL} ft/hr")
     print(f"  {plots_generated} plots generated")
 
     print(f"\nNotifications Issued: {notifications_issued}")
@@ -173,6 +171,6 @@ def analyze_all_data(rise_critical, m_critical):
 
 
 if __name__ == '__main__':
-    rise_critical = 2.5
+    rise_critical = 30.0
     m_critical = 0.5
     analyze_all_data(rise_critical=rise_critical, m_critical=m_critical)
