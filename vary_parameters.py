@@ -171,6 +171,6 @@ def analyze_all_data(rise_critical, m_critical):
 
 
 if __name__ == '__main__':
-    rise_critical = 30.0
+    rise_critical = 2.5
     m_critical = 0.5
     analyze_all_data(rise_critical=rise_critical, m_critical=m_critical)
