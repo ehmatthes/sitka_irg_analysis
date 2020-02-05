@@ -18,6 +18,7 @@ For example, Starrigavan slide should be evaluated, and known slides should
 be confirmed against an existing list.
 """
 
+# DEV: The functions used from plot_heights should be moved to utils.
 import plot_heights as ph
 from slide_event import SlideEvent
 import utils.analysis_utils as a_utils
@@ -60,7 +61,6 @@ def analyze_all_data(rise_critical, m_critical):
     unassociated_slides = []
     notification_times = {}
     earliest_reading, latest_reading = None, None
-    plots_generated = 0
 
     for data_file in data_files:
         # Use proper parsing function.
@@ -89,8 +89,8 @@ def analyze_all_data(rise_critical, m_critical):
             print(reading.get_formatted_reading())
         notifications_issued += len(first_critical_points)
 
-        # reading_sets is a list of lists. Each list is a set of readings to plot,
-        #   based around a first critical point.
+        # reading_sets is a list of lists. Each list is a set of readings to
+        #   plot or analyze, based around a first critical point.
         reading_sets = [a_utils.get_48hr_readings(fcp, all_readings)
                                         for fcp in first_critical_points]
 
@@ -111,12 +111,6 @@ def analyze_all_data(rise_critical, m_critical):
                 unassociated_notification_points.append(critical_points[0])
                 unassociated_notifications += 1
 
-            # Plot data, critical points, and slide event.
-            ph.plot_data(reading_set, critical_points, known_slides)
-            ph.plot_data_static(reading_set, critical_points,
-                    known_slides=known_slides)
-            plots_generated += 1
-
         # Any slides left in slides_in_range are unassociated.
         #   We can grab a 48-hr data set around this slide.
         for slide in slides_in_range:
@@ -126,16 +120,7 @@ def analyze_all_data(rise_critical, m_critical):
                     slide_readings = a_utils.get_48hr_readings(
                             reading, all_readings)
                     break
-
-            print(f"\nPlotting data for unassociated slide: {slide.name}")
-            ph.plot_data(slide_readings, known_slides=known_slides)
-            ph.plot_data_static(slide_readings, known_slides=known_slides)
-
             unassociated_slides.append(slide)
-
-
-        # Plot 48-hr periods for any slides from this time period that
-        #   were not caught.
 
     # Summarize results.
     assert(unassociated_notifications == len(unassociated_notification_points))
@@ -152,7 +137,6 @@ def analyze_all_data(rise_critical, m_critical):
     print(f"Data analyzed from: {start_str} to {end_str}")
     print(f"  Critical rise used: {a_utils.RISE_CRITICAL} feet")
     print(f"  Critical rise rate used: {a_utils.M_CRITICAL} ft/hr")
-    print(f"  {plots_generated} plots generated")
 
     print(f"\nNotifications Issued: {notifications_issued}")
     print(f"\nTrue Positives: {associated_notifications}")
