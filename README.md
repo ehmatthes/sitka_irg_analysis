@@ -52,6 +52,10 @@ sitka_irg_analysis$ source irg_env/bin/activate
 - When you run *process_hx_data.py* again, it will use the recently updated information in *known_slides.json*.
   - If you want to run the analysis again against this new slide data, see the section above, "Running the code using existing data".
 
+### Analyzing current data
+
+This is a work in progress. If you run *analyze_current_data.py*, you'll get an html plot of the most recent 48-72 hours of data from the stream gauge. You can choose to fetch fresh data, or work with cached data to avoid hitting the gauge site too often during development work. A good approach is to fetch fresh data once, and then work with that freshly cached data. 
+
 Questions/ Feedback
 ---
 
