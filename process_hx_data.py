@@ -7,8 +7,6 @@ How many slides were not preceded by a critical point?
 Was there anything special about those slides?
 What did the river data look like for those slides?
 """
-import math
-import sys
 
 import plot_heights as ph
 from slide_event import SlideEvent
