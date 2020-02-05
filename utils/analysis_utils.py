@@ -205,3 +205,11 @@ def get_48hr_readings(first_critical_point, all_readings):
     # print(readings_per_hr, start_index, end_index)
 
     return all_readings[start_index:end_index]
+
+
+def get_slides_in_range(known_slides, readings):
+    """Return a list of the slides that occurred during this set of readings.
+    """
+    start = readings[0].dt_reading
+    end = readings[-1].dt_reading
+    return [slide for slide in known_slides if start <= slide.dt_slide <= end]

@@ -16,14 +16,6 @@ import utils.analysis_utils as a_utils
 from utils.analysis_utils import RISE_CRITICAL, M_CRITICAL
 
 
-def get_slides_in_range(known_slides, readings):
-    """Return a list of the slides that occurred during this set of readings.
-    """
-    start = readings[0].dt_reading
-    end = readings[-1].dt_reading
-    return [slide for slide in known_slides if start <= slide.dt_slide <= end]
-
-
 if __name__ == '__main__':
     """Run this file directly to generate a new set of plots for the entire
     historical period for the data included in ir_data_clean/.
@@ -74,7 +66,8 @@ if __name__ == '__main__':
                 latest_reading = all_readings[-1]
 
         # Get all the known slides that occurred during these readings.
-        slides_in_range = get_slides_in_range(known_slides, all_readings)
+        slides_in_range = a_utils.get_slides_in_range(
+                known_slides, all_readings)
 
         # Find the start of all critical periods in this data file.
         first_critical_points = a_utils.get_first_critical_points(all_readings)
