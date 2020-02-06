@@ -18,6 +18,8 @@ For example, Starrigavan slide should be evaluated, and known slides should
 be confirmed against an existing list.
 """
 
+import sys, string
+
 # DEV: The functions used from plot_heights should be moved to utils.
 import plot_heights as ph
 from slide_event import SlideEvent
@@ -29,7 +31,8 @@ rc_interval = 0.5
 mc_interval = 0.25
 
 
-def analyze_all_data(rise_critical, m_critical, verbose=False):
+def analyze_all_data(rise_critical, m_critical, verbose=False, 
+        all_results=[], alpha_name=''):
     # DEV: This is an abuse of Python norms. All caps should be constants. :(
     a_utils.RISE_CRITICAL = rise_critical
     a_utils.M_CRITICAL = m_critical
@@ -156,8 +159,30 @@ def analyze_all_data(rise_critical, m_critical, verbose=False):
 
 
     # Build results dict here, and add to file.
+    results_dict = {
+        'alpha name': alpha_name,
+        'name': f"{a_utils.RISE_CRITICAL}_{a_utils.M_CRITICAL}",
+        'critical rise': a_utils.RISE_CRITICAL,
+        'critical slope': a_utils.M_CRITICAL,
+        'true positives': associated_notifications,
+        'false postives': unassociated_notifications,
+        'false negatives': len(unassociated_slides),
+        'notification times': list(notification_times.values()),
+    }
+
+    all_results.append(results_dict)
+
 
 if __name__ == '__main__':
+    all_results = []
+    alpha_names = list(string.ascii_uppercase)
+    alpha_name = alpha_names.pop(0)
+
     rise_critical = 2.5
     m_critical = 0.5
-    analyze_all_data(rise_critical=rise_critical, m_critical=m_critical)
+
+    analyze_all_data(rise_critical=rise_critical, m_critical=m_critical,
+        all_results=all_results, alpha_name=alpha_name)
+
+    print(all_results)
+    
