@@ -30,7 +30,7 @@ def generate_plot_tpvfp(all_results):
         except KeyError:
             label_dict[(x, y)] = label
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6, 6), dpi=128)
     ax.scatter(x_values, y_values)
 
     ax.set_title('True Postives vs False Positives')
@@ -46,7 +46,14 @@ def generate_plot_tpvfp(all_results):
     # Make integer tick marks.
     ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
 
-    plt.show()
+    # Uncomment this to see plots during dev work, rather than opening
+    #  file images.
+    # plt.show()
+
+    # Save to file.
+    filename = "other_output/tp_vs_fp_plot.png"
+    plt.savefig(filename)
+    
 
 if __name__ == '__main__':
 
