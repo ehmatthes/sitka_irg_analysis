@@ -163,7 +163,7 @@ def analyze_all_data(rise_critical, m_critical, verbose=False,
         'critical rise': a_utils.RISE_CRITICAL,
         'critical slope': a_utils.M_CRITICAL,
         'true positives': associated_notifications,
-        'false postives': unassociated_notifications,
+        'false positives': unassociated_notifications,
         'false negatives': len(unassociated_slides),
         'notification times': list(notification_times.values()),
     }

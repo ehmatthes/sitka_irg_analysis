@@ -5,7 +5,7 @@
         "critical rise": 2.5,
         "critical slope": 0.5,
         "true positives": 3,
-        "false postives": 6,
+        "false positives": 6,
         "false negatives": 2,
         "notification times": [
             41,
@@ -19,7 +19,7 @@
         "critical rise": 2.5,
         "critical slope": 0.625,
         "true positives": 3,
-        "false postives": 4,
+        "false positives": 4,
         "false negatives": 2,
         "notification times": [
             41,
@@ -33,7 +33,7 @@
         "critical rise": 2.5,
         "critical slope": 0.75,
         "true positives": 1,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 4,
         "notification times": [
             41
@@ -45,7 +45,7 @@
         "critical rise": 2.5,
         "critical slope": 0.875,
         "true positives": 1,
-        "false postives": 2,
+        "false positives": 2,
         "false negatives": 4,
         "notification times": [
             41
@@ -57,7 +57,7 @@
         "critical rise": 2.5,
         "critical slope": 1.0,
         "true positives": 1,
-        "false postives": 0,
+        "false positives": 0,
         "false negatives": 4,
         "notification times": [
             41
@@ -69,7 +69,7 @@
         "critical rise": 2.625,
         "critical slope": 0.5,
         "true positives": 3,
-        "false postives": 4,
+        "false positives": 4,
         "false negatives": 2,
         "notification times": [
             41,
@@ -83,7 +83,7 @@
         "critical rise": 2.625,
         "critical slope": 0.625,
         "true positives": 2,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 3,
         "notification times": [
             41,
@@ -96,7 +96,7 @@
         "critical rise": 2.625,
         "critical slope": 0.75,
         "true positives": 1,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 4,
         "notification times": [
             41
@@ -108,7 +108,7 @@
         "critical rise": 2.625,
         "critical slope": 0.875,
         "true positives": 1,
-        "false postives": 2,
+        "false positives": 2,
         "false negatives": 4,
         "notification times": [
             41
@@ -120,7 +120,7 @@
         "critical rise": 2.625,
         "critical slope": 1.0,
         "true positives": 1,
-        "false postives": 0,
+        "false positives": 0,
         "false negatives": 4,
         "notification times": [
             41
@@ -132,7 +132,7 @@
         "critical rise": 2.75,
         "critical slope": 0.5,
         "true positives": 3,
-        "false postives": 4,
+        "false positives": 4,
         "false negatives": 2,
         "notification times": [
             41,
@@ -146,7 +146,7 @@
         "critical rise": 2.75,
         "critical slope": 0.625,
         "true positives": 2,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 3,
         "notification times": [
             41,
@@ -159,7 +159,7 @@
         "critical rise": 2.75,
         "critical slope": 0.75,
         "true positives": 1,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 4,
         "notification times": [
             41
@@ -171,7 +171,7 @@
         "critical rise": 2.75,
         "critical slope": 0.875,
         "true positives": 1,
-        "false postives": 0,
+        "false positives": 0,
         "false negatives": 4,
         "notification times": [
             -19
@@ -183,7 +183,7 @@
         "critical rise": 2.75,
         "critical slope": 1.0,
         "true positives": 1,
-        "false postives": 0,
+        "false positives": 0,
         "false negatives": 4,
         "notification times": [
             41
@@ -195,7 +195,7 @@
         "critical rise": 2.875,
         "critical slope": 0.5,
         "true positives": 3,
-        "false postives": 4,
+        "false positives": 4,
         "false negatives": 2,
         "notification times": [
             41,
@@ -209,7 +209,7 @@
         "critical rise": 2.875,
         "critical slope": 0.625,
         "true positives": 2,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 3,
         "notification times": [
             41,
@@ -222,7 +222,7 @@
         "critical rise": 2.875,
         "critical slope": 0.75,
         "true positives": 1,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 4,
         "notification times": [
             41
@@ -234,7 +234,7 @@
         "critical rise": 2.875,
         "critical slope": 0.875,
         "true positives": 1,
-        "false postives": 0,
+        "false positives": 0,
         "false negatives": 4,
         "notification times": [
             -19
@@ -246,7 +246,7 @@
         "critical rise": 2.875,
         "critical slope": 1.0,
         "true positives": 1,
-        "false postives": 0,
+        "false positives": 0,
         "false negatives": 4,
         "notification times": [
             41
@@ -258,7 +258,7 @@
         "critical rise": 3.0,
         "critical slope": 0.5,
         "true positives": 3,
-        "false postives": 4,
+        "false positives": 4,
         "false negatives": 2,
         "notification times": [
             41,
@@ -272,7 +272,7 @@
         "critical rise": 3.0,
         "critical slope": 0.625,
         "true positives": 2,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 3,
         "notification times": [
             41,
@@ -285,7 +285,7 @@
         "critical rise": 3.0,
         "critical slope": 0.75,
         "true positives": 1,
-        "false postives": 1,
+        "false positives": 1,
         "false negatives": 4,
         "notification times": [
             41
@@ -297,7 +297,7 @@
         "critical rise": 3.0,
         "critical slope": 0.875,
         "true positives": 1,
-        "false postives": 0,
+        "false positives": 0,
         "false negatives": 4,
         "notification times": [
             -19
@@ -309,7 +309,7 @@
         "critical rise": 3.0,
         "critical slope": 1.0,
         "true positives": 1,
-        "false postives": 0,
+        "false positives": 0,
         "false negatives": 4,
         "notification times": [
             41
