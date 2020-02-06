@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 
-def generate_plot(all_results):
-    """For now, generate a simple TP vs FP and TP vs FN plot.
+def generate_plot_tpvfp(all_results):
+    """For now, generate a simple TP vs FP plot.
     """
 
     # Generate data and labels.
@@ -39,7 +39,9 @@ def generate_plot(all_results):
 
     # Add labels.
     for point, label in label_dict.items():
-        ax.text(point[0], point[1], label)
+        x_label_pos = point[0] + 0.05
+        y_label_pos = point[1] + 0.025
+        ax.text(x_label_pos, y_label_pos, label)
 
     # Make integer tick marks.
     ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
@@ -66,4 +68,4 @@ if __name__ == '__main__':
 
         print(value_str)
 
-    generate_plot(all_results)
+    generate_plot_tpvfp(all_results)
