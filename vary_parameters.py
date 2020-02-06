@@ -185,4 +185,7 @@ if __name__ == '__main__':
         all_results=all_results, alpha_name=alpha_name)
 
     print(all_results)
-    
+
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(all_results)
