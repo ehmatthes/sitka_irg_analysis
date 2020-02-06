@@ -29,7 +29,7 @@ rc_interval = 0.5
 mc_interval = 0.25
 
 
-def analyze_all_data(rise_critical, m_critical):
+def analyze_all_data(rise_critical, m_critical, verbose=False):
     # DEV: This is an abuse of Python norms. All caps should be constants. :(
     a_utils.RISE_CRITICAL = rise_critical
     a_utils.M_CRITICAL = m_critical
@@ -133,26 +133,29 @@ def analyze_all_data(rise_critical, m_critical):
             slides_outside_range.append(slide)
     start_str = earliest_reading.dt_reading.strftime('%m/%d/%Y')
     end_str = latest_reading.dt_reading.strftime('%m/%d/%Y')
-    print("\n\n --- Final Results ---\n")
-    print(f"Data analyzed from: {start_str} to {end_str}")
-    print(f"  Critical rise used: {a_utils.RISE_CRITICAL} feet")
-    print(f"  Critical rise rate used: {a_utils.M_CRITICAL} ft/hr")
+    if verbose:
+        print("\n\n --- Final Results ---\n")
+        print(f"Data analyzed from: {start_str} to {end_str}")
+        print(f"  Critical rise used: {a_utils.RISE_CRITICAL} feet")
+        print(f"  Critical rise rate used: {a_utils.M_CRITICAL} ft/hr")
 
-    print(f"\nNotifications Issued: {notifications_issued}")
-    print(f"\nTrue Positives: {associated_notifications}")
-    for slide in relevant_slides:
-        print(f"  {slide.name} - Notification time: {notification_times[slide]} minutes")
-    print(f"\nFalse Positives: {unassociated_notifications}")
-    for notification_point in unassociated_notification_points:
-        print(f"  {notification_point.dt_reading.strftime('%m/%d/%Y %H:%M:%S')}")
+        print(f"\nNotifications Issued: {notifications_issued}")
+        print(f"\nTrue Positives: {associated_notifications}")
+        for slide in relevant_slides:
+            print(f"  {slide.name} - Notification time: {notification_times[slide]} minutes")
+        print(f"\nFalse Positives: {unassociated_notifications}")
+        for notification_point in unassociated_notification_points:
+            print(f"  {notification_point.dt_reading.strftime('%m/%d/%Y %H:%M:%S')}")
 
-    print(f"\nFalse Negatives: {len(unassociated_slides)}")
-    for slide in unassociated_slides:
-        print(f"  {slide.name}")
-    print(f"\nSlides outside range: {len(slides_outside_range)}")
-    for slide in slides_outside_range:
-        print(f"  {slide.name}")
+        print(f"\nFalse Negatives: {len(unassociated_slides)}")
+        for slide in unassociated_slides:
+            print(f"  {slide.name}")
+        print(f"\nSlides outside range: {len(slides_outside_range)}")
+        for slide in slides_outside_range:
+            print(f"  {slide.name}")
 
+
+    # Build results dict here, and add to file.
 
 if __name__ == '__main__':
     rise_critical = 2.5
