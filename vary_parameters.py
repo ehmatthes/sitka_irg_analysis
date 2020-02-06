@@ -18,17 +18,15 @@ For example, Starrigavan slide should be evaluated, and known slides should
 be confirmed against an existing list.
 """
 
-import sys, string
+import sys, string, pprint, json
+
+from numpy import linspace
 
 # DEV: The functions used from plot_heights should be moved to utils.
 import plot_heights as ph
 from slide_event import SlideEvent
 import utils.analysis_utils as a_utils
 from utils.analysis_utils import RISE_CRITICAL, M_CRITICAL
-
-# Intervals over which to iterate 
-rc_interval = 0.5
-mc_interval = 0.25
 
 
 def analyze_all_data(rise_critical, m_critical, verbose=False, 
@@ -172,20 +170,32 @@ def analyze_all_data(rise_critical, m_critical, verbose=False,
 
     all_results.append(results_dict)
 
+    # Write all_results to file for further analysis.
+    filename = 'other_output/all_results.json'
+    with open(filename, 'w') as f:
+        json.dump(all_results, f, indent=4)
 
 if __name__ == '__main__':
     all_results = []
     alpha_names = list(string.ascii_uppercase)
-    alpha_name = alpha_names.pop(0)
 
     rise_critical = 2.5
     m_critical = 0.5
 
-    analyze_all_data(rise_critical=rise_critical, m_critical=m_critical,
-        all_results=all_results, alpha_name=alpha_name)
+    # Intervals over which to iterate 
+    rc_interval = 0.5
+    mc_interval = 0.25
 
-    print(all_results)
+    for rise_critical in linspace(2.5, 3.5, 2):
+        for m_critical in linspace(0.5, 1.0, 1):
 
-    import pprint
+            print(f"\n --- rc={rise_critical}, mc={m_critical} ---")
+
+            alpha_name = alpha_names.pop(0)
+            analyze_all_data(rise_critical=rise_critical, m_critical=m_critical,
+                all_results=all_results, alpha_name=alpha_name)
+
+    print("\n --- Finished all analysis ---")
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(all_results)
+

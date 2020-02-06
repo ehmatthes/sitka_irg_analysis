@@ -1,0 +1,29 @@
+[
+    {
+        "alpha name": "A",
+        "name": "2.5_0.5",
+        "critical rise": 2.5,
+        "critical slope": 0.5,
+        "true positives": 3,
+        "false postives": 6,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            35
+        ]
+    },
+    {
+        "alpha name": "B",
+        "name": "3.5_0.5",
+        "critical rise": 3.5,
+        "critical slope": 0.5,
+        "true positives": 2,
+        "false postives": 1,
+        "false negatives": 3,
+        "notification times": [
+            41,
+            -55
+        ]
+    }
+]
