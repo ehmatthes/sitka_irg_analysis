@@ -186,8 +186,8 @@ if __name__ == '__main__':
     rc_interval = 0.5
     mc_interval = 0.25
 
-    for rise_critical in linspace(2.5, 3.5, 2):
-        for m_critical in linspace(0.5, 1.0, 1):
+    for rise_critical in linspace(2.5, 3.0, 5):
+        for m_critical in linspace(0.5, 1.0, 5):
 
             print(f"\n --- rc={rise_critical}, mc={m_critical} ---")
 
