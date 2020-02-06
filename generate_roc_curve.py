@@ -9,6 +9,7 @@ values.
 import json
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 
 def generate_plot(all_results):
@@ -18,8 +19,16 @@ def generate_plot(all_results):
     # Generate data and labels.
     x_values = [trial['false positives'] for trial in all_results]
     y_values = [trial['true positives'] for trial in all_results]
-    labels = [f"{trial['alpha name']}\n {trial['name']}" 
-                                            for trial in all_results]
+    labels = [trial['alpha name'] for trial in all_results]
+    # Labels overlap, so need to build series of labels and leave some blank.
+    # Build a dict of labels, and if coordinates already in, add to that label.
+    # Keys are point tuples, values are labels.
+    label_dict = {}
+    for x, y, label in zip(x_values, y_values, labels):
+        try:
+            label_dict[(x, y)] += label
+        except KeyError:
+            label_dict[(x, y)] = label
 
     fig, ax = plt.subplots()
     ax.scatter(x_values, y_values)
@@ -29,9 +38,11 @@ def generate_plot(all_results):
     ax.set_ylabel('True Positives')
 
     # Add labels.
-    for index, label in enumerate(labels):
-        ax.annotate(label, (x_values[index], y_values[index]))
+    for point, label in label_dict.items():
+        ax.text(point[0], point[1], label)
 
+    # Make integer tick marks.
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
 
     plt.show()
 
