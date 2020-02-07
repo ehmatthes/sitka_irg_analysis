@@ -33,7 +33,7 @@ def generate_plot_tpvfp(all_results):
     fig, ax = plt.subplots(figsize=(6, 6), dpi=128)
     ax.scatter(x_values, y_values)
 
-    ax.set_title('True Postives vs False Positives')
+    ax.set_title('True Positives vs False Positives')
     ax.set_xlabel('False Positives')
     ax.set_ylabel('True Positives')
 
