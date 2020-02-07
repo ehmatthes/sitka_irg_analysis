@@ -179,15 +179,10 @@ if __name__ == '__main__':
     all_results = []
     alpha_names = list(string.ascii_uppercase)
 
-    rise_critical = 2.5
-    m_critical = 0.5
-
-    # Intervals over which to iterate 
-    rc_interval = 0.5
-    mc_interval = 0.25
-
-    for rise_critical in linspace(2.5, 3.0, 5):
-        for m_critical in linspace(0.5, 1.0, 5):
+    # Intervals over which to iterate. linspace(x, y, z) varies from
+    #   x to y in z evenly-spaced steps.
+    for rise_critical in linspace(2.25, 2.75, 5):
+        for m_critical in linspace(0.375, 0.625, 5):
 
             print(f"\n --- rc={rise_critical}, mc={m_critical} ---")
 

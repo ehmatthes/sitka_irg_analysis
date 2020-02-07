@@ -1,6 +1,174 @@
 [
     {
         "alpha name": "A",
+        "name": "2.25_0.375",
+        "critical rise": 2.25,
+        "critical slope": 0.375,
+        "true positives": 3,
+        "false positives": 11,
+        "false negatives": 2,
+        "notification times": [
+            101,
+            75,
+            95
+        ]
+    },
+    {
+        "alpha name": "B",
+        "name": "2.25_0.4375",
+        "critical rise": 2.25,
+        "critical slope": 0.4375,
+        "true positives": 3,
+        "false positives": 7,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            35
+        ]
+    },
+    {
+        "alpha name": "C",
+        "name": "2.25_0.5",
+        "critical rise": 2.25,
+        "critical slope": 0.5,
+        "true positives": 3,
+        "false positives": 6,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            35
+        ]
+    },
+    {
+        "alpha name": "D",
+        "name": "2.25_0.5625",
+        "critical rise": 2.25,
+        "critical slope": 0.5625,
+        "true positives": 3,
+        "false positives": 7,
+        "false negatives": 2,
+        "notification times": [
+            101,
+            75,
+            50
+        ]
+    },
+    {
+        "alpha name": "E",
+        "name": "2.25_0.625",
+        "critical rise": 2.25,
+        "critical slope": 0.625,
+        "true positives": 3,
+        "false positives": 4,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            -25
+        ]
+    },
+    {
+        "alpha name": "F",
+        "name": "2.375_0.375",
+        "critical rise": 2.375,
+        "critical slope": 0.375,
+        "true positives": 3,
+        "false positives": 7,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            35
+        ]
+    },
+    {
+        "alpha name": "G",
+        "name": "2.375_0.4375",
+        "critical rise": 2.375,
+        "critical slope": 0.4375,
+        "true positives": 3,
+        "false positives": 7,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            35
+        ]
+    },
+    {
+        "alpha name": "H",
+        "name": "2.375_0.5",
+        "critical rise": 2.375,
+        "critical slope": 0.5,
+        "true positives": 3,
+        "false positives": 6,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            35
+        ]
+    },
+    {
+        "alpha name": "I",
+        "name": "2.375_0.5625",
+        "critical rise": 2.375,
+        "critical slope": 0.5625,
+        "true positives": 3,
+        "false positives": 4,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            15,
+            20
+        ]
+    },
+    {
+        "alpha name": "J",
+        "name": "2.375_0.625",
+        "critical rise": 2.375,
+        "critical slope": 0.625,
+        "true positives": 3,
+        "false positives": 4,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            -25
+        ]
+    },
+    {
+        "alpha name": "K",
+        "name": "2.5_0.375",
+        "critical rise": 2.5,
+        "critical slope": 0.375,
+        "true positives": 3,
+        "false positives": 7,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            35
+        ]
+    },
+    {
+        "alpha name": "L",
+        "name": "2.5_0.4375",
+        "critical rise": 2.5,
+        "critical slope": 0.4375,
+        "true positives": 3,
+        "false positives": 7,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            60,
+            35
+        ]
+    },
+    {
+        "alpha name": "M",
         "name": "2.5_0.5",
         "critical rise": 2.5,
         "critical slope": 0.5,
@@ -14,7 +182,21 @@
         ]
     },
     {
-        "alpha name": "B",
+        "alpha name": "N",
+        "name": "2.5_0.5625",
+        "critical rise": 2.5,
+        "critical slope": 0.5625,
+        "true positives": 3,
+        "false positives": 4,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            15,
+            20
+        ]
+    },
+    {
+        "alpha name": "O",
         "name": "2.5_0.625",
         "critical rise": 2.5,
         "critical slope": 0.625,
@@ -28,43 +210,35 @@
         ]
     },
     {
-        "alpha name": "C",
-        "name": "2.5_0.75",
-        "critical rise": 2.5,
-        "critical slope": 0.75,
-        "true positives": 1,
-        "false positives": 1,
-        "false negatives": 4,
+        "alpha name": "P",
+        "name": "2.625_0.375",
+        "critical rise": 2.625,
+        "critical slope": 0.375,
+        "true positives": 3,
+        "false positives": 7,
+        "false negatives": 2,
         "notification times": [
-            41
+            41,
+            60,
+            35
         ]
     },
     {
-        "alpha name": "D",
-        "name": "2.5_0.875",
-        "critical rise": 2.5,
-        "critical slope": 0.875,
-        "true positives": 1,
-        "false positives": 2,
-        "false negatives": 4,
+        "alpha name": "Q",
+        "name": "2.625_0.4375",
+        "critical rise": 2.625,
+        "critical slope": 0.4375,
+        "true positives": 3,
+        "false positives": 7,
+        "false negatives": 2,
         "notification times": [
-            41
+            41,
+            60,
+            35
         ]
     },
     {
-        "alpha name": "E",
-        "name": "2.5_1.0",
-        "critical rise": 2.5,
-        "critical slope": 1.0,
-        "true positives": 1,
-        "false positives": 0,
-        "false negatives": 4,
-        "notification times": [
-            41
-        ]
-    },
-    {
-        "alpha name": "F",
+        "alpha name": "R",
         "name": "2.625_0.5",
         "critical rise": 2.625,
         "critical slope": 0.5,
@@ -78,7 +252,21 @@
         ]
     },
     {
-        "alpha name": "G",
+        "alpha name": "S",
+        "name": "2.625_0.5625",
+        "critical rise": 2.625,
+        "critical slope": 0.5625,
+        "true positives": 3,
+        "false positives": 4,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            15,
+            20
+        ]
+    },
+    {
+        "alpha name": "T",
         "name": "2.625_0.625",
         "critical rise": 2.625,
         "critical slope": 0.625,
@@ -91,43 +279,35 @@
         ]
     },
     {
-        "alpha name": "H",
-        "name": "2.625_0.75",
-        "critical rise": 2.625,
-        "critical slope": 0.75,
-        "true positives": 1,
-        "false positives": 1,
-        "false negatives": 4,
+        "alpha name": "U",
+        "name": "2.75_0.375",
+        "critical rise": 2.75,
+        "critical slope": 0.375,
+        "true positives": 3,
+        "false positives": 6,
+        "false negatives": 2,
         "notification times": [
-            41
+            41,
+            15,
+            5
         ]
     },
     {
-        "alpha name": "I",
-        "name": "2.625_0.875",
-        "critical rise": 2.625,
-        "critical slope": 0.875,
-        "true positives": 1,
-        "false positives": 2,
-        "false negatives": 4,
+        "alpha name": "V",
+        "name": "2.75_0.4375",
+        "critical rise": 2.75,
+        "critical slope": 0.4375,
+        "true positives": 3,
+        "false positives": 4,
+        "false negatives": 2,
         "notification times": [
-            41
+            41,
+            15,
+            5
         ]
     },
     {
-        "alpha name": "J",
-        "name": "2.625_1.0",
-        "critical rise": 2.625,
-        "critical slope": 1.0,
-        "true positives": 1,
-        "false positives": 0,
-        "false negatives": 4,
-        "notification times": [
-            41
-        ]
-    },
-    {
-        "alpha name": "K",
+        "alpha name": "W",
         "name": "2.75_0.5",
         "critical rise": 2.75,
         "critical slope": 0.5,
@@ -141,7 +321,21 @@
         ]
     },
     {
-        "alpha name": "L",
+        "alpha name": "X",
+        "name": "2.75_0.5625",
+        "critical rise": 2.75,
+        "critical slope": 0.5625,
+        "true positives": 3,
+        "false positives": 4,
+        "false negatives": 2,
+        "notification times": [
+            41,
+            15,
+            20
+        ]
+    },
+    {
+        "alpha name": "Y",
         "name": "2.75_0.625",
         "critical rise": 2.75,
         "critical slope": 0.625,
@@ -151,168 +345,6 @@
         "notification times": [
             41,
             -25
-        ]
-    },
-    {
-        "alpha name": "M",
-        "name": "2.75_0.75",
-        "critical rise": 2.75,
-        "critical slope": 0.75,
-        "true positives": 1,
-        "false positives": 1,
-        "false negatives": 4,
-        "notification times": [
-            41
-        ]
-    },
-    {
-        "alpha name": "N",
-        "name": "2.75_0.875",
-        "critical rise": 2.75,
-        "critical slope": 0.875,
-        "true positives": 1,
-        "false positives": 0,
-        "false negatives": 4,
-        "notification times": [
-            -19
-        ]
-    },
-    {
-        "alpha name": "O",
-        "name": "2.75_1.0",
-        "critical rise": 2.75,
-        "critical slope": 1.0,
-        "true positives": 1,
-        "false positives": 0,
-        "false negatives": 4,
-        "notification times": [
-            41
-        ]
-    },
-    {
-        "alpha name": "P",
-        "name": "2.875_0.5",
-        "critical rise": 2.875,
-        "critical slope": 0.5,
-        "true positives": 3,
-        "false positives": 4,
-        "false negatives": 2,
-        "notification times": [
-            41,
-            15,
-            5
-        ]
-    },
-    {
-        "alpha name": "Q",
-        "name": "2.875_0.625",
-        "critical rise": 2.875,
-        "critical slope": 0.625,
-        "true positives": 2,
-        "false positives": 1,
-        "false negatives": 3,
-        "notification times": [
-            41,
-            -25
-        ]
-    },
-    {
-        "alpha name": "R",
-        "name": "2.875_0.75",
-        "critical rise": 2.875,
-        "critical slope": 0.75,
-        "true positives": 1,
-        "false positives": 1,
-        "false negatives": 4,
-        "notification times": [
-            41
-        ]
-    },
-    {
-        "alpha name": "S",
-        "name": "2.875_0.875",
-        "critical rise": 2.875,
-        "critical slope": 0.875,
-        "true positives": 1,
-        "false positives": 0,
-        "false negatives": 4,
-        "notification times": [
-            -19
-        ]
-    },
-    {
-        "alpha name": "T",
-        "name": "2.875_1.0",
-        "critical rise": 2.875,
-        "critical slope": 1.0,
-        "true positives": 1,
-        "false positives": 0,
-        "false negatives": 4,
-        "notification times": [
-            41
-        ]
-    },
-    {
-        "alpha name": "U",
-        "name": "3.0_0.5",
-        "critical rise": 3.0,
-        "critical slope": 0.5,
-        "true positives": 3,
-        "false positives": 4,
-        "false negatives": 2,
-        "notification times": [
-            41,
-            15,
-            5
-        ]
-    },
-    {
-        "alpha name": "V",
-        "name": "3.0_0.625",
-        "critical rise": 3.0,
-        "critical slope": 0.625,
-        "true positives": 2,
-        "false positives": 1,
-        "false negatives": 3,
-        "notification times": [
-            41,
-            -25
-        ]
-    },
-    {
-        "alpha name": "W",
-        "name": "3.0_0.75",
-        "critical rise": 3.0,
-        "critical slope": 0.75,
-        "true positives": 1,
-        "false positives": 1,
-        "false negatives": 4,
-        "notification times": [
-            41
-        ]
-    },
-    {
-        "alpha name": "X",
-        "name": "3.0_0.875",
-        "critical rise": 3.0,
-        "critical slope": 0.875,
-        "true positives": 1,
-        "false positives": 0,
-        "false negatives": 4,
-        "notification times": [
-            -19
-        ]
-    },
-    {
-        "alpha name": "Y",
-        "name": "3.0_1.0",
-        "critical rise": 3.0,
-        "critical slope": 1.0,
-        "true positives": 1,
-        "false positives": 0,
-        "false negatives": 4,
-        "notification times": [
-            41
         ]
     }
 ]

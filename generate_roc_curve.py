@@ -110,6 +110,10 @@ if __name__ == '__main__':
     label_str = "Trial\tR_C\tM_C\tTP\tFP\tFN\tNotification Times"
     print(label_str)
 
+    # Modify 'alpha name' for labeling purposes?
+    for trial in all_results:
+        trial['alpha name'] = trial['alpha name'].lower()
+
     for trial in all_results:
         # Generate a table of results. Print, and write to file.
         value_str = f"{trial['alpha name']}\t{trial['critical rise']}\t"
