@@ -44,6 +44,7 @@ def generate_plot_tpvfp(all_results):
         ax.text(x_label_pos, y_label_pos, label)
 
     # Make integer tick marks.
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
 
     # Uncomment this to see plots during dev work, rather than opening
@@ -53,7 +54,51 @@ def generate_plot_tpvfp(all_results):
     # Save to file.
     filename = "other_output/tp_vs_fp_plot.png"
     plt.savefig(filename)
-    
+
+
+def generate_plot_tpvfn(all_results):
+    """For now, generate a simple TP vs FN plot.
+    """
+
+    # Generate data and labels.
+    x_values = [trial['false negatives'] for trial in all_results]
+    y_values = [trial['true positives'] for trial in all_results]
+    labels = [trial['alpha name'] for trial in all_results]
+    # Labels overlap, so need to build series of labels and leave some blank.
+    # Build a dict of labels, and if coordinates already in, add to that label.
+    # Keys are point tuples, values are labels.
+    label_dict = {}
+    for x, y, label in zip(x_values, y_values, labels):
+        try:
+            label_dict[(x, y)] += label
+        except KeyError:
+            label_dict[(x, y)] = label
+
+    fig, ax = plt.subplots(figsize=(6, 6), dpi=128)
+    ax.scatter(x_values, y_values)
+
+    ax.set_title('True Postives vs False Negatives')
+    ax.set_xlabel('False Negatives')
+    ax.set_ylabel('True Positives')
+
+    # Add labels.
+    for point, label in label_dict.items():
+        x_label_pos = point[0] + 0.05
+        y_label_pos = point[1] + 0.025
+        ax.text(x_label_pos, y_label_pos, label)
+
+    # Make integer tick marks.
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
+
+    # Uncomment this to see plots during dev work, rather than opening
+    #  file images.
+    # plt.show()
+
+    # Save to file.
+    filename = "other_output/tp_vs_fn_plot.png"
+    plt.savefig(filename)
+
 
 if __name__ == '__main__':
 
@@ -76,3 +121,4 @@ if __name__ == '__main__':
         print(value_str)
 
     generate_plot_tpvfp(all_results)
+    generate_plot_tpvfn(all_results)
