@@ -54,7 +54,13 @@ sitka_irg_analysis$ source irg_env/bin/activate
 
 ### Analyzing current data
 
-This is a work in progress. If you run *analyze_current_data.py*, you'll get an html plot of the most recent 48-72 hours of data from the stream gauge. You can choose to fetch fresh data, or work with cached data to avoid hitting the gauge site too often during development work. A good approach is to fetch fresh data once, and then work with that freshly cached data. 
+This is a work in progress. If you run *analyze_current_data.py*, you'll get an html plot of the most recent 48-72 hours of data from the stream gauge. You can choose to fetch fresh data, or work with cached data to avoid hitting the gauge site too often during development work. A good approach is to fetch fresh data once, and then work with that freshly cached data.
+
+### Optimizing critical factors
+
+If you want to see the results of varying the critical values, you need to run two files. The file *vary_parameters.py* runs the analysis repeatedly with different values for crtical rise and critical rate. Running this file takes about a minute to generate a 5x5 matrix. (It uses the letters of the alphabet to name the trials, so it will currently break if you try to run more than 25 variations at once. It would be trivial to allow an arbitrary number of variations.) It saves the results of this analysis to a file.
+
+Once you've run *vary_parameters.py*, you can run *generate_roc.py*. It doesn't generate an ROC curve because I'm not sure how to calculate the false positive rate, but it generates a neat tabular summary of the results of the variation. It also generates a TP vs FP plot, and a TP vs FN plot. All of this output is in *other_output*.
 
 Questions/ Feedback
 ---
