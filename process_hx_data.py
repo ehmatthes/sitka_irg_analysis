@@ -8,6 +8,8 @@ Was there anything special about those slides?
 What did the river data look like for those slides?
 """
 
+import pickle
+
 import plot_heights as ph
 from slide_event import SlideEvent
 import utils.analysis_utils as a_utils
@@ -79,6 +81,13 @@ if __name__ == '__main__':
                                         for fcp in first_critical_points]
 
         for reading_set in reading_sets:
+            # Dump these readings to a file, so I can analyze them separately
+            #   when helpful to do so.
+            dt_last_reading_str = reading_set[-1].dt_reading.strftime('%m%d%Y')
+            dump_filename = f'other_output/reading_dump_{dt_last_reading_str}.pkl'
+            with open(dump_filename, 'wb') as f:
+                pickle.dump(reading_set, f)
+
             critical_points = a_utils.get_critical_points(reading_set)
             relevant_slide = ph.get_relevant_slide(reading_set, known_slides)
             if relevant_slide:
