@@ -394,6 +394,9 @@ def plot_data_static(readings, critical_points=[], known_slides=[], filename=Non
     plt.style.use('seaborn')
     fig, ax = plt.subplots(figsize=(10, 6), dpi=128)
 
+    # Always plot on an absolute y scale.
+    ax.set_ylim([20.0, 27.5])
+
     # Add river heights for 48-hr period.
     ax.plot(datetimes, heights, c='blue', alpha=0.8, linewidth=1)
 
