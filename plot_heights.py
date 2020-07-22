@@ -350,6 +350,91 @@ def plot_data_static(readings, critical_points=[], known_slides=[], filename=Non
     min_height = min([reading.height for reading in readings])
     max_height = max([reading.height for reading in readings])
 
+
+
+    # Build a set of future readings, once every 15 minutes for the next
+    #   6 hours.
+    # DEV: May want to only look ahead 4.5 hrs; looking farther ahead
+    #   than the critical 5-hour period seems less meaningful.
+    # DEV: Doing some imports here, because this will be moved to 
+    #   analysis_utils
+    # import datetime
+    # from .ir_reading import IRReading
+
+    interval = datetime.timedelta(minutes=15)
+    future_readings = []
+    new_reading_dt = readings[-1].dt_reading + interval
+    for _ in range(18):
+        new_reading = IRReading(new_reading_dt, 23.0)
+        future_readings.append(new_reading)
+        new_reading_dt += interval
+    future_datetimes = [r.dt_reading.astimezone(aktz) for r in future_readings]
+    future_heights = [r.height for r in future_readings]
+
+    # What are the future critical points?
+    #   These are the heights that would result in 5-hour total rise and 
+    #     average rate matching critical values.
+    #   These are the minimum values needed to become, or remain, critical.
+    # DEV: Replace all 0.5 and 2.5 with M_CRITICAL and CRITICAL_RISE
+    min_cf_readings = []
+    latest_reading = readings[-1]
+    for reading in future_readings:
+        dt_lookback = reading.dt_reading - datetime.timedelta(hours=5)
+        # Get minimum height from last 5 hours of readings, including future readings.
+        # print(reading.dt_reading - datetime.timedelta(hours=5))
+        relevant_readings = [r for r in readings
+            if r.dt_reading >= dt_lookback]
+        relevant_readings += min_cf_readings
+        critical_height = min([r.height for r in relevant_readings]) + 2.5
+
+        # Make sure critical_height also gives a 5-hour average rise at least
+        #   as great as M_CRITICAL. Units are ft/hr.
+        m_avg = (critical_height - relevant_readings[0].height) / 5
+        if m_avg < 0.5:
+            # The critical height satisfies total rise, but not sustained rate
+            #   of rise. Bump critical height so it satisfies total rise and
+            #   rate of rise.
+            critical_height = 5 * 0.5 + relevant_readings[0].height
+
+        new_reading = IRReading(reading.dt_reading, critical_height)
+        min_cf_readings.append(new_reading)
+
+    min_cf_datetimes = [r.dt_reading.astimezone(aktz) for r in min_cf_readings]
+    min_cf_heights = [r.height for r in min_cf_readings]
+
+    # What would the critical points have been over the last 6 hours?
+    #   This shows how close conditions were to being critical over the
+    #   previous 6 hours.
+    dt_first_min_prev_reading = latest_reading.dt_reading - datetime.timedelta(hours=6)
+    min_crit_prev_readings = [IRReading(r.dt_reading, 27.0)
+                                for r in readings
+                                if r.dt_reading >= dt_first_min_prev_reading]
+
+    for reading in min_crit_prev_readings:
+        dt_lookback = reading.dt_reading - datetime.timedelta(hours=5)
+        # Get minimum height from last 5 hours of readings.
+        relevant_readings = [r for r in readings
+            if (r.dt_reading >= dt_lookback) and (r.dt_reading < reading.dt_reading)]
+        critical_height = min([r.height for r in relevant_readings]) + 2.5
+
+        # Make sure critical_height also gives a 5-hour average rise at least
+        #   as great as M_CRITICAL. Units are ft/hr.
+        m_avg = (critical_height - relevant_readings[0].height) / 5
+        if m_avg < 0.5:
+            # The critical height satisfies total rise, but not sustained rate
+            #   of rise. Bump critical height so it satisfies total rise and
+            #   rate of rise.
+            critical_height = 5 * 0.5 + relevant_readings[0].height
+
+        reading.height = critical_height
+
+    min_crit_prev_datetimes = [r.dt_reading.astimezone(aktz)
+                                for r in min_crit_prev_readings]
+    min_crit_prev_heights = [r.height for r in min_crit_prev_readings]
+
+
+
+
     y_min, y_max = min_height - 0.5, max_height + 0.5
 
     # Is there a slide in this date range?
@@ -412,6 +497,21 @@ def plot_data_static(readings, critical_points=[], known_slides=[], filename=Non
         cp_label = label_time.strftime('%m/%d/%Y %H:%M:%S') + '    '
         ax.text(label_time, critical_heights[0], cp_label,
                 horizontalalignment='right')
+
+
+
+    # Plot minimum future critical readings.
+    #   Plot these points, and shade to max y value.
+    ax.plot(min_cf_datetimes, min_cf_heights, c='red', alpha=0.4)
+    ax.fill_between(min_cf_datetimes, min_cf_heights, 27.5, color='red', alpha=0.2)
+
+    # Plot previous critical readings, and shade to max y value.
+    ax.plot(min_crit_prev_datetimes, min_crit_prev_heights, c='red', alpha=0.3)
+    ax.fill_between(min_crit_prev_datetimes, min_crit_prev_heights, 27.5,
+                                                    color='red', alpha=0.1)
+
+
+    
 
     # Add vertical line for slide if applicable.
     if relevant_slide:
