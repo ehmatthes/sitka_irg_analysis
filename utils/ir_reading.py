@@ -12,6 +12,8 @@ class IRReading:
         """Calculate the slope betweent the two points.
         Return the abs value of the slope, in ft/hr.
         Assumes self is the later reading.
+
+        DEV: Probably @staticmethod.
         """
 
         d_height = self.get_rise(reading_2)

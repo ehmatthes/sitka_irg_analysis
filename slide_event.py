@@ -39,6 +39,8 @@ class SlideEvent:
         """Return an html snippet that summarizes all information about
         a slide event.
         Can be used to generate a web page summarizing all events.
+
+        # DEV: This should probably be @staticmethod.
         """
         html_str = '<div>'
         html_str += f"\n  <h3>{self.name}</h3>"

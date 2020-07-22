@@ -329,7 +329,7 @@ def plot_data(readings, critical_points=[], known_slides=[]):
     print("\nPlotted data.")
 
 
-def plot_data_static(readings, critical_points=[], known_slides=[]):
+def plot_data_static(readings, critical_points=[], known_slides=[], filename=None):
     """Plot IR gauge data, with critical points in red. Known slide
     events are indicated by a vertical line at the time of the event.
     """
@@ -369,6 +369,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
 
     # Use relevant slide or first critical point to set date for title.
     if relevant_slide and critical_points:
+        dt_title = slide_time
         title_date_str = slide_time.strftime('%m/%d/%Y')
     elif relevant_slide:
         slide_time = relevant_slide.dt_slide.astimezone(aktz)
@@ -381,7 +382,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
         dt_title = critical_points[0].dt_reading.astimezone(aktz)
         title_date_str = dt_title.strftime('%m/%d/%Y')
     else:
-        dt_title = datetimes[0].dt_reading.astimezone(aktz)
+        dt_title = datetimes[0].astimezone(aktz)
         title_date_str = dt_title.strftime('%m/%d/%Y')
 
     # DEV notes for building visualization:
@@ -417,7 +418,12 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
         ax.text(slide_time, y_min+1, slide_label)
 
     # Set chart and axes titles, and other formatting.
-    title = f"Indian River Gauge Readings, {title_date_str}"
+    # title = f"Indian River Gauge Readings, {title_date_str}"
+
+    # This title works for animation.
+    ts_title = dt_title.strftime("%H:%M:%S")
+    title = f"Indian River Gauge Readings, {title_date_str}, {ts_title}"
+
     ax.set_title(title, loc='left')
     ax.set_xlabel('', fontsize=16)
     ax.set_ylabel("River height (ft)")
@@ -466,8 +472,14 @@ def plot_data_static(readings, critical_points=[], known_slides=[]):
     # plt.show()
 
     # Save to file.
-    filename = f"current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.png"
+    if not filename:
+        filename = f"current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.png"
     plt.savefig(filename)
+
+    print(f"  saved: {filename}")
+
+    # Close figure, especially helpful when rendering many frames for animation.
+    plt.close('all')
 
 
 
