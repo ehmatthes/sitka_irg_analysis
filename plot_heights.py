@@ -405,7 +405,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[], filename=Non
     # What would the critical points have been over the last 6 hours?
     #   This shows how close conditions were to being critical over the
     #   previous 6 hours.
-    dt_first_min_prev_reading = latest_reading.dt_reading - datetime.timedelta(hours=6)
+    dt_first_min_prev_reading = latest_reading.dt_reading - datetime.timedelta(hours=12)
     min_crit_prev_readings = [IRReading(r.dt_reading, 27.0)
                                 for r in readings
                                 if r.dt_reading >= dt_first_min_prev_reading]
@@ -511,7 +511,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[], filename=Non
                                                     color='red', alpha=0.1)
 
 
-    
+
 
     # Add vertical line for slide if applicable.
     if relevant_slide:
