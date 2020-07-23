@@ -16,8 +16,10 @@ from slide_event import SlideEvent
 usgs_data_file = 'animation_input_files/current_data_usgs.txt'
 kramer_data_file = 'animation_input_files/reading_dump_08192015.pkl'
 medvejie_09212019_data_file = 'animation_input_files/reading_dump_09212019.pkl'
+minor_hpr_slide_09162016_data_file = 'animation_input_files/reading_dump_09162016.pkl'
+no_slide_092617_data_file = 'animation_input_files/reading_dump_09282017.pkl'
 
-data_file = medvejie_09212019_data_file
+data_file = no_slide_092617_data_file
 readings_per_hour = 4
 file_extension = Path(data_file).suffix
 
