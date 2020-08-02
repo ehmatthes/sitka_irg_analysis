@@ -194,7 +194,8 @@ def get_notification_time(critical_points, relevant_slide):
     return notification_time_min
 
 
-def plot_data(readings, critical_points=[], known_slides=[]):
+def plot_data(readings, critical_points=[], known_slides=[],
+        root_output_directory=''):
     """Plot IR gauge data, with critical points in red. Known slide
     events are indicated by a vertical line at the time of the event.
     """
@@ -324,12 +325,13 @@ def plot_data(readings, critical_points=[], known_slides=[]):
     }
 
     fig = {'data': data, 'layout': my_layout}
-    filename = f"current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.html"
+    filename = f"{root_output_directory}current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.html"
     offline.plot(fig, filename=filename)
     print("\nPlotted data.")
 
 
-def plot_data_static(readings, critical_points=[], known_slides=[], filename=None):
+def plot_data_static(readings, critical_points=[], known_slides=[],
+        filename=None, root_output_directory=''):
     """Plot IR gauge data, with critical points in red. Known slide
     events are indicated by a vertical line at the time of the event.
     """
@@ -577,7 +579,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[], filename=Non
 
     # Save to file.
     if not filename:
-        filename = f"current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.png"
+        filename = f"{root_output_directory}current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.png"
     plt.savefig(filename)
 
     print(f"  saved: {filename}")
