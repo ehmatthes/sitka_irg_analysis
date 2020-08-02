@@ -1,11 +1,35 @@
 """Process all historical IR gauge data.
-How many slides have were preceded by a critical point?
-What do the notification times look like?
-How many false positives were there?
-How many notifications would have been issued over a 5-year period?
-How many slides were not preceded by a critical point?
-Was there anything special about those slides?
-What did the river data look like for those slides?
+
+This file loads historical data from the Indian River stream gauge. It loads
+  values for critical rate of rise, and critical total rise. It then runs
+  through all the stream gauge data. It flags any data point at which the 
+  stream gauge has met or exceeded these critical values, and captures a
+  48-hour period of readings around that point. When these readings are
+  plotted, any known slides that occurred during this period are plotted as
+  well.
+
+  The script then processes known slide events. If a slide event is not
+  already associated with a critical period, 48 hours of readings around that
+  slide event are grabbed, and these are plotted as well.
+
+We want to be able to use the output to answer the following questions. In
+  this context, 'notification time' refers to the time between the first
+  critical point identified in a critical period, and the time at which a
+  slide occurred. This is the amount of time people would have to respond
+  if a notification were issued the moment the first critical point was
+  identified.
+
+  A true positive is a critical point associated with a slide,
+  a false positive is a critical point with no associated slide. A false 
+  negative is a slide with no associated critical point.
+
+  - How many slides were preceded by a critical point?
+  - What do the notification times look like?
+  - How many true and false positives and false negatives were there?
+  - How many notifications would have been issued over a 5-year period?
+  - Was there anything special about slides that were missed? (false negative)
+  - Was there anything special about critical points with no slide? (false
+      positive)
 """
 
 import pickle
