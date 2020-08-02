@@ -463,6 +463,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[], filename=Non
         slide_time_str = slide_time.strftime('%m/%d/%Y %H:%M:%S')
         slide_label = f"    {relevant_slide.name} - {slide_time_str}"
         slide_label += f"\n    Notification time: {notification_time} minutes"
+        dt_title = slide_time
     elif critical_points:
         dt_title = critical_points[0].dt_reading.astimezone(aktz)
         title_date_str = dt_title.strftime('%m/%d/%Y')
