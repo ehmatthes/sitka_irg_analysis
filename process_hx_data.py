@@ -93,8 +93,8 @@ def process_hx_data(root_output_directory=''):
 
         # Find the start of all critical periods in this data file.
         first_critical_points = a_utils.get_first_critical_points(all_readings)
-        for reading in first_critical_points:
-            print(reading.get_formatted_reading())
+        # for reading in first_critical_points:
+        #     print(reading.get_formatted_reading())
         notifications_issued += len(first_critical_points)
 
         # reading_sets is a list of lists. Each list is a set of readings to plot,

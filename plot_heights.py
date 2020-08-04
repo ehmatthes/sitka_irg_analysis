@@ -122,7 +122,7 @@ def get_readings_hx_format(data_file):
             height = float(row[2])
             reading = IRReading(dt, height)
             readings.append(reading)
-    print(f"  First reading: {readings[0].get_formatted_reading()}")
+    # print(f"  First reading: {readings[0].get_formatted_reading()}")
 
     # Text file is in chronological order.
     print(f"  Found {len(readings)} readings.")
@@ -161,7 +161,7 @@ def get_readings_arch_format(data_file):
             height = float(row[4][:5])
             reading = IRReading(dt_utc, height)
             readings.append(reading)
-    print(f"  First reading: {readings[0].get_formatted_reading()}")
+    # print(f"  First reading: {readings[0].get_formatted_reading()}")
 
     # Text file is in chronological order.
     print(f"  Found {len(readings)} readings.")
@@ -204,7 +204,7 @@ def plot_data(readings, critical_points=[], known_slides=[],
     #   data processing.
     print("\nPlotting data")
     if critical_points:
-        print(f"First critical point: {critical_points[0].get_formatted_reading()}")
+        pass#print(f"First critical point: {critical_points[0].get_formatted_reading()}")
 
     # Plotly considers everything UTC. Send it strings, and it will
     #  plot the dates as they read.
@@ -428,7 +428,8 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
             #   rate of rise.
             critical_height = 5 * 0.5 + relevant_readings[0].height
 
-        reading.height = critical_height
+        # reading.height = critical_height
+        reading = reading._replace(height=critical_height)
 
     min_crit_prev_datetimes = [r.dt_reading.astimezone(aktz)
                                 for r in min_crit_prev_readings]
@@ -612,7 +613,7 @@ if __name__ == '__main__':
     critical_points = a_utils.get_critical_points(readings)
 
     for cp in critical_points:
-        print(cp.get_formatted_reading())
+        print(get_formatted_reading(cp))
 
     # plot_data_critical(readings, critical_points)
 

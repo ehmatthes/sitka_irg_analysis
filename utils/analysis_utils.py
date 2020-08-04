@@ -8,7 +8,7 @@ from xml.etree import ElementTree as ET
 import requests, pytz
 
 # Assume this file will be imported in a directory outside of utils.
-from utils.ir_reading import IRReading
+from utils.ir_reading import IRReading, get_slope, get_rise
 
 
 # Critical values.
@@ -109,8 +109,10 @@ def get_critical_points(readings):
         # Get prev max_lookback readings.
         prev_readings = [reading for reading in readings[reading_index-max_lookback:reading_index]]
         for prev_reading in prev_readings:
-            rise = reading.get_rise(prev_reading)
-            m = reading.get_slope(prev_reading)
+            # rise = reading.get_rise(prev_reading)
+            rise = get_rise(reading, prev_reading)
+            # m = reading.get_slope(prev_reading)
+            m = get_slope(reading, prev_reading)
             # print(f"    Rise: {rise} Slope: {m}")
             if rise >= RISE_CRITICAL and m > M_CRITICAL:
                 # print(f"Critical point: {reading.get_formatted_reading()}")
@@ -174,8 +176,10 @@ def get_first_critical_points(readings):
         # Get prev max_lookback readings.
         prev_readings = [reading for reading in readings[reading_index-max_lookback:reading_index]]
         for prev_reading in prev_readings:
-            rise = reading.get_rise(prev_reading)
-            m = reading.get_slope(prev_reading)
+            # rise = reading.get_rise(prev_reading)
+            rise = get_rise(reading, prev_reading)
+            # m = reading.get_slope(prev_reading)
+            m = get_slope(reading, prev_reading)
             # print(f"    Rise: {rise} Slope: {m}")
             if rise >= RISE_CRITICAL and m > M_CRITICAL:
                 # print(f"Critical point: {reading.get_formatted_reading()}")
