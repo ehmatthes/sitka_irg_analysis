@@ -1,15 +1,13 @@
 """Model for working with readings."""
 
+import datetime
+from dataclasses import dataclass
+
+@dataclass
 class IRReading:
 
-    __slots__ = ('dt_reading', 'height')
-
-
-    def __init__(self, dt_reading, height):
-        """Every reading has a datetime, and a height."""
-        self.dt_reading = dt_reading
-        self.height = height
-
+    dt_reading: datetime.datetime
+    height: float
 
     def get_slope(self, reading_2):
         """Calculate the slope betweent the two points.
