@@ -2,6 +2,9 @@
 
 class IRReading:
 
+    __slots__ = ('dt_reading', 'height')
+
+
     def __init__(self, dt_reading, height):
         """Every reading has a datetime, and a height."""
         self.dt_reading = dt_reading
