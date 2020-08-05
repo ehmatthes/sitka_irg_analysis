@@ -409,33 +409,6 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     #   previous 6 hours.
     dt_first_min_prev_reading = latest_reading.dt_reading - datetime.timedelta(hours=12)
 
-
-
-    # min_crit_prev_readings = [ir_reading.IRReading(r.dt_reading, 27.0)
-    #                             for r in readings
-    #                             if r.dt_reading >= dt_first_min_prev_reading]
-
-    # for reading in min_crit_prev_readings:
-    #     dt_lookback = reading.dt_reading - datetime.timedelta(hours=5)
-    #     # Get minimum height from last 5 hours of readings.
-    #     relevant_readings = [r for r in readings
-    #         if (r.dt_reading >= dt_lookback) and (r.dt_reading < reading.dt_reading)]
-    #     critical_height = min([r.height for r in relevant_readings]) + 2.5
-
-    #     # Make sure critical_height also gives a 5-hour average rise at least
-    #     #   as great as M_CRITICAL. Units are ft/hr.
-    #     m_avg = (critical_height - relevant_readings[0].height) / 5
-    #     if m_avg < 0.5:
-    #         # The critical height satisfies total rise, but not sustained rate
-    #         #   of rise. Bump critical height so it satisfies total rise and
-    #         #   rate of rise.
-    #         critical_height = 5 * 0.5 + relevant_readings[0].height
-
-    #     # reading.height = critical_height
-    #     reading = reading._replace(height=critical_height)
-
-
-
     min_crit_prev_readings = []
     prev_datetimes = [r.dt_reading for r in readings
                         if r.dt_reading >= dt_first_min_prev_reading]
