@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
 
-from utils.ir_reading import IRReading
+import utils.ir_reading as ir_reading
 import utils.analysis_utils as a_utils
 from slide_event import SlideEvent
 
@@ -48,7 +48,7 @@ def get_readings_weekly_format(data_file, year=None):
         
         # Get height.
         height = float(data_pieces[2][:5])
-        reading = IRReading(dt_utc, height)
+        reading = ir_reading.IRReading(dt_utc, height)
         readings.append(reading)
 
     # Text file is in reverse chronological order; fix this.
@@ -85,7 +85,7 @@ def get_readings_weekly_format_utc(data_file, year=None):
         
         # Get height.
         height = float(data_pieces[2][:5])
-        reading = IRReading(dt_utc, height)
+        reading = ir_reading.IRReading(dt_utc, height)
         readings.append(reading)
 
     # Text file is in reverse chronological order; fix this.
@@ -120,9 +120,9 @@ def get_readings_hx_format(data_file):
             dt = datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
             dt = dt.replace(tzinfo=pytz.utc)
             height = float(row[2])
-            reading = IRReading(dt, height)
+            reading = ir_reading.IRReading(dt, height)
             readings.append(reading)
-    # print(f"  First reading: {readings[0].get_formatted_reading()}")
+    print(f"  First reading: {ir_reading.get_formatted_reading(readings[0])}")
 
     # Text file is in chronological order.
     print(f"  Found {len(readings)} readings.")
@@ -159,9 +159,9 @@ def get_readings_arch_format(data_file):
                 dt_utc = dt_ak + datetime.timedelta(hours=8)
             dt_utc = dt_utc.replace(tzinfo=pytz.utc)
             height = float(row[4][:5])
-            reading = IRReading(dt_utc, height)
+            reading = ir_reading.IRReading(dt_utc, height)
             readings.append(reading)
-    # print(f"  First reading: {readings[0].get_formatted_reading()}")
+    print(f"  First reading: {ir_reading.get_formatted_reading(readings[0])}")
 
     # Text file is in chronological order.
     print(f"  Found {len(readings)} readings.")
@@ -204,7 +204,7 @@ def plot_data(readings, critical_points=[], known_slides=[],
     #   data processing.
     print("\nPlotting data")
     if critical_points:
-        pass#print(f"First critical point: {critical_points[0].get_formatted_reading()}")
+        print(f"First critical point: {ir_reading.get_formatted_reading(critical_points[0])}")
 
     # Plotly considers everything UTC. Send it strings, and it will
     #  plot the dates as they read.
@@ -367,7 +367,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     future_readings = []
     new_reading_dt = readings[-1].dt_reading + interval
     for _ in range(18):
-        new_reading = IRReading(new_reading_dt, 23.0)
+        new_reading = ir_reading.IRReading(new_reading_dt, 23.0)
         future_readings.append(new_reading)
         new_reading_dt += interval
     future_datetimes = [r.dt_reading.astimezone(aktz) for r in future_readings]
@@ -398,7 +398,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
             #   rate of rise.
             critical_height = 5 * 0.5 + relevant_readings[0].height
 
-        new_reading = IRReading(reading.dt_reading, critical_height)
+        new_reading = ir_reading.IRReading(reading.dt_reading, critical_height)
         min_cf_readings.append(new_reading)
 
     min_cf_datetimes = [r.dt_reading.astimezone(aktz) for r in min_cf_readings]
@@ -408,7 +408,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     #   This shows how close conditions were to being critical over the
     #   previous 6 hours.
     dt_first_min_prev_reading = latest_reading.dt_reading - datetime.timedelta(hours=12)
-    min_crit_prev_readings = [IRReading(r.dt_reading, 27.0)
+    min_crit_prev_readings = [ir_reading.IRReading(r.dt_reading, 27.0)
                                 for r in readings
                                 if r.dt_reading >= dt_first_min_prev_reading]
 
