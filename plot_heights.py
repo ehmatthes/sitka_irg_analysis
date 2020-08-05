@@ -433,15 +433,9 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
         reading = ir_reading.IRReading(dt, critical_height)
         min_crit_prev_readings.append(reading)
 
-
-
-
     min_crit_prev_datetimes = [r.dt_reading.astimezone(aktz)
                                 for r in min_crit_prev_readings]
     min_crit_prev_heights = [r.height for r in min_crit_prev_readings]
-
-
-
 
     y_min, y_max = min_height - 0.5, max_height + 0.5
 
