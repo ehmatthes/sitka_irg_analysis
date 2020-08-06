@@ -153,6 +153,23 @@ def pickle_reading_set(reading_set, root_output_directory=''):
     with open(dump_filename, 'wb') as f:
         pickle.dump(reading_set, f)
 
+def generate_interactive_plot(
+            reading_set, known_slides, root_output_directory):
+    """Generate an interactive html plot."""
+    critical_points = a_utils.get_critical_points(reading_set)
+    ph.plot_data(reading_set, known_slides=known_slides,
+        critical_points=critical_points,
+        root_output_directory=root_output_directory)
+
+
+def generate_static_plot(
+            reading_set, known_slides, root_output_directory):
+    """Genereate a static plot image."""
+    critical_points = a_utils.get_critical_points(reading_set)
+    ph.plot_data_static(reading_set, known_slides=known_slides,
+        critical_points=critical_points,
+        root_output_directory=root_output_directory)
+
 
 def summarize_results(known_slides, stats):
     """Summarize results of analysis."""
@@ -237,18 +254,14 @@ def process_hx_data(root_output_directory=''):
         # Generate interactive plots.
         for reading_set in reading_sets:
             print("Generating interactive plots...")
-            critical_points = a_utils.get_critical_points(reading_set)
-            ph.plot_data(reading_set, known_slides=known_slides,
-                critical_points=critical_points,
-                root_output_directory=root_output_directory)
+            generate_interactive_plot(
+                    reading_set, known_slides, root_output_directory)
 
         # Generate static plots.
         for reading_set in reading_sets:
             print("Generating static plots...")
-            critical_points = a_utils.get_critical_points(reading_set)
-            ph.plot_data_static(reading_set, known_slides=known_slides,
-                critical_points=critical_points,
-                root_output_directory=root_output_directory)
+            generate_static_plot(
+                    reading_set, known_slides, root_output_directory)
 
     summarize_results(known_slides, stats)
 
