@@ -242,8 +242,8 @@ def plot_data(readings, critical_points=[], known_slides=[],
         dt_title = critical_points[0].dt_reading.astimezone(aktz)
         title_date_str = dt_title.strftime('%m/%d/%Y')
     else:
-        dt_title = datetimes[0].dt_reading.astimezone(aktz)
-        title_date_str = dt_title.strftime('%m/%d/%Y')
+        # dt_title = datetimes[0].dt_reading.astimezone(aktz)
+        title_date_str = datetimes[0]
 
     data = [
         {

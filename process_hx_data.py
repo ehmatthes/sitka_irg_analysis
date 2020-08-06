@@ -40,6 +40,144 @@ import utils.analysis_utils as a_utils
 import utils.ir_reading as ir_reading
 from utils.analysis_utils import RISE_CRITICAL, M_CRITICAL
 
+# Track overall stats.
+#   How many notifications followed by slides?
+#   How many notifications not followed by slides?
+#   How many slides were not missed?
+stats = {
+    "stats['notifications_issued']": 0
+    "associated_notifications": 0
+    "unassociated_notifications": 0
+    "unassociated_notification_points": []
+    "relevant_slides": []
+    "unassociated_slides": []
+    "notification_times": {}
+    "earliest_reading, latest_reading": None, None
+    "plots_generated": 0
+}
+
+
+def process_data_file(data_file):
+    """Process a single data file."""
+    # Use proper parsing function.
+    if 'hx_format' in data_file:
+        all_readings = ph.get_readings_hx_format(data_file)
+    elif 'arch_format' in data_file:
+        all_readings = ph.get_readings_arch_format(data_file)
+
+    return all_readings
+
+
+def get_reading_sets(readings, stats, known_slides):
+    """Takes in a single list of readings, and returns two lists,
+    critical_reading_sets and slide_readings_sets.
+
+    critical_reading_sets: lists of readings around critical events, which
+      may or may not include a slide
+    slide_reading_sets: lists of readings around slide events that are not
+      associated with critical points.
+
+    Updates stats.
+    """
+    # Keep track of earliest and latest reading across all data files.
+    #   DEV: This is probably better calculated later, in a separate fn.
+    if not stats['earliest_reading']:
+        stats['earliest_reading'] = readings[0]
+        stats['latest_reading'] = readings[-1]
+    else:
+        if readings[0].dt_reading < stats['earliest_reading'].dt_reading:
+            stats['earliest_reading'] = readings[0]
+        if readings[-1].dt_reading > stats['latest_reading'].dt_reading:
+            stats['latest_reading'] = readings[-1]
+
+    # Get all the known slides that occurred during these readings.
+    slides_in_range = a_utils.get_slides_in_range(
+            known_slides, readings)
+
+    # Find the start of all critical periods in this data file.
+    first_critical_points = a_utils.get_first_critical_points(readings)
+    for reading in first_critical_points:
+        print(ir_reading.get_formatted_reading(reading))
+    stats['notifications_issued'] += len(first_critical_points)
+
+    # reading_sets is a list of lists. Each list is a set of readings to plot,
+    #   based around a first critical point.
+    critical_reading_sets = [a_utils.get_48hr_readings(fcp, all_readings)
+                                    for fcp in first_critical_points]
+
+    # Any slides left in slides_in_range are unassociated.
+    #   We can grab a 48-hr data set around this slide.
+    slide_reading_sets = []
+    for slide in slides_in_range:
+        # Get first reading after this slide, and base 48 hrs around that.
+        for reading in readings:
+            if reading.dt_reading > slide.dt_slide:
+                slide_readings = a_utils.get_48hr_readings(
+                        reading, readings)
+                slide_reading_sets.append(slide_readings)
+                break
+
+        # DEV: This needs to be moved to a plotting call.
+        print(f"\nPlotting data for unassociated slide: {slide.name}")
+        ph.plot_data(slide_readings, known_slides=known_slides,
+                root_output_directory=root_output_directory)
+        ph.plot_data_static(slide_readings, known_slides=known_slides,
+                root_output_directory=root_output_directory)
+
+        stats['unassociated_slides'].append(slide)
+
+    return critical_reading_sets, slide_reading_sets
+
+
+def pickle_reading_set(reading_set):
+    """Pickle a reading set, for further analysis and quicker plotting."""
+    dt_last_reading_str = reading_set[-1].dt_reading.strftime('%m%d%Y')
+    dump_filename = f'{root_output_directory}other_output/reading_dump_{dt_last_reading_str}.pkl'
+    with open(dump_filename, 'wb') as f:
+        pickle.dump(reading_set, f)
+
+
+
+# DEV: What's happening here?
+#   Seems to be getting critical points, relevant slides, and plotting.
+#   Maybe should have class ReadingSet, with attributes readings,
+#     relevant_slide, notification_time?
+#   Maybe process for stats separate from plotting?
+#   This is going to impact generate_roc_curve.py as well.
+
+    for reading_set in reading_sets:
+
+        critical_points = a_utils.get_critical_points(reading_set)
+
+        relevant_slide = ph.get_relevant_slide(reading_set, known_slides)
+        if relevant_slide:
+            relevant_slides.append(relevant_slide)
+            associated_notifications += 1
+            notification_time = ph.get_notification_time(critical_points,
+                    relevant_slide)
+            notification_times[relevant_slide] = notification_time
+            # Remove this slide from slides_in_range, so we'll
+            #   be left with unassociated slides.
+            slides_in_range.remove(relevant_slide)
+        else:
+            # This may be an unassociated notification.
+            unassociated_notification_points.append(critical_points[0])
+            unassociated_notifications += 1
+
+        # Plot data, critical points, and slide event.
+        ph.plot_data(reading_set, critical_points, known_slides,
+                root_output_directory=root_output_directory)
+        ph.plot_data_static(reading_set, critical_points,
+                known_slides=known_slides,
+                root_output_directory=root_output_directory)
+        plots_generated += 1
+
+
+
+
+    # Plot 48-hr periods for any slides from this time period that
+    #   were not caught.
+
 
 def process_hx_data(root_output_directory=''):
     """Process all historical data in ir_data_clean/."""
@@ -57,105 +195,10 @@ def process_hx_data(root_output_directory=''):
     slides_file = 'known_slides/known_slides.json'
     known_slides = SlideEvent.load_slides(slides_file)
 
-    # Track overall stats.
-    #   How many notifications followed by slides?
-    #   How many notifications not followed by slides?
-    #   How many slides were not missed?
-    notifications_issued = 0
-    associated_notifications = 0
-    unassociated_notifications = 0
-    unassociated_notification_points = []
-    relevant_slides = []
-    unassociated_slides = []
-    notification_times = {}
-    earliest_reading, latest_reading = None, None
-    plots_generated = 0
+
 
     for data_file in data_files:
-        # Use proper parsing function.
-        if 'hx_format' in data_file:
-            all_readings = ph.get_readings_hx_format(data_file)
-        elif 'arch_format' in data_file:
-            all_readings = ph.get_readings_arch_format(data_file)
-
-        # Keep track of earliest and latest reading across all data files.
-        if not earliest_reading:
-            earliest_reading = all_readings[0]
-            latest_reading = all_readings[-1]
-        else:
-            if all_readings[0].dt_reading < earliest_reading.dt_reading:
-                earliest_reading = all_readings[0]
-            if all_readings[-1].dt_reading > latest_reading.dt_reading:
-                latest_reading = all_readings[-1]
-
-        # Get all the known slides that occurred during these readings.
-        slides_in_range = a_utils.get_slides_in_range(
-                known_slides, all_readings)
-
-        # Find the start of all critical periods in this data file.
-        first_critical_points = a_utils.get_first_critical_points(all_readings)
-        for reading in first_critical_points:
-            print(ir_reading.get_formatted_reading(reading))
-        notifications_issued += len(first_critical_points)
-
-        # reading_sets is a list of lists. Each list is a set of readings to plot,
-        #   based around a first critical point.
-        reading_sets = [a_utils.get_48hr_readings(fcp, all_readings)
-                                        for fcp in first_critical_points]
-
-        for reading_set in reading_sets:
-            # Dump these readings to a file, so I can analyze them separately
-            #   when helpful to do so.
-            dt_last_reading_str = reading_set[-1].dt_reading.strftime('%m%d%Y')
-            dump_filename = f'{root_output_directory}other_output/reading_dump_{dt_last_reading_str}.pkl'
-            with open(dump_filename, 'wb') as f:
-                pickle.dump(reading_set, f)
-
-            critical_points = a_utils.get_critical_points(reading_set)
-            relevant_slide = ph.get_relevant_slide(reading_set, known_slides)
-            if relevant_slide:
-                relevant_slides.append(relevant_slide)
-                associated_notifications += 1
-                notification_time = ph.get_notification_time(critical_points,
-                        relevant_slide)
-                notification_times[relevant_slide] = notification_time
-                # Remove this slide from slides_in_range, so we'll
-                #   be left with unassociated slides.
-                slides_in_range.remove(relevant_slide)
-            else:
-                # This may be an unassociated notification.
-                unassociated_notification_points.append(critical_points[0])
-                unassociated_notifications += 1
-
-            # Plot data, critical points, and slide event.
-            ph.plot_data(reading_set, critical_points, known_slides,
-                    root_output_directory=root_output_directory)
-            ph.plot_data_static(reading_set, critical_points,
-                    known_slides=known_slides,
-                    root_output_directory=root_output_directory)
-            plots_generated += 1
-
-        # Any slides left in slides_in_range are unassociated.
-        #   We can grab a 48-hr data set around this slide.
-        for slide in slides_in_range:
-            # Get first reading after this slide, and base 48 hrs around that.
-            for reading in all_readings:
-                if reading.dt_reading > slide.dt_slide:
-                    slide_readings = a_utils.get_48hr_readings(
-                            reading, all_readings)
-                    break
-
-            print(f"\nPlotting data for unassociated slide: {slide.name}")
-            ph.plot_data(slide_readings, known_slides=known_slides,
-                    root_output_directory=root_output_directory)
-            ph.plot_data_static(slide_readings, known_slides=known_slides,
-                    root_output_directory=root_output_directory)
-
-            unassociated_slides.append(slide)
-
-
-        # Plot 48-hr periods for any slides from this time period that
-        #   were not caught.
+        process_data_file(data_file, stats)        
 
     # Summarize results.
     assert(unassociated_notifications == len(unassociated_notification_points))
@@ -174,7 +217,7 @@ def process_hx_data(root_output_directory=''):
     print(f"  Critical rise rate used: {M_CRITICAL} ft/hr")
     print(f"  {plots_generated} plots generated")
 
-    print(f"\nNotifications Issued: {notifications_issued}")
+    print(f"\nNotifications Issued: {stats['notifications_issued']}")
     print(f"\nTrue Positives: {associated_notifications}")
     for slide in relevant_slides:
         print(f"  {slide.name} - Notification time: {notification_times[slide]} minutes")
