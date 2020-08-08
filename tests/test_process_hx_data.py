@@ -12,7 +12,7 @@ import os, shutil, filecmp
 
 import pytest
 
-from sitka_irg_analysis import process_hx_data_new as phd
+from sitka_irg_analysis import process_hx_data as phd
 
 
 @pytest.fixture(scope="session")
