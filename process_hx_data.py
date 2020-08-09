@@ -76,7 +76,6 @@ def process_hx_data(root_output_directory=''):
             print("Pickling reading sets...")
             a_utils.pickle_reading_set(reading_set, root_output_directory)
 
-        # Generate interactive plots.
         print("Generating interactive plots...")
         for reading_set in reading_sets:
             critical_points = a_utils.get_critical_points(reading_set)
@@ -86,7 +85,6 @@ def process_hx_data(root_output_directory=''):
                 critical_points=critical_points,
                 root_output_directory=root_output_directory)
 
-        # Generate static plots.
         print("Generating static plots...")
         for reading_set in reading_sets:
             critical_points = a_utils.get_critical_points(reading_set)
