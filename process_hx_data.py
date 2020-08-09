@@ -32,10 +32,20 @@ We want to be able to use the output to answer the following questions. In
       positive)
 """
 
+import argparse, sys
+
 import plot_heights as ph
 from slide_event import SlideEvent
 import utils.analysis_utils as a_utils
 from utils.stats import stats
+
+
+# Define cli arguments.
+parser = argparse.ArgumentParser()
+parser.add_argument('--no-interactive-plots',
+    help="Do not generate interactive plots.",
+    action='store_true')
+args = parser.parse_args()
 
 
 def process_hx_data(root_output_directory=''):
@@ -70,20 +80,21 @@ def process_hx_data(root_output_directory=''):
         readings = a_utils.get_readings_from_data_file(data_file)
         reading_sets = a_utils.get_reading_sets(readings, known_slides, stats)
 
-        # Pickle reading sets for faster analysis and plotting later,
-        #   and for use by other programs.
+        print("Pickling reading sets...")
         for reading_set in reading_sets:
-            print("Pickling reading sets...")
+            # Pickle reading sets for faster analysis and plotting later,
+            #   and for use by other programs.
             a_utils.pickle_reading_set(reading_set, root_output_directory)
 
-        print("Generating interactive plots...")
-        for reading_set in reading_sets:
-            critical_points = a_utils.get_critical_points(reading_set)
-            ph.plot_data(
-                reading_set,
-                known_slides=known_slides,
-                critical_points=critical_points,
-                root_output_directory=root_output_directory)
+        if not args.no_interactive_plots:
+            print("Generating interactive plots...")
+            for reading_set in reading_sets:
+                critical_points = a_utils.get_critical_points(reading_set)
+                ph.plot_data(
+                    reading_set,
+                    known_slides=known_slides,
+                    critical_points=critical_points,
+                    root_output_directory=root_output_directory)
 
         print("Generating static plots...")
         for reading_set in reading_sets:
