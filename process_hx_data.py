@@ -143,7 +143,7 @@ def get_reading_sets(readings, known_slides, stats):
 
         stats['unassociated_slides'].append(slide)
 
-    return critical_reading_sets, slide_reading_sets
+    return critical_reading_sets + slide_reading_sets
 
 
 def pickle_reading_set(reading_set, root_output_directory=''):
@@ -235,15 +235,7 @@ def process_hx_data(root_output_directory=''):
 
     for data_file in data_files:
         readings = get_readings_from_data_file(data_file)
-        critical_reading_sets, slide_reading_sets = get_reading_sets(
-                readings, known_slides, stats)
-
-        # DEV: I believe critical_reading_sets and slide_reading_sets can
-        #   be treated identically at this point. Combining them here so if
-        #   I'm wrong, I can still easily work with them separately.
-        # If I'm right, this is easy refactoring later; just return
-        #    reading_sets from get_readings_from_data_file().
-        reading_sets = critical_reading_sets + slide_reading_sets
+        reading_sets = get_reading_sets(readings, known_slides, stats)
 
         # Pickle reading sets for faster analysis and plotting later,
         #   and for use by other programs.
