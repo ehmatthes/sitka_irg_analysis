@@ -38,24 +38,6 @@ import utils.analysis_utils as a_utils
 from utils.stats import stats
 
 
-def generate_interactive_plot(
-            reading_set, known_slides, root_output_directory):
-    """Generate an interactive html plot."""
-    critical_points = a_utils.get_critical_points(reading_set)
-    ph.plot_data(reading_set, known_slides=known_slides,
-        critical_points=critical_points,
-        root_output_directory=root_output_directory)
-
-
-def generate_static_plot(
-            reading_set, known_slides, root_output_directory):
-    """Genereate a static plot image."""
-    critical_points = a_utils.get_critical_points(reading_set)
-    ph.plot_data_static(reading_set, known_slides=known_slides,
-        critical_points=critical_points,
-        root_output_directory=root_output_directory)
-
-
 def process_hx_data(root_output_directory=''):
     """Process all historical data in ir_data_clean/.
 
@@ -95,16 +77,24 @@ def process_hx_data(root_output_directory=''):
             a_utils.pickle_reading_set(reading_set, root_output_directory)
 
         # Generate interactive plots.
+        print("Generating interactive plots...")
         for reading_set in reading_sets:
-            print("Generating interactive plots...")
-            generate_interactive_plot(
-                    reading_set, known_slides, root_output_directory)
+            critical_points = a_utils.get_critical_points(reading_set)
+            ph.plot_data(
+                reading_set,
+                known_slides=known_slides,
+                critical_points=critical_points,
+                root_output_directory=root_output_directory)
 
         # Generate static plots.
+        print("Generating static plots...")
         for reading_set in reading_sets:
-            print("Generating static plots...")
-            generate_static_plot(
-                    reading_set, known_slides, root_output_directory)
+            critical_points = a_utils.get_critical_points(reading_set)
+            ph.plot_data_static(
+                reading_set,
+                known_slides=known_slides,
+                critical_points=critical_points,
+                root_output_directory=root_output_directory)
 
     a_utils.summarize_results(known_slides, stats)
 
