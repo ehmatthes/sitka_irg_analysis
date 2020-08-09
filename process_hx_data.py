@@ -79,35 +79,36 @@ def process_hx_data(root_output_directory=''):
         'ir_data_clean/irva_akdt_022016-102019_arch_format.txt',
     ]
 
+    reading_sets = []
     for data_file in data_files:
         readings = a_utils.get_readings_from_data_file(data_file)
-        reading_sets = a_utils.get_reading_sets(readings, known_slides, stats)
+        reading_sets += a_utils.get_reading_sets(readings, known_slides, stats)
 
-        print("Pickling reading sets...")
+    print("Pickling reading sets...")
+    for reading_set in reading_sets:
+        # Pickle reading sets for faster analysis and plotting later,
+        #   and for use by other programs.
+        a_utils.pickle_reading_set(reading_set, root_output_directory)
+
+    if not args.no_interactive_plots:
+        print("Generating interactive plots...")
         for reading_set in reading_sets:
-            # Pickle reading sets for faster analysis and plotting later,
-            #   and for use by other programs.
-            a_utils.pickle_reading_set(reading_set, root_output_directory)
+            critical_points = a_utils.get_critical_points(reading_set)
+            ph.plot_data(
+                reading_set,
+                known_slides=known_slides,
+                critical_points=critical_points,
+                root_output_directory=root_output_directory)
 
-        if not args.no_interactive_plots:
-            print("Generating interactive plots...")
-            for reading_set in reading_sets:
-                critical_points = a_utils.get_critical_points(reading_set)
-                ph.plot_data(
-                    reading_set,
-                    known_slides=known_slides,
-                    critical_points=critical_points,
-                    root_output_directory=root_output_directory)
-
-        if not args.no_static_plots:
-            print("Generating static plots...")
-            for reading_set in reading_sets:
-                critical_points = a_utils.get_critical_points(reading_set)
-                ph.plot_data_static(
-                    reading_set,
-                    known_slides=known_slides,
-                    critical_points=critical_points,
-                    root_output_directory=root_output_directory)
+    if not args.no_static_plots:
+        print("Generating static plots...")
+        for reading_set in reading_sets:
+            critical_points = a_utils.get_critical_points(reading_set)
+            ph.plot_data_static(
+                reading_set,
+                known_slides=known_slides,
+                critical_points=critical_points,
+                root_output_directory=root_output_directory)
 
     a_utils.summarize_results(known_slides, stats)
 
