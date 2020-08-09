@@ -16,8 +16,6 @@ import utils.analysis_utils as a_utils
 from slide_event import SlideEvent
 
 
-
-
 aktz = pytz.timezone('US/Alaska')
 
 

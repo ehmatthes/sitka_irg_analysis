@@ -1,7 +1,7 @@
 """Utility functions for analyzing stream gauge data, and slide data.
 """
 
-import math, datetime
+import math, datetime, pickle
 
 from xml.etree import ElementTree as ET
 
@@ -9,6 +9,7 @@ import requests, pytz
 
 # Assume this file will be imported in a directory outside of utils.
 import utils.ir_reading as ir_reading
+import plot_heights as ph
 
 
 # Critical values.
@@ -86,6 +87,102 @@ def process_xml_data(data):
 
     print(f"    Found {len(readings)} readings.")
     return readings
+
+
+def get_readings_from_data_file(data_file):
+    """Process a single data file.
+    Returns a list of IRReading objects.
+    """
+    # Use proper parsing function.
+    if 'hx_format' in data_file:
+        all_readings = ph.get_readings_hx_format(data_file)
+    elif 'arch_format' in data_file:
+        all_readings = ph.get_readings_arch_format(data_file)
+
+    return all_readings
+
+
+def get_reading_sets(readings, known_slides, stats):
+    """Takes in a single list of readings, and returns two lists,
+    critical_reading_sets and slide_readings_sets.
+
+    critical_reading_sets: lists of readings around critical events, which
+      may or may not include a slide
+    slide_reading_sets: lists of readings around slide events that are not
+      associated with critical points.
+
+    Updates stats.
+    """
+    # Keep track of earliest and latest reading across all data files.
+    #   DEV: This is probably better calculated later, in a separate fn.
+    if not stats['earliest_reading']:
+        stats['earliest_reading'] = readings[0]
+        stats['latest_reading'] = readings[-1]
+    else:
+        if readings[0].dt_reading < stats['earliest_reading'].dt_reading:
+            stats['earliest_reading'] = readings[0]
+        if readings[-1].dt_reading > stats['latest_reading'].dt_reading:
+            stats['latest_reading'] = readings[-1]
+
+    # Get all the known slides that occurred during these readings.
+    slides_in_range = get_slides_in_range(
+            known_slides, readings)
+
+    # Find the start of all critical periods in this data file.
+    first_critical_points = get_first_critical_points(readings)
+    for reading in first_critical_points:
+        print(ir_reading.get_formatted_reading(reading))
+    stats['notifications_issued'] += len(first_critical_points)
+
+    # critical_reading_sets is a list of lists. Each list is a set of
+    #   readings to plot, based around a first critical point.
+    critical_reading_sets = [get_48hr_readings(fcp, readings)
+                                    for fcp in first_critical_points]
+
+    # Determine which critical sets are associated with slides, so we can
+    #   process readings for unassociated slides and build
+    #   slide_reading_sets.
+    for reading_set in critical_reading_sets:
+        critical_points = get_critical_points(reading_set)
+        relevant_slide = ph.get_relevant_slide(reading_set, known_slides)
+        if relevant_slide:
+            stats['relevant_slides'].append(relevant_slide)
+            stats['associated_notifications'] += 1
+            notification_time = ph.get_notification_time(critical_points,
+                    relevant_slide)
+            stats['notification_times'][relevant_slide] = notification_time
+            # Remove this slide from slides_in_range, so we'll
+            #   be left with unassociated slides.
+            slides_in_range.remove(relevant_slide)
+        else:
+            # This may be an unassociated notification.
+            stats['unassociated_notification_points'].append(
+                    critical_points[0])
+            stats['unassociated_notifications'] += 1
+
+    # Any slides left in slides_in_range are unassociated.
+    #   We can grab a 48-hr data set around these slide.
+    slide_reading_sets = []
+    for slide in slides_in_range:
+        # Get first reading after this slide, and base 48 hrs around that.
+        for reading in readings:
+            if reading.dt_reading > slide.dt_slide:
+                slide_readings = get_48hr_readings(
+                        reading, readings)
+                slide_reading_sets.append(slide_readings)
+                break
+
+        stats['unassociated_slides'].append(slide)
+
+    return critical_reading_sets + slide_reading_sets
+
+
+def pickle_reading_set(reading_set, root_output_directory=''):
+    """Pickle a reading set, for further analysis and quicker plotting."""
+    dt_last_reading_str = reading_set[-1].dt_reading.strftime('%m%d%Y')
+    dump_filename = f'{root_output_directory}other_output/reading_dump_{dt_last_reading_str}.pkl'
+    with open(dump_filename, 'wb') as f:
+        pickle.dump(reading_set, f)
 
 
 def get_critical_points(readings):
@@ -221,3 +318,37 @@ def get_slides_in_range(known_slides, readings):
     start = readings[0].dt_reading
     end = readings[-1].dt_reading
     return [slide for slide in known_slides if start <= slide.dt_slide <= end]
+
+
+def summarize_results(known_slides, stats):
+    """Summarize results of analysis."""
+    assert(stats['unassociated_notifications']
+            == len(stats['unassociated_notification_points']))
+    stats['unassociated_slides'] = set(known_slides) - set(stats['relevant_slides'])
+    slides_outside_range = []
+    for slide in known_slides:
+        if ( (slide.dt_slide < stats['earliest_reading'].dt_reading)
+                 or (slide.dt_slide > stats['latest_reading'].dt_reading) ):
+            stats['unassociated_slides'].remove(slide)
+            slides_outside_range.append(slide)
+    start_str = stats['earliest_reading'].dt_reading.strftime('%m/%d/%Y')
+    end_str = stats['latest_reading'].dt_reading.strftime('%m/%d/%Y')
+    print("\n\n --- Final Results ---\n")
+    print(f"Data analyzed from: {start_str} to {end_str}")
+    print(f"  Critical rise used: {RISE_CRITICAL} feet")
+    print(f"  Critical rise rate used: {M_CRITICAL} ft/hr")
+
+    print(f"\nNotifications Issued: {stats['notifications_issued']}")
+    print(f"\nTrue Positives: {stats['associated_notifications']}")
+    for slide in stats['relevant_slides']:
+        print(f"  {slide.name} - Notification time: {stats['notification_times'][slide]} minutes")
+    print(f"\nFalse Positives: {stats['unassociated_notifications']}")
+    for notification_point in stats['unassociated_notification_points']:
+        print(f"  {notification_point.dt_reading.strftime('%m/%d/%Y %H:%M:%S')}")
+
+    print(f"\nFalse Negatives: {len(stats['unassociated_slides'])}")
+    for slide in stats['unassociated_slides']:
+        print(f"  {slide.name}")
+    print(f"\nSlides outside range: {len(slides_outside_range)}")
+    for slide in slides_outside_range:
+        print(f"  {slide.name}")
