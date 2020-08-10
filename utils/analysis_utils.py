@@ -319,9 +319,27 @@ def get_slides_in_range(known_slides, readings):
     end = readings[-1].dt_reading
     return [slide for slide in known_slides if start <= slide.dt_slide <= end]
 
+def get_earliest_latest_readings(reading_sets,stats):
+    """Find the earliest and latest readings in a set."""
+    earliest = reading_sets[0][0]
+    latest = reading_sets[-1][-1]
 
-def summarize_results(known_slides, stats):
+    for reading_set in reading_sets:
+        for reading in reading_set:
+            if reading.dt_reading < earliest.dt_reading:
+                earliest = reading
+            elif reading.dt_reading > latest.dt_reading:
+                # A reading can't be earliest and latest, so elif should work.
+                latest = reading
+
+    stats['earliest_reading'] = earliest
+    stats['latest_reading'] = latest
+
+
+def summarize_results(reading_sets, known_slides, stats):
     """Summarize results of analysis."""
+    get_earliest_latest_readings(reading_sets, stats)
+
     assert(stats['unassociated_notifications']
             == len(stats['unassociated_notification_points']))
     stats['unassociated_slides'] = set(known_slides) - set(stats['relevant_slides'])
