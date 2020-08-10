@@ -330,8 +330,6 @@ def plot_data(readings, critical_points=[], known_slides=[],
 
 def plot_data_static(readings, critical_points=[], known_slides=[],
         filename=None, root_output_directory=''):
-    from time import perf_counter
-    start = perf_counter()
     """Plot IR gauge data, with critical points in red. Known slide
     events are indicated by a vertical line at the time of the event.
     """
@@ -473,8 +471,6 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
         dt_title = datetimes[0].astimezone(aktz)
         title_date_str = dt_title.strftime('%m/%d/%Y')
 
-    finished_analysis = perf_counter()
-
     # DEV notes for building visualization:
     #   needs more times labeled on x axis;
     #   needs better format for datetimes on x axis;
@@ -503,8 +499,6 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
         ax.text(label_time, critical_heights[0], cp_label,
                 horizontalalignment='right')
 
-
-
     # Plot minimum future critical readings.
     #   Plot these points, and shade to max y value.
     ax.plot(min_cf_datetimes, min_cf_heights, c='red', alpha=0.4)
@@ -514,9 +508,6 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     ax.plot(min_crit_prev_datetimes, min_crit_prev_heights, c='red', alpha=0.3)
     ax.fill_between(min_crit_prev_datetimes, min_crit_prev_heights, 27.5,
                                                     color='red', alpha=0.1)
-
-
-
 
     # Add vertical line for slide if applicable.
     if relevant_slide:
@@ -535,8 +526,6 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     ax.set_title(title, loc='left')
     ax.set_xlabel('', fontsize=16)
     ax.set_ylabel("River height (ft)")
-
-
 
     # # Format major x ticks.
     # xaxis_maj_fmt = mdates.DateFormatter('%H:%M\n%b %d, %Y')
@@ -588,17 +577,6 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
 
     # Close figure, especially helpful when rendering many frames for animation.
     plt.close('all')
-
-    finished_plotting = perf_counter()
-    analysis_time = finished_analysis - start
-    plotting_time = finished_plotting - finished_analysis
-    print(f"Time in analysis: {analysis_time}")
-    print(f"Time in plotting: {plotting_time}")
-
-
-
-
-
 
 
 if __name__ == '__main__':

@@ -56,7 +56,6 @@ parser.add_argument('--use-cached-data',
     action='store_true')
 
 args = parser.parse_args()
-print(args)
 
 
 def process_hx_data(root_output_directory=''):
