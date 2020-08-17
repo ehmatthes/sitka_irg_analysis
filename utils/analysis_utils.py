@@ -276,6 +276,13 @@ def get_first_critical_points(readings):
     # Start with 10th reading, so can look back.
     for reading_index, reading in enumerate(readings[max_lookback:]):
         # print(f"  Examining reading: {reading.get_formatted_reading()}")
+
+        # If reading is below the base level of the river plus the minimum
+        #   critical rise, this reading can't be critical, and we don't need
+        #   to examine it.
+        if reading.height < RIVER_MIN_HEIGHT + RISE_CRITICAL:
+            continue
+
         # Get prev max_lookback readings.
         prev_readings = [reading for reading in readings[reading_index-max_lookback:reading_index]]
         for prev_reading in prev_readings:
