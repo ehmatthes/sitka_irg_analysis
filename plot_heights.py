@@ -112,14 +112,28 @@ def get_readings_hx_format(data_file):
         for _ in range(4):
             next(reader)
         
-        readings = []
-        for row in reader:
-            datetime_str = row[0]
-            dt = datetime.datetime.fromisoformat(datetime_str)
-            dt = dt.replace(tzinfo=pytz.utc)
-            height = float(row[2])
-            reading = ir_reading.IRReading(dt, height)
-            readings.append(reading)
+        # readings = []
+        # for row in reader:
+        #     datetime_str = row[0]
+        #     # dt = datetime.datetime.fromisoformat(datetime_str)
+        #     # dt = dt.replace(tzinfo=pytz.utc)
+        #     dt = datetime.datetime.fromisoformat(datetime_str).replace(
+        #                 tzinfo=pytz.utc)
+        #     height = float(row[2])
+        #     reading = ir_reading.IRReading(dt, height)
+        #     readings.append(reading)
+
+
+        readings = [
+            ir_reading.IRReading(
+                dt_reading=datetime.datetime.fromisoformat(
+                        row[0]).replace(tzinfo=pytz.utc),
+                height=float(row[2]))
+            for row in reader
+        ]
+
+
+
     print(f"  First reading: {ir_reading.get_formatted_reading(readings[0])}")
 
     # Text file is in chronological order.
