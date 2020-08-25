@@ -40,10 +40,8 @@ import utils.analysis_utils as a_utils
 from utils.analysis_utils import RISE_CRITICAL, M_CRITICAL
 
 
-if __name__ == '__main__':
-    """Run this file directly to generate a new set of plots for the entire
-    historical period for the data included in ir_data_clean/.
-    """
+def process_hx_data(root_output_directory=''):
+    """Process all historical data in ir_data_clean/."""
 
     # Make sure to call the correct parsing function for the data file format.
     # Data analysis is data cleaning. :/
@@ -108,7 +106,7 @@ if __name__ == '__main__':
             # Dump these readings to a file, so I can analyze them separately
             #   when helpful to do so.
             dt_last_reading_str = reading_set[-1].dt_reading.strftime('%m%d%Y')
-            dump_filename = f'other_output/reading_dump_{dt_last_reading_str}.pkl'
+            dump_filename = f'{root_output_directory}other_output/reading_dump_{dt_last_reading_str}.pkl'
             with open(dump_filename, 'wb') as f:
                 pickle.dump(reading_set, f)
 
@@ -129,9 +127,11 @@ if __name__ == '__main__':
                 unassociated_notifications += 1
 
             # Plot data, critical points, and slide event.
-            ph.plot_data(reading_set, critical_points, known_slides)
+            ph.plot_data(reading_set, critical_points, known_slides,
+                    root_output_directory=root_output_directory)
             ph.plot_data_static(reading_set, critical_points,
-                    known_slides=known_slides)
+                    known_slides=known_slides,
+                    root_output_directory=root_output_directory)
             plots_generated += 1
 
         # Any slides left in slides_in_range are unassociated.
@@ -145,8 +145,10 @@ if __name__ == '__main__':
                     break
 
             print(f"\nPlotting data for unassociated slide: {slide.name}")
-            ph.plot_data(slide_readings, known_slides=known_slides)
-            ph.plot_data_static(slide_readings, known_slides=known_slides)
+            ph.plot_data(slide_readings, known_slides=known_slides,
+                    root_output_directory=root_output_directory)
+            ph.plot_data_static(slide_readings, known_slides=known_slides,
+                    root_output_directory=root_output_directory)
 
             unassociated_slides.append(slide)
 
@@ -186,3 +188,6 @@ if __name__ == '__main__':
     for slide in slides_outside_range:
         print(f"  {slide.name}")
 
+
+if __name__ == '__main__':
+    process_hx_data()
