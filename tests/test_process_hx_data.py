@@ -52,6 +52,13 @@ def get_pkl_output_files():
 def get_pkl_reference_files():
     return [f for f in get_reference_files() if Path(f).suffix=='.pkl']
 
+def get_html_output_files():
+    return [f for f in get_current_ir_plots_files()
+            if Path(f).suffix=='.html']
+
+def get_html_reference_files():
+    return [f for f in get_reference_files() if Path(f).suffix=='.html']
+
 
 def test_png_output_files_exist(run_process_hx_data):
     # Assert output png file names match reference png file names.
@@ -84,3 +91,9 @@ def test_pkl_output_files_contents(run_process_hx_data):
         output_file = f"tests/other_output/{output_file}"
         ref_file = f"tests/reference_files/{ref_file}"
         assert(filecmp.cmp(output_file, ref_file, shallow=False))
+
+def test_html_output_files_exist(run_process_hx_data):
+    # Assert output html file names match reference html file names.
+    html_output_files = get_html_output_files()
+    html_ref_files = get_html_reference_files()
+    assert(set(html_output_files) == set(html_ref_files))
