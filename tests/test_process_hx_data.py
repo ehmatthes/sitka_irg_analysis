@@ -9,7 +9,7 @@ $ python -m pytest
 
 from os import listdir, path
 from pathlib import Path
-import os, shutil
+import os, shutil, filecmp
 
 import pytest
 
@@ -43,10 +43,20 @@ def get_reference_files():
 
 def get_png_reference_files():
     return [f for f in get_reference_files() if Path(f).suffix=='.png']
-    
+
 
 def test_png_output_files_exist(run_process_hx_data):
     # Assert output png file names match reference png file names.
     png_output_files = get_png_output_files()
     png_ref_files = get_png_reference_files()
     assert(set(png_output_files) == set(png_ref_files))
+
+def test_png_output_files_contents(run_process_hx_data):
+    # Assert content of png files match reference files.
+    png_output_files = get_png_output_files()
+    png_ref_files = get_png_reference_files()
+    
+    for output_file, ref_file in zip(png_output_files, png_ref_files):
+        output_file = f"tests/current_ir_plots/{output_file}"
+        ref_file = f"tests/reference_files/{ref_file}"
+        assert(filecmp.cmp(output_file, ref_file, shallow=False))
