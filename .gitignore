@@ -5,3 +5,6 @@ __pycache__/
 
 animation_frames/
 current_ir_plots/
+
+tests/current_ir_plots/
+tests/other_output/
