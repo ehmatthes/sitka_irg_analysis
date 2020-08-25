@@ -4,3 +4,4 @@ __pycache__/
 .DS_Store
 
 animation_frames/
+current_ir_plots/
