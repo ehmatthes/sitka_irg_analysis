@@ -195,7 +195,7 @@ def get_notification_time(critical_points, relevant_slide):
 
 
 def plot_data(readings, critical_points=[], known_slides=[],
-        root_output_directory=''):
+        root_output_directory='', auto_open=False):
     """Plot IR gauge data, with critical points in red. Known slide
     events are indicated by a vertical line at the time of the event.
     """
@@ -326,7 +326,7 @@ def plot_data(readings, critical_points=[], known_slides=[],
 
     fig = {'data': data, 'layout': my_layout}
     filename = f"{root_output_directory}current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.html"
-    offline.plot(fig, filename=filename)
+    offline.plot(fig, filename=filename, auto_open=auto_open)
     print("\nPlotted data.")
 
 

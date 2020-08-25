@@ -8,3 +8,5 @@ current_ir_plots/
 
 tests/current_ir_plots/
 tests/other_output/
+
+tmp_profile_output.txt
