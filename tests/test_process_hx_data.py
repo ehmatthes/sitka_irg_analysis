@@ -44,6 +44,14 @@ def get_reference_files():
 def get_png_reference_files():
     return [f for f in get_reference_files() if Path(f).suffix=='.png']
 
+def get_pkl_output_files():
+    pkl_file_path = 'tests/other_output'
+    return [f for f in listdir(pkl_file_path)
+            if path.isfile(path.join(pkl_file_path, f))]
+
+def get_pkl_reference_files():
+    return [f for f in get_reference_files() if Path(f).suffix=='.pkl']
+
 
 def test_png_output_files_exist(run_process_hx_data):
     # Assert output png file names match reference png file names.
@@ -58,5 +66,21 @@ def test_png_output_files_contents(run_process_hx_data):
     
     for output_file, ref_file in zip(png_output_files, png_ref_files):
         output_file = f"tests/current_ir_plots/{output_file}"
+        ref_file = f"tests/reference_files/{ref_file}"
+        assert(filecmp.cmp(output_file, ref_file, shallow=False))
+
+def test_pkl_output_files_exist(run_process_hx_data):
+    # Assert output pkl file names match reference png file names.
+    pkl_output_files = get_pkl_output_files()
+    pkl_ref_files = get_pkl_reference_files()
+    assert(set(pkl_output_files) == set(pkl_ref_files))
+
+def test_pkl_output_files_contents(run_process_hx_data):
+    # Assert content of pkl files match reference files.
+    pkl_output_files = get_pkl_output_files()
+    pkl_ref_files = get_pkl_reference_files()
+
+    for output_file, ref_file in zip(pkl_output_files, pkl_ref_files):
+        output_file = f"tests/other_output/{output_file}"
         ref_file = f"tests/reference_files/{ref_file}"
         assert(filecmp.cmp(output_file, ref_file, shallow=False))
