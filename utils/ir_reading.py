@@ -6,6 +6,7 @@ from dataclasses import dataclass
 @dataclass
 class IRReading:
 
+    __slots__ = ('dt_reading', 'height')
     dt_reading: datetime.datetime
     height: float
 
