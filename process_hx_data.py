@@ -37,6 +37,7 @@ import pickle
 import plot_heights as ph
 from slide_event import SlideEvent
 import utils.analysis_utils as a_utils
+import utils.ir_reading as ir_reading
 from utils.analysis_utils import RISE_CRITICAL, M_CRITICAL
 
 
@@ -94,7 +95,7 @@ def process_hx_data(root_output_directory=''):
         # Find the start of all critical periods in this data file.
         first_critical_points = a_utils.get_first_critical_points(all_readings)
         for reading in first_critical_points:
-            print(reading.get_formatted_reading())
+            print(ir_reading.get_formatted_reading(reading))
         notifications_issued += len(first_critical_points)
 
         # reading_sets is a list of lists. Each list is a set of readings to plot,

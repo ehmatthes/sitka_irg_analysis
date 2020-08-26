@@ -1,46 +1,31 @@
-"""Model for working with readings."""
+"""Model for working with Indian River stream gauge readings."""
 
-import datetime
-from dataclasses import dataclass
-
-@dataclass
-class IRReading:
-
-    __slots__ = ('dt_reading', 'height')
-    dt_reading: datetime.datetime
-    height: float
-
-    def get_slope(self, reading_2):
-        """Calculate the slope betweent the two points.
-        Return the abs value of the slope, in ft/hr.
-        Assumes self is the later reading.
-
-        DEV: Probably @staticmethod.
-        """
-
-        d_height = self.get_rise(reading_2)
-
-        # Calculate time difference in hours.
-        d_time = (reading_2.dt_reading - self.dt_reading).total_seconds() / 3600
-        slope = d_height / d_time
-
-        # print("\nCalculating slope...")
-        # print(f"  Reading 1: {self.get_formatted_reading()}")
-        # print(f"  Reading 2: {reading_2.get_formatted_reading()}")
-        # print(d_height, d_time, slope)
-        # print("---\n")
-
-        return abs(slope)
+from collections import namedtuple
 
 
-    def get_rise(self, reading_2):
-        """Calculate the rise between two points.
-        Assume self is the later reading.
-        """
-        rise = self.height - reading_2.height
-        return rise
+IRReading = namedtuple('IRReading', ['dt_reading', 'height'])
 
-    def get_formatted_reading(self):
-        """Print a neat string of the reading."""
-        dt = self.dt_reading.strftime('%m/%d/%Y %H:%M:%S')
-        return f"{dt} - {self.height}"
+
+def get_slope(reading, reading_2):
+    """Calculate the slope between the two points.
+    Return the abs value of the slope, in ft/hr.
+    Assumes reading_2 is the earlier reading.
+    """
+
+    d_height = reading.height - reading_2.height
+    # Calculate time difference in hours.
+    d_time = (reading.dt_reading - reading_2.dt_reading).total_seconds() / 3600
+    slope = d_height / d_time
+
+    return abs(slope)
+
+def get_rise(reading, reading_2):
+    """Calculate the rise between two points.
+    Assume reading_2 is the earlier reading.
+    """
+    return reading.height - reading_2.height
+
+def get_formatted_reading(reading):
+    """Print a neat string of the reading."""
+    dt = reading.dt_reading.strftime('%m/%d/%Y %H:%M:%S')
+    return f"{dt} - {reading.height}"

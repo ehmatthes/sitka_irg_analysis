@@ -8,7 +8,7 @@ from xml.etree import ElementTree as ET
 import requests, pytz
 
 # Assume this file will be imported in a directory outside of utils.
-from utils.ir_reading import IRReading
+import utils.ir_reading as ir_reading
 
 
 # Critical values.
@@ -75,7 +75,7 @@ def process_xml_data(data):
         dt_reading_utc = dt_reading.replace(tzinfo=pytz.utc)
         height = float(reading[1].text)
 
-        reading = IRReading(dt_reading_utc, height)
+        reading = ir_reading.IRReading(dt_reading_utc, height)
         readings.append(reading)
 
     # Readings need to be in chronological order.
@@ -109,8 +109,8 @@ def get_critical_points(readings):
         # Get prev max_lookback readings.
         prev_readings = [reading for reading in readings[reading_index-max_lookback:reading_index]]
         for prev_reading in prev_readings:
-            rise = reading.get_rise(prev_reading)
-            m = reading.get_slope(prev_reading)
+            rise = ir_reading.get_rise(reading, prev_reading)
+            m = ir_reading.get_slope(reading, prev_reading)
             # print(f"    Rise: {rise} Slope: {m}")
             if rise >= RISE_CRITICAL and m > M_CRITICAL:
                 # print(f"Critical point: {reading.get_formatted_reading()}")
@@ -174,8 +174,8 @@ def get_first_critical_points(readings):
         # Get prev max_lookback readings.
         prev_readings = [reading for reading in readings[reading_index-max_lookback:reading_index]]
         for prev_reading in prev_readings:
-            rise = reading.get_rise(prev_reading)
-            m = reading.get_slope(prev_reading)
+            rise = ir_reading.get_rise(reading, prev_reading)
+            m = ir_reading.get_slope(reading, prev_reading)
             # print(f"    Rise: {rise} Slope: {m}")
             if rise >= RISE_CRITICAL and m > M_CRITICAL:
                 # print(f"Critical point: {reading.get_formatted_reading()}")
