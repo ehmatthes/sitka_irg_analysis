@@ -33,7 +33,8 @@ We want to be able to use the output to answer the following questions. In
 """
 
 import pickle
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor   
+import multiprocessing
 
 import plot_heights as ph
 from slide_event import SlideEvent
@@ -265,8 +266,11 @@ def process_hx_data(root_output_directory=''):
         # for reading_set in reading_sets:
         #     generate_interactive_plot(reading_set)
 
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            executor.map(generate_interactive_plot, reading_sets)
+        # with ThreadPoolExecutor(max_workers=2) as executor:
+        #     executor.map(generate_interactive_plot, reading_sets)
+
+        pool = multiprocessing.Pool(processes=2)
+        pool.map(generate_interactive_plot, reading_sets)
 
         # # Generate static plots.
         # for reading_set in reading_sets:
