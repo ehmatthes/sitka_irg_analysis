@@ -262,8 +262,11 @@ def process_hx_data(root_output_directory=''):
         #     generate_interactive_plot(
         #             reading_set, known_slides, root_output_directory)
 
-        for reading_set in reading_sets:
-            generate_interactive_plot(reading_set)
+        # for reading_set in reading_sets:
+        #     generate_interactive_plot(reading_set)
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            executor.map(generate_interactive_plot, reading_sets)
 
         # # Generate static plots.
         # for reading_set in reading_sets:
