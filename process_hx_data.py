@@ -263,6 +263,7 @@ def process_hx_data(root_output_directory=''):
         #     generate_interactive_plot(
         #             reading_set, known_slides, root_output_directory)
 
+        reading_sets *= 1000
         # for reading_set in reading_sets:
         #     generate_interactive_plot(reading_set)
 
