@@ -32,10 +32,20 @@ We want to be able to use the output to answer the following questions. In
       positive)
 """
 
+import argparse, sys
+
 import plot_heights as ph
 from slide_event import SlideEvent
 import utils.analysis_utils as a_utils
 from utils.stats import stats
+
+
+# Define cli arguments.
+parser = argparse.ArgumentParser()
+parser.add_argument('--no-interactive-plots',
+    help="Do not generate interactive plots.",
+    action='store_true')
+args = parser.parse_args()
 
 
 def process_hx_data(root_output_directory=''):
@@ -71,23 +81,23 @@ def process_hx_data(root_output_directory=''):
         reading_sets = a_utils.get_reading_sets(
                 readings, known_slides, stats)
 
-        # # Pickle reading sets for faster analysis and plotting later,
-        # #   and for use by other programs.
+        # Pickle reading sets for faster analysis and plotting later,
+        #   and for use by other programs.
         for reading_set in reading_sets:
             print("Pickling reading sets...")
             a_utils.pickle_reading_set(reading_set, root_output_directory)
 
-        # # Generate interactive plots.
-        for reading_set in reading_sets:
-            print("Generating interactive plots...")
-            critical_points = a_utils.get_critical_points(reading_set)
-            ph.plot_data(
-                reading_set,
-                known_slides=known_slides,
-                critical_points=critical_points,
-                root_output_directory=root_output_directory)
+        if not args.no_interactive_plots:
+            for reading_set in reading_sets:
+                print("Generating interactive plots...")
+                critical_points = a_utils.get_critical_points(reading_set)
+                ph.plot_data(
+                    reading_set,
+                    known_slides=known_slides,
+                    critical_points=critical_points,
+                    root_output_directory=root_output_directory)
 
-        # # Generate static plots.
+        # Generate static plots.
         for reading_set in reading_sets:
             print("Generating static plots...")
             critical_points = a_utils.get_critical_points(reading_set)
