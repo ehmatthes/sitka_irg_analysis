@@ -196,8 +196,6 @@ def get_notification_time(critical_points, relevant_slide):
 
 def plot_data(readings, critical_points=[], known_slides=[],
         root_output_directory='', auto_open=False):
-    from time import perf_counter
-    start = perf_counter()
     """Plot IR gauge data, with critical points in red. Known slide
     events are indicated by a vertical line at the time of the event.
     """
@@ -247,7 +245,6 @@ def plot_data(readings, critical_points=[], known_slides=[],
         dt_title = datetimes[0].dt_reading.astimezone(aktz)
         title_date_str = dt_title.strftime('%m/%d/%Y')
 
-    finished_analysis = perf_counter()
 
     data = [
         {
@@ -332,12 +329,6 @@ def plot_data(readings, critical_points=[], known_slides=[],
     filename = f"{root_output_directory}current_ir_plots/ir_plot_{readings[-1].dt_reading.__str__()[:10]}.html"
     offline.plot(fig, filename=filename, auto_open=auto_open)
     print("\nPlotted data.")
-
-    finished_plotting = perf_counter()
-    analysis_time = finished_analysis - start
-    plotting_time = finished_plotting - finished_analysis
-    print(f"Time in analysis: {analysis_time}")
-    print(f"Time in plotting: {plotting_time}")
 
 
 def plot_data_static(readings, critical_points=[], known_slides=[],
