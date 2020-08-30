@@ -45,6 +45,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--no-interactive-plots',
     help="Do not generate interactive plots.",
     action='store_true')
+parser.add_argument('--no-static-plots',
+    help="Do not generate static plots.",
+    action='store_true')
 args = parser.parse_args()
 
 
@@ -97,15 +100,15 @@ def process_hx_data(root_output_directory=''):
                     critical_points=critical_points,
                     root_output_directory=root_output_directory)
 
-        # Generate static plots.
-        for reading_set in reading_sets:
-            print("Generating static plots...")
-            critical_points = a_utils.get_critical_points(reading_set)
-            ph.plot_data_static(
-                reading_set,
-                known_slides=known_slides,
-                critical_points=critical_points,
-                root_output_directory=root_output_directory)
+        if not args.no_static_plots:
+            for reading_set in reading_sets:
+                print("Generating static plots...")
+                critical_points = a_utils.get_critical_points(reading_set)
+                ph.plot_data_static(
+                    reading_set,
+                    known_slides=known_slides,
+                    critical_points=critical_points,
+                    root_output_directory=root_output_directory)
 
     a_utils.summarize_results(known_slides, stats)
 
