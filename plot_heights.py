@@ -117,7 +117,7 @@ def get_readings_hx_format(data_file):
         readings = []
         for row in reader:
             datetime_str = row[0]
-            dt = datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
+            dt = datetime.datetime.fromisoformat(datetime_str)
             dt = dt.replace(tzinfo=pytz.utc)
             height = float(row[2])
             reading = ir_reading.IRReading(dt, height)
@@ -150,7 +150,7 @@ def get_readings_arch_format(data_file):
             row = row[0].split('    ')
             # print(f"Row: {row}")
             datetime_str = row[2]
-            dt_ak = datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M')
+            dt_ak = datetime.datetime.fromisoformat(datetime_str)
             # dt is either AKST or AKDT right now.
             tz_str = row[3]
             if tz_str == 'AKST':
