@@ -33,8 +33,6 @@ We want to be able to use the output to answer the following questions. In
 """
 
 import pickle
-from concurrent.futures import ThreadPoolExecutor   
-import multiprocessing
 
 import plot_heights as ph
 from slide_event import SlideEvent
@@ -156,33 +154,6 @@ def pickle_reading_set(reading_set, root_output_directory=''):
     with open(dump_filename, 'wb') as f:
         pickle.dump(reading_set, f)
 
-# def generate_interactive_plot(
-#             reading_set, known_slides, root_output_directory):
-#     """Generate an interactive html plot."""
-#     critical_points = a_utils.get_critical_points(reading_set)
-#     ph.plot_data(reading_set, known_slides=known_slides,
-#         critical_points=critical_points,
-#         root_output_directory=root_output_directory)
-
-def generate_interactive_plot(reading_set):
-    """Generate an interactive html plot."""
-    # Get known slides.
-    slides_file = 'known_slides/known_slides.json'
-    known_slides = SlideEvent.load_slides(slides_file)
-
-    critical_points = a_utils.get_critical_points(reading_set)
-    ph.plot_data(reading_set, known_slides=known_slides,
-        critical_points=critical_points)
-
-
-def generate_static_plot(
-            reading_set, known_slides, root_output_directory):
-    """Genereate a static plot image."""
-    critical_points = a_utils.get_critical_points(reading_set)
-    ph.plot_data_static(reading_set, known_slides=known_slides,
-        critical_points=critical_points,
-        root_output_directory=root_output_directory)
-
 
 def summarize_results(known_slides, stats):
     """Summarize results of analysis."""
@@ -253,31 +224,29 @@ def process_hx_data(root_output_directory=''):
 
         # # Pickle reading sets for faster analysis and plotting later,
         # #   and for use by other programs.
-        # for reading_set in reading_sets:
-        #     print("Pickling reading sets...")
-        #     pickle_reading_set(reading_set, root_output_directory)
+        for reading_set in reading_sets:
+            print("Pickling reading sets...")
+            pickle_reading_set(reading_set, root_output_directory)
 
         # # Generate interactive plots.
-        # for reading_set in reading_sets:
-        #     print("Generating interactive plots...")
-        #     generate_interactive_plot(
-        #             reading_set, known_slides, root_output_directory)
-
-        reading_sets *= 1000
-        # for reading_set in reading_sets:
-        #     generate_interactive_plot(reading_set)
-
-        # with ThreadPoolExecutor(max_workers=2) as executor:
-        #     executor.map(generate_interactive_plot, reading_sets)
-
-        pool = multiprocessing.Pool(processes=2)
-        pool.map(generate_interactive_plot, reading_sets)
+        for reading_set in reading_sets:
+            print("Generating interactive plots...")
+            critical_points = a_utils.get_critical_points(reading_set)
+            ph.plot_data(
+                reading_set,
+                known_slides=known_slides,
+                critical_points=critical_points,
+                root_output_directory=root_output_directory)
 
         # # Generate static plots.
-        # for reading_set in reading_sets:
-        #     print("Generating static plots...")
-        #     generate_static_plot(
-        #             reading_set, known_slides, root_output_directory)
+        for reading_set in reading_sets:
+            print("Generating static plots...")
+            critical_points = a_utils.get_critical_points(reading_set)
+            ph.plot_data_static(
+                reading_set,
+                known_slides=known_slides,
+                critical_points=critical_points,
+                root_output_directory=root_output_directory)
 
     summarize_results(known_slides, stats)
 
