@@ -79,5 +79,27 @@
     "urls": [
       "https://www.kcaw.org/2019/09/20/slide-cuts-off-green-lake-road-hatchery-access/"
     ]
+  },
+  {
+    "dt_slide": "2020-11-02 03:00:00+00:00",
+    "desc_location": "Sand Dollar Drive",
+    "name": "Sand Dollar Drive Slide 11/2/2020",
+    "power_outage": false,
+    "fatalities": 0,
+    "gps_location": null,
+    "urls": [
+      "https://www.kcaw.org/2020/11/02/back-to-back-landslides-block-sitkas-sand-dollar-drive/"
+    ]
+  },
+  {
+    "dt_slide": "2020-10-26 20:00:00+00:00",
+    "desc_location": "Waterways North of Sitka",
+    "name": "Olga Strait slides 10/26/20",
+    "power_outage": false,
+    "fatalities": 0,
+    "gps_location": null,
+    "urls": [
+      "https://www.facebook.com/groups/sitkachatters/permalink/1816612201819511/"
+    ]
   }
 ]

@@ -83,7 +83,7 @@ def process_hx_data(root_output_directory=''):
     #      this list manually.
     data_files = [
         'ir_data_clean/irva_utc_072014-022016_hx_format.txt',
-        'ir_data_clean/irva_akdt_022016-102019_arch_format.txt',
+        'ir_data_clean/irva_akdt_022016-123120_arch_format.txt',
     ]
 
     reading_sets = []

@@ -235,6 +235,31 @@ if __name__ == '__main__':
     medv_slide.urls.append('https://www.kcaw.org/2019/09/20/slide-cuts-off-green-lake-road-hatchery-access/')
     known_slides.append(medv_slide)
 
+    # Sand Dollar Drive slide 11/2/2020
+    sdd_slide = SlideEvent()
+    # 11/01/2020 18:00:00 AKST; should be 03:00:00 11/02/20 UTC
+    #   This is quite approximate; sometime between 1800 and 2000
+    sdd_slide.dt_slide = datetime.datetime(2020, 11, 2, 3, 0, 0, tzinfo=pytz.utc)
+    sdd_slide.name = 'Sand Dollar Drive Slide 11/2/2020'
+    sdd_slide.desc_location = 'Sand Dollar Drive'
+    sdd_slide.fatalities = 0
+    sdd_slide.power_outage = False
+    sdd_slide.urls.append('https://www.kcaw.org/2020/11/02/back-to-back-landslides-block-sitkas-sand-dollar-drive/')
+    known_slides.append(sdd_slide)
+
+    # Olga slides 10/26/20
+    olga_slide = SlideEvent()
+    # 11/01/2020 18:00:00 AKST; should be 03:00:00 11/02/20 UTC
+    # 10/26/2020 12:00:00 ADDT; should be 20:00:00 10/26/20 UTC
+    #   The slides probably happened 12-24 hours before this time.
+    olga_slide.dt_slide = datetime.datetime(2020, 10, 26, 20, 0, 0, tzinfo=pytz.utc)
+    olga_slide.name = 'Olga Strait slides 10/26/20'
+    olga_slide.desc_location = 'Waterways North of Sitka'
+    olga_slide.fatalities = 0
+    olga_slide.power_outage = False
+    olga_slide.urls.append('https://www.facebook.com/groups/sitkachatters/permalink/1816612201819511/')
+    known_slides.append(olga_slide)
+
 
 
     # Store this as JSON, so it can be imported into plotting code.
