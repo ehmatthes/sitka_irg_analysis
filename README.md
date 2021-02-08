@@ -62,6 +62,14 @@ If you want to see the results of varying the critical values, you need to run t
 
 Once you've run *vary_parameters.py*, you can run *generate_roc.py*. It doesn't generate an ROC curve because I'm not sure how to calculate the false positive rate, but it generates a neat tabular summary of the results of the variation. It also generates a TP vs FP plot, and a TP vs FN plot. All of this output is in *other_output*.
 
+### Running tests
+
+There are just a few tests for the moment, but they're pretty helpful. As noted in `tests/test_process_hx_data.py`, run them from the root directory of the project, in an active virtual environment:
+
+```
+(irg_env) sitka_irg_analysis$ python -m pytest
+```
+
 Questions/ Feedback
 ---
 
