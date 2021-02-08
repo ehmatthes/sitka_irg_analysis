@@ -237,9 +237,11 @@ if __name__ == '__main__':
 
     # Sand Dollar Drive slide 11/2/2020
     sdd_slide = SlideEvent()
-    # 11/01/2020 18:00:00 AKST; should be 03:00:00 11/02/20 UTC
-    #   This is quite approximate; sometime between 1800 and 2000
-    sdd_slide.dt_slide = datetime.datetime(2020, 11, 2, 3, 0, 0, tzinfo=pytz.utc)
+    # 11/01/2020 19:25:00 AKST; should be 04:25:00 11/02/20 UTC
+    #   This is well-specified, from personal communication with homeowners.
+    #   "It was after 7. 7:20 my best guess."
+    #   "[partner] agrees 7:20-7:30"
+    sdd_slide.dt_slide = datetime.datetime(2020, 11, 2, 4, 25, 0, tzinfo=pytz.utc)
     sdd_slide.name = 'Sand Dollar Drive Slide 11/2/2020'
     sdd_slide.desc_location = 'Sand Dollar Drive'
     sdd_slide.fatalities = 0
