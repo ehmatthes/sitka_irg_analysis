@@ -241,6 +241,7 @@ if __name__ == '__main__':
     #   This is well-specified, from personal communication with homeowners.
     #   "It was after 7. 7:20 my best guess."
     #   "[partner] agrees 7:20-7:30"
+    #  Also note timezone changed from AKDT to AKST 0200 on 11/1/2020, about 18 hours before this slide.
     sdd_slide.dt_slide = datetime.datetime(2020, 11, 2, 4, 25, 0, tzinfo=pytz.utc)
     sdd_slide.name = 'Sand Dollar Drive Slide 11/2/2020'
     sdd_slide.desc_location = 'Sand Dollar Drive'
@@ -248,6 +249,21 @@ if __name__ == '__main__':
     sdd_slide.power_outage = False
     sdd_slide.urls.append('https://www.kcaw.org/2020/11/02/back-to-back-landslides-block-sitkas-sand-dollar-drive/')
     known_slides.append(sdd_slide)
+
+    # Second Sand Dollar Drive slide 11/2/2020
+    sdd_slide_2 = SlideEvent()
+    # 11/02/2020 03:00:00 AKST; should be 12:00:00 11/02/20 UTC
+    #   This is less well-specified, and was probably an additional release of the first slide?
+    #   From personal communication with homeowner, and KCAW article.
+    #   "The second slide happened around 3am"
+    #   "The city had cleared the road after 7:30, another slide happened and blocked the road again."
+    sdd_slide_2.dt_slide = datetime.datetime(2020, 11, 2, 12, 0, 0, tzinfo=pytz.utc)
+    sdd_slide_2.name = 'Second Sand Dollar Drive Slide 11/2/2020'
+    sdd_slide_2.desc_location = 'Sand Dollar Drive'
+    sdd_slide_2.fatalities = 0
+    sdd_slide_2.power_outage = False
+    sdd_slide_2.urls.append('https://www.kcaw.org/2020/11/02/back-to-back-landslides-block-sitkas-sand-dollar-drive/')
+    known_slides.append(sdd_slide_2)
 
     # Olga slides 10/26/20
     olga_slide = SlideEvent()
