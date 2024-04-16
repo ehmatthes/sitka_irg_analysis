@@ -15,6 +15,18 @@ import pytest
 from sitka_irg_analysis import process_hx_data as phd
 
 
+@pytest.fixture(scope="session", autouse=True)
+def make_plot_dir():
+    """Make sure a directory for plot output exists."""
+    plot_dir = Path(__file__).parent / "current_ir_plots"
+    if not plot_dir.exists():
+        plot_dir.mkdir()
+
+    other_output_dir = Path(__file__).parent / "other_output"
+    if not other_output_dir.exists():
+        other_output_dir.mkdir()
+
+
 @pytest.fixture(scope="session")
 def run_process_hx_data():
     # Clear any previous output.
