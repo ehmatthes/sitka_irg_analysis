@@ -1,0 +1,9 @@
+matplotlib
+plotly
+pytest
+pytest-xdist
+python-dateutil
+python-docx
+pytz
+requests
+toml
