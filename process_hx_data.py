@@ -140,4 +140,8 @@ def process_hx_data(root_output_directory=''):
 
 
 if __name__ == '__main__':
+    # Make sure dir for generated plots exists.
+    plots_dir = Path("current_ir_plots")
+    if not plots_dir.exists():
+        plots_dir.mkdir()
     process_hx_data()

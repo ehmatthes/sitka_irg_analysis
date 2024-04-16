@@ -491,7 +491,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     #   Thinner lines, alpha adjustment.
 
     # Build static plot image.
-    plt.style.use('seaborn')
+    plt.style.use('seaborn-v0_8')
     fig, ax = plt.subplots(figsize=(10, 6), dpi=128)
 
     # Always plot on an absolute y scale.
