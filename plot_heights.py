@@ -154,9 +154,6 @@ def get_readings_arch_format(data_file):
     with open(data_file) as f:
         reader = csv.reader(f, delimiter='\t')
         # First line of data is on line 35.
-        
-        # for _ in range(34):
-        #     next(reader)
 
         # Scroll through header lines.
         for row in reader:
