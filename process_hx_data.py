@@ -32,7 +32,7 @@ We want to be able to use the output to answer the following questions. In
       positive)
 """
 
-import argparse, sys, pickle
+import argparse, sys, pickle, pdb
 
 from os import listdir, path
 from pathlib import Path
@@ -56,7 +56,6 @@ parser.add_argument('--use-cached-data',
     action='store_true')
 
 args = parser.parse_args()
-
 
 def process_hx_data(root_output_directory=''):
     """Process all historical data in ir_data_clean/.
@@ -84,6 +83,7 @@ def process_hx_data(root_output_directory=''):
     data_files = [
         'ir_data_clean/irva_utc_072014-022016_hx_format.txt',
         'ir_data_clean/irva_akdt_022016-123120_arch_format.txt',
+        # 'ir_data_other/irva_akdt_123020-033124_arch_format.txt',
     ]
 
     reading_sets = []

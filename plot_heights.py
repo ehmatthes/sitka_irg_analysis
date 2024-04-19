@@ -152,11 +152,17 @@ def get_readings_arch_format(data_file):
     print(f"\nReading historical data from {data_file}.")
 
     with open(data_file) as f:
-        # First line of data is on line 35.
         reader = csv.reader(f, delimiter='\t')
-        for _ in range(34):
-            next(reader)
+        # First line of data is on line 35.
         
+        # for _ in range(34):
+        #     next(reader)
+
+        # Scroll through header lines.
+        for row in reader:
+            if "5s  15s 20d 6s  14n 10s 14n 10s" in row[0]:
+                break
+
         readings = []
         for row in reader:
             row = row[0].split('    ')
