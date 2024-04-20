@@ -164,18 +164,22 @@ def get_readings_arch_format(data_file):
         for row in reader:
             row = row[0].split('    ')
             # print(f"Row: {row}")
-            datetime_str = row[2]
-            dt_ak = datetime.datetime.fromisoformat(datetime_str)
-            # dt is either AKST or AKDT right now.
-            tz_str = row[3]
-            if tz_str == 'AKST':
-                dt_utc = dt_ak + datetime.timedelta(hours=9)
-            elif tz_str == 'AKDT':
-                dt_utc = dt_ak + datetime.timedelta(hours=8)
-            dt_utc = dt_utc.replace(tzinfo=pytz.utc)
-            height = float(row[4][:5])
-            reading = ir_reading.IRReading(dt_utc, height)
-            readings.append(reading)
+            try:
+                datetime_str = row[2]
+                dt_ak = datetime.datetime.fromisoformat(datetime_str)
+                # dt is either AKST or AKDT right now.
+                tz_str = row[3]
+                if tz_str == 'AKST':
+                    dt_utc = dt_ak + datetime.timedelta(hours=9)
+                elif tz_str == 'AKDT':
+                    dt_utc = dt_ak + datetime.timedelta(hours=8)
+                dt_utc = dt_utc.replace(tzinfo=pytz.utc)
+                height = float(row[4][:5])
+                reading = ir_reading.IRReading(dt_utc, height)
+                readings.append(reading)
+            except ValueError:
+                print("Error reading line:", row)
+                
     print(f"  First reading: {ir_reading.get_formatted_reading(readings[0])}")
 
     # Text file is in chronological order.

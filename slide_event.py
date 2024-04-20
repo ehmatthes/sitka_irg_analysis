@@ -278,6 +278,21 @@ if __name__ == '__main__':
     olga_slide.urls.append('https://www.facebook.com/groups/sitkachatters/permalink/1816612201819511/')
     known_slides.append(olga_slide)
 
+    # Crawfish Inlet slide 8/12/23
+    ci_slide = SlideEvent()
+    # Heavy rains 8/12, slide noticed 8/14 by fishing crew.
+    # ~4.42 inches of rain per NWS, record for the date.
+    # Unsure of time, so using 2000. Not during a critical point, but associated.
+    # 8/12/23 20:00:00 AKDT; should be 04:00:00 8/13/23 UTC
+    ci_slide.dt_slide = datetime.datetime(2023, 8, 13, 4, 0, 0, tzinfo=pytz.utc)
+    ci_slide.name = "Crawfish Inlet slide 8/12/23"
+    ci_slide.desc_location = "Crawfish Inlet, South of Sitka"
+    ci_slide.fatalities = 0
+    ci_slide.power_outage = False
+    ci_slide.urls.append("https://www.facebook.com/AlaskanLegoMinifigure/posts/pfbid0d4ArJr11angJbfEut37LaPC8am42uek2jVMssLMK4JMCa57XYT5bt1NgvPYG3LL3l")
+    ci_slide.urls.append("https://sitkascience.org/atmospheric-river-event/")
+    ci_slide.urls.append("https://www.kcaw.org/2023/08/15/record-rainfall-bumped-sitkas-landslide-risk-level-to-medium-on-saturday/")
+    known_slides.append(ci_slide)
 
 
     # Store this as JSON, so it can be imported into plotting code.
