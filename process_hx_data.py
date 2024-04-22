@@ -57,7 +57,7 @@ parser.add_argument('--use-cached-data',
 
 args = parser.parse_args()
 
-def process_hx_data(root_output_directory=''):
+def process_hx_data(root_output_directory='', data_files=None):
     """Process all historical data in ir_data_clean/.
 
     - Get known slide events.
@@ -66,6 +66,8 @@ def process_hx_data(root_output_directory=''):
     - Pickle reading sets.
     - Plot reading sets.
     - Summarize results.
+
+    Accept a data_files arg, so tests can send test data.
 
     Does not return anything, but generates:
     - pkl files of reading sets.
@@ -80,11 +82,12 @@ def process_hx_data(root_output_directory=''):
 
     # DEV: Should probably walk the ir_data_clean directory, instead of making
     #      this list manually.
-    data_files = [
-        # 'ir_data_clean/irva_utc_072014-022016_hx_format.txt',
-        # 'ir_data_clean/irva_akdt_022016-123120_arch_format.txt',
-        'ir_data_other/irva_akdt_123020-033124_arch_format.txt',
-    ]
+    if not data_files:
+        data_files = [
+            # 'ir_data_clean/irva_utc_072014-022016_hx_format.txt',
+            # 'ir_data_clean/irva_akdt_022016-123120_arch_format.txt',
+            'ir_data_other/irva_akdt_123020-033124_arch_format.txt',
+        ]
 
     reading_sets = []
 
