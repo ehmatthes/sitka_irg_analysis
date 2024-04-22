@@ -35,10 +35,14 @@ def run_process_hx_data():
     os.mkdir('tests/current_ir_plots')
     os.mkdir('tests/other_output')
 
+    test_data_dir = Path(__file__).parent / "test_data"
+    assert test_data_dir.exists()
+
     data_files = [
-        'ir_data_clean/irva_utc_072014-022016_hx_format.txt',
-        'ir_data_clean/irva_akdt_022016-123120_arch_format.txt',
+        test_data_dir / 'irva_utc_072014-022016_hx_format.txt',
+        test_data_dir / 'irva_akdt_022016-123120_arch_format.txt',
     ]
+    data_files = [p.as_posix() for p in data_files]
     phd.process_hx_data(root_output_directory='tests/', data_files=data_files)
 
 
