@@ -519,8 +519,12 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     if critical_points and not args.skip_critical:
         ax.plot(critical_datetimes, critical_heights, c='red', alpha=0.6,
                 linewidth=1)
-        ax.scatter(critical_datetimes, critical_heights, c='red', alpha=0.8,
-                s=15)
+        if args.emphasize_critical:
+            ax.scatter(critical_datetimes, critical_heights, c='red', alpha=0.8,
+                    s=75)
+        else:
+            ax.scatter(critical_datetimes, critical_heights, c='red', alpha=0.8,
+                    s=15)
         # cp_label = critical_points[0].dt_reading.astimezone(aktz).strftime(
                 # '%m/%d/%Y %H:%M:%S')
         label_time = critical_points[0].dt_reading.astimezone(aktz)
