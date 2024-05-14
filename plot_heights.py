@@ -510,9 +510,8 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     else:
         ax.plot(datetimes, heights, c='blue', alpha=0.8, linewidth=1)
 
-
     # Add critical points if relevant.
-    if critical_points:
+    if critical_points and not args.skip_critical:
         ax.plot(critical_datetimes, critical_heights, c='red', alpha=0.6,
                 linewidth=1)
         ax.scatter(critical_datetimes, critical_heights, c='red', alpha=0.8,
