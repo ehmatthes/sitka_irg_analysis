@@ -54,6 +54,9 @@ parser.add_argument('--no-static-plots',
 parser.add_argument('--use-cached-data',
     help="Use pickled data; don't parse raw data files.",
     action='store_true')
+parser.add_argument("--markers",
+    help="Show marker points.",
+    action="store_true")
 
 args = parser.parse_args()
 
@@ -135,7 +138,8 @@ def process_hx_data(root_output_directory='', data_files=None):
                 reading_set,
                 known_slides=known_slides,
                 critical_points=critical_points,
-                root_output_directory=root_output_directory)
+                root_output_directory=root_output_directory,
+                args=args)
 
     if not args.use_cached_data:
         a_utils.summarize_results(reading_sets, known_slides, stats)

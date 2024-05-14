@@ -350,7 +350,7 @@ def plot_data(readings, critical_points=[], known_slides=[],
 
 
 def plot_data_static(readings, critical_points=[], known_slides=[],
-        filename=None, root_output_directory=''):
+        filename=None, root_output_directory='', args=None):
     """Plot IR gauge data, with critical points in red. Known slide
     events are indicated by a vertical line at the time of the event.
     """
@@ -505,7 +505,11 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     ax.set_ylim([20.0, 27.5])
 
     # Add river heights for 48-hr period.
-    ax.plot(datetimes, heights, c='blue', alpha=0.8, linewidth=1, marker="o")
+    if args.markers:
+        ax.plot(datetimes, heights, c='blue', alpha=0.8, linewidth=1, marker="o", markersize=5.0)
+    else:
+        ax.plot(datetimes, heights, c='blue', alpha=0.8, linewidth=1)
+
 
     # Add critical points if relevant.
     if critical_points:
