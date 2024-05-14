@@ -76,6 +76,12 @@ parser.add_argument("--skip-time",
 parser.add_argument("--large-plot",
     help="Larger plot.",
     action="store_true")
+import pdb
+breakpoint()
+parser.add_argument("--point-count",
+    help="Only plot __ points.",
+    type=int,
+    default=0)
 
 
 args = parser.parse_args()

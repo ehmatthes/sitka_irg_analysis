@@ -508,6 +508,8 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     ax.set_ylim([20.0, 27.5])
 
     # Add river heights for 48-hr period.
+    if args.point_count:
+        datetimes, heights = datetimes[:args.point_count], heights[:args.point_count]
     if args.markers:
         ax.plot(datetimes, heights, c='blue', alpha=0.8, linewidth=1, marker="o", markersize=5.0)
     else:
