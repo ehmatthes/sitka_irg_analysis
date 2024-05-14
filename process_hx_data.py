@@ -61,6 +61,15 @@ parser.add_argument("--markers",
 parser.add_argument("--skip-critical",
     help="Don't show critical points.",
     action="store_true")
+parser.add_argument("--skip-lookahead",
+    help="Don't show lookback region.",
+    action="store_true")
+parser.add_argument("--skip-lookback",
+    help="Don't show lookahead region",
+    action="store_true")
+parser.add_argument("--skip-slides",
+    help="Don't show slides.",
+    action="store_true")
 
 
 args = parser.parse_args()

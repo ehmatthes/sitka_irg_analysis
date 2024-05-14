@@ -525,16 +525,18 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
 
     # Plot minimum future critical readings.
     #   Plot these points, and shade to max y value.
-    ax.plot(min_cf_datetimes, min_cf_heights, c='red', alpha=0.4)
-    ax.fill_between(min_cf_datetimes, min_cf_heights, 27.5, color='red', alpha=0.2)
+    if not args.skip_lookahead:
+        ax.plot(min_cf_datetimes, min_cf_heights, c='red', alpha=0.4)
+        ax.fill_between(min_cf_datetimes, min_cf_heights, 27.5, color='red', alpha=0.2)
 
     # Plot previous critical readings, and shade to max y value.
-    ax.plot(min_crit_prev_datetimes, min_crit_prev_heights, c='red', alpha=0.3)
-    ax.fill_between(min_crit_prev_datetimes, min_crit_prev_heights, 27.5,
-                                                    color='red', alpha=0.1)
+    if not args.skip_lookback:
+        ax.plot(min_crit_prev_datetimes, min_crit_prev_heights, c='red', alpha=0.3)
+        ax.fill_between(min_crit_prev_datetimes, min_crit_prev_heights, 27.5,
+                                                        color='red', alpha=0.1)
 
     # Add vertical line for slide if applicable.
-    if relevant_slide:
+    if relevant_slide and not args.skip_slides:
         ax.axvline(x=slide_time, ymin=0.05, ymax=0.98, c='green', alpha=0.8,
                 linewidth=1)
         # Label slide.
