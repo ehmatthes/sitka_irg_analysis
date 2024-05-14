@@ -54,6 +54,7 @@ parser.add_argument('--no-static-plots',
 parser.add_argument('--use-cached-data',
     help="Use pickled data; don't parse raw data files.",
     action='store_true')
+
 # Args for making presentations.
 parser.add_argument("--markers",
     help="Show marker points.",
@@ -76,8 +77,6 @@ parser.add_argument("--skip-time",
 parser.add_argument("--large-plot",
     help="Larger plot.",
     action="store_true")
-import pdb
-breakpoint()
 parser.add_argument("--point-count",
     help="Only plot __ points.",
     type=int,
