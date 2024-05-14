@@ -70,6 +70,9 @@ parser.add_argument("--skip-lookback",
 parser.add_argument("--skip-slides",
     help="Don't show slides.",
     action="store_true")
+parser.add_argument("--skip-time",
+    help="Don't show timestamp in title.",
+    action="store_true")
 
 
 args = parser.parse_args()

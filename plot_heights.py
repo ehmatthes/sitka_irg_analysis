@@ -547,7 +547,10 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
 
     # This title works for animation.
     ts_title = dt_title.strftime("%H:%M:%S")
-    title = f"Indian River Gauge Readings, {title_date_str}, {ts_title}"
+    if args.skip_time:
+        title = f"Indian River Gauge Readings, {title_date_str}"
+    else:
+        title = f"Indian River Gauge Readings, {title_date_str}, {ts_title}"
 
     ax.set_title(title, loc='left')
     ax.set_xlabel('', fontsize=16)
