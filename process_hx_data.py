@@ -73,6 +73,9 @@ parser.add_argument("--skip-slides",
 parser.add_argument("--skip-time",
     help="Don't show timestamp in title.",
     action="store_true")
+parser.add_argument("--large-plot",
+    help="Larger plot.",
+    action="store_true")
 
 
 args = parser.parse_args()

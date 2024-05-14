@@ -499,7 +499,10 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
 
     # Build static plot image.
     plt.style.use('seaborn-v0_8')
-    fig, ax = plt.subplots(figsize=(10, 6), dpi=128)
+    if args.large_plot:
+        fig, ax = plt.subplots(figsize=(15, 9), dpi=128)
+    else:
+        fig, ax = plt.subplots(figsize=(10, 6), dpi=128)
 
     # Always plot on an absolute y scale.
     ax.set_ylim([20.0, 27.5])
