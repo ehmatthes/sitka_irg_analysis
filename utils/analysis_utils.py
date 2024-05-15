@@ -216,6 +216,23 @@ def get_critical_points(readings):
         for prev_reading in prev_readings:
             rise = ir_reading.get_rise(reading, prev_reading)
             m = ir_reading.get_slope(reading, prev_reading)
+
+
+            import pdb
+            import pprint
+            dtr = reading.dt_reading
+            # if dtr.month==8 and dtr.day==18 and dtr.year==2015 and reading.height>24.0:
+            #     print("\n---")
+            #     print(readings_per_hr, max_lookback, len(readings), len(prev_readings))
+            #     print(reading)
+            #     pprint.pprint(prev_readings)
+            #     print(prev_reading)
+            #     print(rise, m)
+            #     cp = rise >= RISE_CRITICAL and m > M_CRITICAL
+            #     print(cp)
+                # breakpoint()
+
+
             # print(f"    Rise: {rise} Slope: {m}")
             if rise >= RISE_CRITICAL and m > M_CRITICAL:
                 # print(f"Critical point: {reading.get_formatted_reading()}")
