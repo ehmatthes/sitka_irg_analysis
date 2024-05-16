@@ -538,8 +538,8 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     # Plot minimum future critical readings.
     #   Plot these points, and shade to max y value.
     if not args.skip_lookahead:
-        ax.plot(min_cf_datetimes, min_cf_heights, c='red', alpha=0.4)
-        ax.fill_between(min_cf_datetimes, min_cf_heights, 27.5, color='red', alpha=0.2)
+        ax.plot(min_cf_datetimes[0], min_cf_heights[0], c='red', alpha=0.4, marker="o", markersize=10)
+        # ax.fill_between(min_cf_datetimes, min_cf_heights, 27.5, color='red', alpha=0.2)
 
     # Plot previous critical readings, and shade to max y value.
     if not args.skip_lookback:
