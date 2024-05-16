@@ -361,6 +361,8 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     #       plot_data_interactive() or plot_data_static(), or both.
 
     if args.point_count:
+        # This does not work for critical points. Would need to filter critical points
+        # based on timestamps.
         readings = readings[:args.point_count]
 
     # Matplotlib accepts datetimes as x values, so it should be handling
