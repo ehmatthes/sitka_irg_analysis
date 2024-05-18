@@ -360,10 +360,19 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     #       takes an arg about what kind of plot to make, and then calls
     #       plot_data_interactive() or plot_data_static(), or both.
 
+    import pdb
+    if args.point_start and len(readings) > 48:
+        print("here", len(readings))
+        readings = readings[args.point_start:]
+        print(len(readings))
+
     if args.point_count:
         # This does not work for critical points. Would need to filter critical points
         # based on timestamps.
         readings = readings[:args.point_count]
+        print(len(readings))
+
+    # breakpoint()
 
     # Matplotlib accepts datetimes as x values, so it should be handling
     #   timezones appropriately.
@@ -437,25 +446,25 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
     prev_datetimes = [r.dt_reading for r in readings
                         if r.dt_reading >= dt_first_min_prev_reading]
 
-    for dt in prev_datetimes:
-        dt_lookback = dt - datetime.timedelta(hours=5)
-        # Get minimum height from last 5 hours of readings.
-        relevant_readings = [r for r in readings
-            if (r.dt_reading >= dt_lookback) and (r.dt_reading < dt)]
-        critical_height = min([r.height for r in relevant_readings]) + 2.5
+    # for dt in prev_datetimes:
+    #     dt_lookback = dt - datetime.timedelta(hours=5)
+    #     # Get minimum height from last 5 hours of readings.
+    #     relevant_readings = [r for r in readings
+    #         if (r.dt_reading >= dt_lookback) and (r.dt_reading < dt)]
+    #     critical_height = min([r.height for r in relevant_readings]) + 2.5
 
-        # Make sure critical_height also gives a 5-hour average rise at least
-        #   as great as M_CRITICAL. Units are ft/hr.
-        m_avg = (critical_height - relevant_readings[0].height) / 5
-        if m_avg < 0.5:
-            # The critical height satisfies total rise, but not sustained rate
-            #   of rise. Bump critical height so it satisfies total rise and
-            #   rate of rise.
-            critical_height = 5 * 0.5 + relevant_readings[0].height
+    #     # Make sure critical_height also gives a 5-hour average rise at least
+    #     #   as great as M_CRITICAL. Units are ft/hr.
+    #     m_avg = (critical_height - relevant_readings[0].height) / 5
+    #     if m_avg < 0.5:
+    #         # The critical height satisfies total rise, but not sustained rate
+    #         #   of rise. Bump critical height so it satisfies total rise and
+    #         #   rate of rise.
+    #         critical_height = 5 * 0.5 + relevant_readings[0].height
 
-        # reading.height = critical_height
-        reading = ir_reading.IRReading(dt, critical_height)
-        min_crit_prev_readings.append(reading)
+    #     # reading.height = critical_height
+    #     reading = ir_reading.IRReading(dt, critical_height)
+    #     min_crit_prev_readings.append(reading)
 
     min_crit_prev_datetimes = [r.dt_reading.astimezone(aktz)
                                 for r in min_crit_prev_readings]
@@ -510,7 +519,7 @@ def plot_data_static(readings, critical_points=[], known_slides=[],
         fig, ax = plt.subplots(figsize=(10, 6), dpi=128)
 
     # Always plot on an absolute y scale.
-    ax.set_ylim([20.0, 27.5])
+    ax.set_ylim([20.0, 25.0])
 
     # Add river heights for 48-hr period.
     if args.markers:

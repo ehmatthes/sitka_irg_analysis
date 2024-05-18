@@ -84,6 +84,10 @@ parser.add_argument("--point-count",
     help="Only plot __ points.",
     type=int,
     default=0)
+parser.add_argument("--point-start",
+    help="Start plotting at point __.",
+    type=int,
+    default=0)
 
 
 args = parser.parse_args()
